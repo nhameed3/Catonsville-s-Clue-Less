@@ -3,7 +3,7 @@ import java.net.*;
 
 public class Client {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException, ClassNotFoundException{
 
 		// check to make sure we got the args we need
 		if (args.length != 2) {
@@ -23,7 +23,7 @@ public class Client {
 				
 				// grab input and output object streams. always output first.
 				ObjectOutputStream out = new ObjectOutputStream( gameSocket.getOutputStream() );
-				ObjectInputStream in = new ObjectInputStream( gameSocket.getInputStream() )
+				ObjectInputStream in = new ObjectInputStream( gameSocket.getInputStream() );
 						
 				)
 		/* for now this next block runs the client side for skeletal increment */ 
@@ -36,9 +36,10 @@ public class Client {
 			Message outMessage = new Message(9,0);
 			//print 
 			System.out.println("Welcome to Clue-less by Catonsvillians!");
-			System.out.println("Client connected to server.");
+			
 			//send it
 			out.writeObject(outMessage);
+			System.out.println("Client connected to server.");
 			
 			// read the incoming message from server
 			Message inMessage = (Message) in.readObject();
@@ -49,8 +50,6 @@ public class Client {
 				System.out.println("Client initializes two players and asks player 1 for first action.");
 				playerArray[0] = new Player("Player1", 0, true);
 				playerArray[1] = new Player("Player2", 1, false);
-				
-				
 				
 				// ask player1 for first move
 				outMessage = playerArray[0].playerTurn();
@@ -64,27 +63,24 @@ public class Client {
 				System.exit(1);
 			}
 			
-			// grab next message
-			inMessage = (Message) in.readObject();
-			
 			// start a while loop that goes until the outMessage is set to quit
 			while ( outMessage.getType() != 8) {
+				inMessage = (Message) in.readObject();
+				System.out.println(inMessage.getPlayer());
 				// create a switch that handles incoming messages
 				switch( inMessage.getType())
 				{
-					// case 3 is players turn
-					case 3:
+					// case 2 is players turn
+					case 2:
 					{
 						// Print we received turn from server.
 						System.out.println("Client received turn message from server.");
-						System.out.println("Client asks player " + playerArray[ inMessage.getPlayer() - 1 ].getUserName() + " for their next turn.");
+						System.out.println("Client asks player " + (inMessage.getPlayer()+1) + " for their next turn.");
 						// get the players turn
-						outMessage = playerArray[ (inMessage.getPlayer() - 1 ) ].playerTurn();
+						outMessage = playerArray[ inMessage.getPlayer() ].playerTurn();
 						// print
-						System.out.println("Client sends turn from " + playerArray[ inMessage.getPlayer() - 1 ].getUserName() + " to server.");
+						System.out.println("Client sends turn from Player " + (inMessage.getPlayer()+1) + " to server.");
 						out.writeObject(outMessage);
-						// grab next inMessage. For now we aren't grabbing inMessage for case 7 so I'm putting here instead of in while loop
-						inMessage = (Message) in.readObject();
 						break;
 					}
 					// case 7 is win message
@@ -92,12 +88,20 @@ public class Client {
 					{
 						// Print we received win from server
 						System.out.println("Client received win message from server.");
-						System.out.println( playerArray[ inMessage.getPlayer() - 1].getUserName() + " wins!");
+						System.out.println("Player " + (inMessage.getPlayer()+1) + " wins!");
 						System.out.println("Client informs server it is quitting.");
 						// generate quit message
 						outMessage = new Message(8,0);
 						// send quit message
 						out.writeObject(outMessage);
+						break;
+					}
+					// default for trouble shooting
+					default:
+					{
+						//
+						System.out.println("Client called default which is not right, message is type " + inMessage.getType());
+						System.exit(1);
 						break;
 					}
 				}

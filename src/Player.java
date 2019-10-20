@@ -1,4 +1,4 @@
-import java.Scanner;
+import java.util.Scanner;;
 
 
 public class Player {
@@ -39,23 +39,23 @@ public class Player {
     public Player() {
     }
 
-    public Player(String name, int avatarNum, bool player1 ) {
+    public Player(String name, int avatarNum, boolean player1 ) {
         setUserName(name); 
-        setPlayer(player1);
+        setPlayer1(player1);
 
         switch(avatarNum){
             case 0:
-                avatar = "SCARLET"
+                avatar = "SCARLET";
             case 1:
-                avatar = "GREEN"
+                avatar = "GREEN";
             case 2:
-                avatar = "MUSTARD"
+                avatar = "MUSTARD";
             case 3:
-                avatar = "PLUM"
+                avatar = "PLUM";
             case 4:
-                avatar = "WHITE"
+                avatar = "WHITE";
             case 5:
-                avatar = "PEACOCK"
+                avatar = "PEACOCK";
         }
         setAvatar(avatar);
     }
@@ -123,7 +123,7 @@ public class Player {
         System.out.println("Player::getAccusationResult");
         return accusation;
     }
-    public void setAccusationResult(bool accusation) {
+    public void setAccusationResult(boolean accusation) {
         System.out.println("Player::setAccusationResult");
         accusation = true;
     }
@@ -133,26 +133,26 @@ public class Player {
     public Message makeAccusation(){
         System.out.println("Player::makeAccusation");
         if(isPlayer1())
-            return Message(5, 1)
-        if(!isPlayer1())
-            return Message(5, 0)
+            return new Message(5, 1);
+        else
+            return new Message(5, 0);
     }
 
     public Message makeGuess(){
         //Our software uses accuse variables for both guesses and accusations 
         System.out.println("Player::makeGuess");
         if(isPlayer1())
-            return Message(4, 1)
-        if(!isPlayer1())
-            return Message(4, 0)
+            return new Message(4, 1);
+        else
+            return new Message(4, 0);
     }
 
     public Message move(){
         System.out.println("Player::move");
         if(isPlayer1())
-            return Message(3, 1)
-        if(!isPlayer1())
-            return Message(3, 0)
+            return new Message(3, 1);
+        else
+            return new Message(3, 0);
     }
 
     public Message playerTurn(){
@@ -162,11 +162,11 @@ public class Player {
         Scanner input = new Scanner(System.in);
         int choice = input.nextInt();
         if(choice==1)
-            return this.makeGuess();
+            return this.move();
         if(choice == 2)
             return this.makeAccusation();
-
-        return 0;
+        else
+        	return new Message(0,0);
     }
 
 }

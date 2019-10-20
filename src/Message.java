@@ -21,7 +21,7 @@ public class Message implements Serializable {
 	//make a default constructor
 	public Message() {
 		this.messageType = 0;
-		this.whichPlayer = 0;
+		this.whichPlayer = -1;
 	}
 	
 	// constructor, two int arguments to set type and which player
