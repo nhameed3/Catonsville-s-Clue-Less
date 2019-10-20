@@ -155,16 +155,18 @@ public class Player {
             return Message(3, 0)
     }
 
-    public void playerTurn(){
+    public Message playerTurn(){
         System.out.println("Player::playerTurn");
         System.out.println("[1] Move");
         System.out.println("[2] Make Accusation");
         Scanner input = new Scanner(System.in);
         int choice = input.nextInt();
         if(choice==1)
-            this.makeGuess();
+            return this.makeGuess();
         if(choice == 2)
-            this.makeAccusation();
+            return this.makeAccusation();
+
+        return 0;
     }
 
 }
