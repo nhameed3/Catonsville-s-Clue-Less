@@ -1,48 +1,48 @@
 import java.io.Serializable;
 
 public class Message implements Serializable {
-	// three private instance variables all strings. content (message), source (where'd it come from), destination (where is it going)
-	private String content;
-	private String source;
-	private String destination;
+	// two instance variables: int for messageType, int for whichPlayer
+	/* Message Type Key: C2S = Client to Server. S2C = Server to Client.
+	1: Start (S2C)
+	2: Turn (S2C)
+	3: Move (C2S)
+	4: Guess (C2S)
+	5: Accuse (C2S)
+	6: Pass (C2S)
+	7: Win (S2C)
+	8: Quit (C2S)
+	9: Connect (C2S)	
+	*/
+	private int messageType;
+	private int whichPlayer;
 	
 	//make a default constructor
 	public Message() {
-		this.content = null;
-		this.source = null;
-		this.destination = null;
+		this.messageType = 0;
+		this.whichPlayer = 0;
 	}
 	
 	// constructor, three arguments to fill in three Strings
-	public Message(String newText, String newSource, String newDestination) {
-		this.content = newText;
-		this.source = newSource;
-		this.destination = newDestination;
+	public Message(int givenType, int givenPlayer) {
+		this.messageType = givenType;
+		this.whichPlayer = givenPlayer;
 		
 	}
 	// get methods to return attributes
-	public String getContent() {
-		return content;
+	public int getType() {
+		return messageType;
 	}
 	
-	public String getSource() {
-		return source;
-	}
-	
-	public String getDesintation() {
-		return destination;
+	public int getPlayer() {
+		return whichPlayer;
 	}
 	
 	// set methods
-	public void setContent(String newContent) {
-		content = newContent;
+	public void setPlayer(int newPlayer) {
+		this.whichPlayer = newPlayer;
 	}
 	
-	public void setSource(String newSource) {
-		this.source = newSource;
-	}
-	
-	public void setDestination(String newDestination) {
-		this.destination = newDestination;
+	public void setType(int newType) {
+		this.messageType = newType;
 	}
 }
