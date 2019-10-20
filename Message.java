@@ -11,7 +11,8 @@ public class Message implements Serializable {
 	6: Pass (C2S)
 	7: Win (S2C)
 	8: Quit (C2S)
-	9: Connect (C2S)	
+	9: Connect (C2S)
+	0: not used but is initialized to so can use it for error checking for now
 	*/
 	private int messageType;
 	private int whichPlayer;
@@ -22,7 +23,7 @@ public class Message implements Serializable {
 		this.whichPlayer = 0;
 	}
 	
-	// constructor, three arguments to fill in three Strings
+	// constructor, two int arguments to set type and which player
 	public Message(int givenType, int givenPlayer) {
 		this.messageType = givenType;
 		this.whichPlayer = givenPlayer;
