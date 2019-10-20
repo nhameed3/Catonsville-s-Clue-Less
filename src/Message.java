@@ -12,6 +12,7 @@ public class Message implements Serializable {
 	7: Win (S2C)
 	8: Quit (C2S)
 	9: Connect (C2S)
+	10:
 	0: not used but is initialized to so can use it for error checking for now
 	*/
 	private int messageType;
