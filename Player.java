@@ -1,3 +1,6 @@
+import java.Scanner;
+
+
 public class Player {
 
     private String userName = "";
@@ -32,6 +35,7 @@ public class Player {
     // public static final int CANDLESTICK = 4;
     // public static final int REVOLVER    = 5;
 ****************************************************** */
+
     public Player() {
     }
 
@@ -126,17 +130,41 @@ public class Player {
 
 //METHODS Preconditions: must be players turn
 //////////////////////////////////////////////////
-    public void makeAccusation(){
+    public Message makeAccusation(){
         System.out.println("Player::makeAccusation");
+        if(isPlayer1())
+            return Message(5, 1)
+        if(!isPlayer1())
+            return Message(5, 0)
     }
 
-    public void makeGuess(){
+    public Message makeGuess(){
         //Our software uses accuse variables for both guesses and accusations 
         System.out.println("Player::makeGuess");
+        if(isPlayer1())
+            return Message(4, 1)
+        if(!isPlayer1())
+            return Message(4, 0)
     }
 
-    public void move(){
+    public Message move(){
         System.out.println("Player::move");
+        if(isPlayer1())
+            return Message(3, 1)
+        if(!isPlayer1())
+            return Message(3, 0)
+    }
+
+    public void playerTurn(){
+        System.out.println("Player::playerTurn");
+        System.out.println("[1] Move");
+        System.out.println("[2] Make Accusation");
+        Scanner input = new Scanner(System.in);
+        int choice = input.nextInt();
+        if(choice==1)
+            this.makeGuess();
+        if(choice == 2)
+            this.makeAccusation();
     }
 
 }
