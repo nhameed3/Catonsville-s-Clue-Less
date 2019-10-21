@@ -132,9 +132,9 @@ public class Server {
 		}
 	}
 	
-	/* Write a method to process the next turn decision. For now its just check who was last and go to the other
-	 * but needs to be updated for target 
-	 * */
+	/* Write a method to process the next turn decision. TODO: This method is a weird mix of old and new and I should
+	* fix it 
+	*/
 	private static Message nextTurn(Message oldMessage, int turnTracker) {
 		Message returnMessage = new Message(2,( turnTracker % 2));
 		// if previous was 1, then next is 2
