@@ -1,3 +1,8 @@
+/* Server is the main driver of the server software for handling the multiplayer aspect of Clue-less.
+It listens for new connections until it is told to start the game or it reaches its maximum capacity
+of 6 players. It runs each connected player in its own thread for simultaneous activity
+*/
+
 import java.io.*;
 import java.net.*;
 import java.util.*;
