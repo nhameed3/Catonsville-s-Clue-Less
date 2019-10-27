@@ -2,6 +2,10 @@ import java.io.*;
 import java.util.*;
 import java.net.*;
 
+/* Client is the driver of the game on client computers. It takes two arguments (IP and port) and connects to the
+server. It launches threads for receiving objects and sending objects to and from and the server. For now this
+is also where all Player code goes?
+*/
 public class Client {
 
 	public static void main(String[] args) throws IOException, ClassNotFoundException{
@@ -27,7 +31,7 @@ public class Client {
 		ObjectOutputStream out = new ObjectOutputStream( gameSocket.getOutputStream());
 		ObjectInputStream in = new ObjectInputStream( gameSocket.getInputStream());
 		
-		//create method to send messages
+		//create thread to send messages
 		Thread sendMessage = new Thread(new Runnable()
 		{
 			public void run() {
