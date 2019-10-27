@@ -1,144 +1,76 @@
 import java.io.*;
 import java.net.*;
+import java.util.*;
 
 public class Server {
 
+	// store array of connected players, caps at 6
+	static ClientManager [] clientList = new ClientManager[6];
+	
+	//counter for clients
+	static int clientCount = 0;
+	
+	
+	
 	public static void main(String[] args) throws IOException, ClassNotFoundException{
 		//confirm arguments
 		if( args.length != 1) {
 			System.err.println("Invalid arugments. java GameSever <port>");
 			System.exit(1);
 		}
-				
+		
 		// set the port
 		int port = Integer.parseInt(args[0]);
-				
-		// try with resources
-		try (
-			//establish server socket
-			ServerSocket server = new ServerSocket( port );
-			// accept incoming client socket requests
+		
+		//set up the serversocket
+		ServerSocket server = new ServerSocket( port );
+		
+		// boolean flag for startGame
+		boolean startGame = false;
+		
+		// listen for new connections until we hit 6 or startGame is flagged
+		while( clientCount != 6 | startGame == false) {
+			
+			// accept client connection as Socket game
 			Socket game = server.accept();
-						
+			// troubleshooting message
+			System.out.println("Accepted connection at count " + clientCount);
+
 			// grab output and input streams
 			ObjectOutputStream out = new ObjectOutputStream(game.getOutputStream());
-			ObjectInputStream in = new ObjectInputStream(game.getInputStream());		
-			)
-		
-		/* For Skeletal Increment this next block is what runs the server side */
-		{
-			// try an int for turn tracking
-			int turnTracker = 0;
+			ObjectInputStream in = new ObjectInputStream(game.getInputStream());
 			
-			// grab the first message coming in from client
-			Message inMessage = (Message) in.readObject();
+			//create new ClientManager
+			ClientManager newClient = new ClientManager("player" + (clientCount + 1), 
+					out, in);
 			
-			// we run the while loop until we get a quit message which is 8
-			while( inMessage.getType() != 8 ) {
-				System.out.println(inMessage.getPlayer());
-				
-				// use a switch construct to respond appropriately to messages from client
-				switch( inMessage.getType() ) {
-					
-					// type 9 is connect so we send back start which is 1
-					case 9:
-					{
-						//create a message of type 1
-						Message outMessage = new Message(1, 1);
-						// print to out
-						System.out.println("Server received connection from client. Server starts game.");
-						System.out.println("Server initializes deck to create solution and deal cards.");
-						System.out.println("Server initializes board to initialize and setup game board.");
-						System.out.println("Server tells client to initialize players and start player 1 turn.");
-						turnTracker++;
-						// send out message
-						out.writeObject(outMessage);
-						break;
-					}
-					
-					// type 3 is player move
-					case 3:
-					{
-						// print 
-						System.out.println("Server received a move request for player " + (inMessage.getPlayer()+1));
-						System.out.println("Server checks with board to validate and update.");
-						System.out.println("Server tells client start next players turn.");
-						
-						// create a message for next turn
-						Message outMessage = nextTurn(inMessage, turnTracker);
-						turnTracker++;
-		
-						// send the message
-						out.writeObject(outMessage);
-						break;
-					}
-					
-					// type 4 is player guess
-					case 4:
-					{
-						// print 
-						System.out.println("Server received a guess request for player " + (inMessage.getPlayer()+1) );
-						System.out.println("Server calls guess method to run guess algorithm");
-						System.out.println("Server tells client results of guess and to start next players turn");
-						
-						// create a message for next turn
-						Message outMessage = nextTurn(inMessage, turnTracker);
-						turnTracker++;
-		
-						// send the message
-						out.writeObject(outMessage);
-						break;
-
-					}
-					
-					// type 5 is player accuse
-					case 5:
-					{
-						// print 
-						System.out.println("Server received an accusation request from player " + (inMessage.getPlayer()+1));
-						System.out.println("Server calls solution to determine result of accusation.");
-						System.out.println("Server informs client that player" + inMessage.getPlayer() + " wins.");
-						
-						// create outMessage of win
-						Message outMessage = new Message(7, inMessage.getPlayer());
-						// send win message
-						out.writeObject(outMessage);
-						break;
-					}
-					// type 6 is player passes
-					case 6:
-					{
-						// print
-						System.out.println("Server received a pass request from player " + (inMessage.getPlayer()+1));
-						System.out.println("Server informs client to start next players turn.");
-						
-						// create a message for next turn
-						Message outMessage = nextTurn(inMessage, turnTracker);
-						//send it
-						out.writeObject(outMessage);
-						turnTracker++;
-						break;
-					}
-				}
-				
-				// once we get through handling the old message we receive the new one
-				inMessage = (Message) in.readObject();
-			}
+			//troubleshooting emssage
+			System.out.println("Created newClient at count " + (clientCount + 1));
+			// create a new Thread with this ClientManager
+			Thread t = new Thread(newClient);
 			
-			//if we've exited the loop we got a quit request
-			System.out.println("Server received quit request.");
-			System.out.println("Server shuts down.");
-			System.exit(0);
+			// store newClient in clientList
+			clientList[clientCount] = newClient;
+			
+			//start the new thread
+			t.start();
+			
+			// increment clientCount
+			clientCount++;
+			
 		}
 	}
 	
-	/* Write a method to process the next turn decision. TODO: This method is a weird mix of old and new and I should
-	* fix it 
+	
+		
+	
+	/* Calculate which player by dividing turn by player count and remainder
+	 * is whose turn it is
 	*/
-	private static Message nextTurn(Message oldMessage, int turnTracker) {
-		Message returnMessage = new Message(2,( turnTracker % 2));
+	private static int nextTurn(int playerCount, int turnTracker) {
+		int turn = turnTracker % playerCount;
 		// if previous was 1, then next is 2
-		return returnMessage;
+		return turn;
 	}
 
 }
