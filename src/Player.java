@@ -5,12 +5,16 @@ public class Player {
 
     private String userName = "";
     private String avatar = "";
+    private String log = "";
     private boolean player1 = false;
     private boolean accusation = false;
 
     private int avatarAccuse = 0;
     private int roomAccuse = 0;
     private int weaponAccuse = 0;
+
+    //Minimum of two players so max hand is 9 cards
+    Card hand[] = new Card[9];
 
 /******Key for reference*************************
     // public static final int SCARLET = 0;
@@ -61,6 +65,36 @@ public class Player {
     }
 
 //SETTERS AND GETTERS
+//////////////////////////////////////////////////
+    public void getHand() {
+        System.out.println("Your Cards:");
+        for(int i = 0; i < 9; i++){
+            System.out.println(this.hand[i]);
+        }
+    }
+
+    public void setHand(Card card, int index) {
+        this.hand[index] = card;
+    }
+
+//////////////////////////////////////////////////
+    public void getLog() {
+        System.out.println("Log: " + this.log);
+        System.out.println("Would you like to edit your log: (y = 1/ n = 0)");
+        Scanner input = new Scanner(System.in);
+        int choice = input.nextInt();
+        if(choice)
+            this.setLog();
+    }
+
+    public void setLog(Card card, int index) {
+        System.out.println("Enter your new log.");
+        Scanner input = new Scanner(System.in);
+        String newLog = input.nextLine();
+        this.log = newLog;
+        System.out.println("Your new log: " + this.log);
+    }
+
 //////////////////////////////////////////////////
     public String getUserName() {
         System.out.println("Player::getUserName");
@@ -159,14 +193,30 @@ public class Player {
         System.out.println("Player::playerTurn");
         System.out.println("[1] Move");
         System.out.println("[2] Make Accusation");
+        System.out.println("[3] View Hand");
+        System.out.println("[4] View/Edit Log");
+        System.out.println("[5] Disprove");
+
         Scanner input = new Scanner(System.in);
         int choice = input.nextInt();
-        if(choice==1)
-            return this.move();
-        if(choice == 2)
-            return this.makeAccusation();
-        else
-        	return new Message(0,0);
+
+        switch(choice){
+            case 1:
+                return this.move();
+            case 2:
+                return this.makeAccusation();
+            case 3:
+                this.getHand();
+                break;
+            case 4:
+                this.getLog();
+                break;
+            case 5:
+                break;
+            default:
+                return new Message(0,0);
+        }
+
     }
 
 }
