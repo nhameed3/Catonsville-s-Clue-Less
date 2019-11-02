@@ -12,6 +12,21 @@ import java.util.*;
  */
 public class Server{
 	
+	// define variables
+	
+	// clientCount: how many clients are connected
+	static int clientCount = 0;
+	
+	// maxPlayers: how many Players are going to be int he game, defaults to 6 but player 1 can change
+	static int maxPlayers = 6;
+	
+	// clientList: ArrayList of ConnectionManager to store the connected clients
+	static ArrayList<ConnectionManager> clientList = new ArrayList<ConnectionManager>();
+	
+	// turnCount: int to track how many turns we have
+	static int turnCount = 0;
+	
+	
 	public static void main (String [] args) throws IOException, ClassNotFoundException {
 		//confirm arguments
 		if( args.length != 1) {
@@ -25,19 +40,30 @@ public class Server{
 		//set up the serversocket
 		ServerSocket server = new ServerSocket( port );
 		
-		/* set up variables to track how many players are connected and how many
-		 * players the server is waiting for which defaults to 6
-		 */
+		// gather the connections
+		gatherConnections(server);
 		
-		int clientCount = 0;
-		int maxPlayers = 6;
+		// Now we have all the connections we need and can start the game
+		System.out.println("Start game now");
 		
-		// create ArrayList for storing connections
-		ArrayList<ConnectionManager> clientList = new ArrayList<ConnectionManager>();
+		// send out the start message to all players
+		for( ConnectionManager c : clientList) {
+			Message startMessage = new Message(1, -1);
+			startMessage.setInt(clientCount);
+			c.sendMessage(startMessage);
+		}
 		
-		// listen for new connections until we hit 6 or startGame is flagged
+		// start the board. Commenting out until that class is available
+		//Board gameBoard = new Board();
+		// start the deck
+		Deck gameDeck = new Deck();
+	}
+	
+	// This method handles gathering the connections, storing them in the ArrayList, and asking Player1 how many
+	// players will there be
+	private static void gatherConnections(ServerSocket server) throws IOException, ClassNotFoundException{
 		while( clientCount < maxPlayers) {
-					
+			
 			// accept client connection as Socket game
 			Socket game = server.accept();
 			// troubleshooting message
@@ -74,20 +100,10 @@ public class Server{
 				maxPlayers = newMessage.getInt();
 			}
 		}
-		
-		// Now we have all the connections we need and can start the game
-		System.out.println("Start game now");
-		
-		// send out the start message to all players
-		for( ConnectionManager c : clientList) {
-			Message startMessage = new Message(1, -1);
-			startMessage.setInt(clientCount);
-			c.sendMessage(startMessage);
-		}
-		
-		//
 	}
 }
+
+
 
 class ConnectionManager{
 	// store input and output object streams and a String name, a boolean flag
@@ -127,4 +143,5 @@ class ConnectionManager{
 				return new Message();
 			}
 		}
+	
 }
