@@ -44,4 +44,14 @@ public class ClientManager implements Runnable {
 		}
 			
 	}
+	
+	// method to send a message to client, returns void for now
+	public void sendMessage( Message newMessage) {
+		try {
+		out.writeObject(newMessage);
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }

@@ -18,6 +18,7 @@ public class Server {
 	
 	
 	public static void main(String[] args) throws IOException, ClassNotFoundException{
+		
 		//confirm arguments
 		if( args.length != 1) {
 			System.err.println("Invalid arugments. java GameSever <port>");
@@ -34,7 +35,7 @@ public class Server {
 		boolean startGame = false;
 		
 		// listen for new connections until we hit 6 or startGame is flagged
-		while( clientCount != 6 | startGame == false) {
+		while( clientCount < 6 | startGame == false) {
 			
 			// accept client connection as Socket game
 			Socket game = server.accept();
@@ -62,6 +63,10 @@ public class Server {
 			
 			// increment clientCount
 			clientCount++;
+			
+			// send a new message to the connected client
+			Message connectionMessage = new MessageConnectionStatus(clientCount);
+			newClient.sendMessage(connectionMessage);
 			
 		}
 	}

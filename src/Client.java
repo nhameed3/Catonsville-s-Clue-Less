@@ -59,6 +59,8 @@ public class Client {
 		});
 		
 		//create thread to receive messages
+		// this is where message logic goes? When it receives the message it parses what it is and
+		// does the appropriate action based on the message type
 		Thread receiveMessage = new Thread(new Runnable() 
 		{
 			public void run() {
@@ -66,6 +68,29 @@ public class Client {
 					try {
 					//read incoming message
 					Message inMessage = (Message) in.readObject();
+					// parse the message
+					switch( inMessage.getType() ) {
+						// if message is connection status
+						case 10: 
+						{
+							MessageConnectionStatus connectionMessage  = (MessageConnectionStatus) inMessage;
+							// this is where it checks for how many players are connected
+							if ( connectionMessage.getPlayerCount() == 1 );
+							{
+								//print for now
+								System.out.println("This client is player 1");
+								break;
+							}
+						}
+						
+						// have a default for when the message doesn't have a case
+						default:
+						{
+							// print for now
+							System.out.println("Received a message with no case in Client.");
+							break;
+						}
+					}
 					//just print we got a message for now
 					System.out.println("Received message from " + inMessage.getType());
 					}

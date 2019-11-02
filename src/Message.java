@@ -12,11 +12,11 @@ public class Message implements Serializable {
 	7: Win (S2C)
 	8: Quit (C2S)
 	9: Connect (C2S)
-	10:
+	10: Connection Status (S2C)
 	0: not used but is initialized to so can use it for error checking for now
 	*/
-	private int messageType;
-	private int whichPlayer;
+	protected int messageType;
+	protected int whichPlayer;
 	
 	//make a default constructor
 	public Message() {
