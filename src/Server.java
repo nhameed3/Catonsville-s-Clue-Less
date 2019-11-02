@@ -26,6 +26,9 @@ public class Server{
 	// turnCount: int to track how many turns we have
 	static int turnCount = 0;
 	
+	// boolean for gameOver
+	static boolean gameOver = false;
+	
 	
 	public static void main (String [] args) throws IOException, ClassNotFoundException {
 		//confirm arguments
@@ -57,10 +60,21 @@ public class Server{
 		//Board gameBoard = new Board();
 		// start the deck
 		Deck gameDeck = new Deck();
+		
+		// start a while loop that cycles through each players turn until game is over
+		while( !gameOver) {
+			// calculate whose turn it is
+			int currentPlayer = turnCount % maxPlayers;
+		}
 	}
 	
-	// This method handles gathering the connections, storing them in the ArrayList, and asking Player1 how many
-	// players will there be
+	/*Below write all the methods for handling things that will need to be done repeatedly or should be seperate modules.
+	 * Includes gathering Connections at start and processing turns including Move, Guess, Accuse
+	 */
+	
+	/*This method handles gathering the connections, storing them in the ArrayList, and asking Player1 how many
+	players will there be
+	*/
 	private static void gatherConnections(ServerSocket server) throws IOException, ClassNotFoundException{
 		while( clientCount < maxPlayers) {
 			
@@ -100,6 +114,22 @@ public class Server{
 				maxPlayers = newMessage.getInt();
 			}
 		}
+	}
+	
+	// guess method
+	private static void Guess() {
+		
+	}
+	
+	// move method
+	private static void Move() {
+		
+	}
+	
+	// accuse method
+	
+	private static void Accuse() {
+		
 	}
 }
 
