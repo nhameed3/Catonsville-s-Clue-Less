@@ -1,7 +1,8 @@
 import java.io.Serializable;
 
 public class Message implements Serializable {
-	// two instance variables: int for messageType, int for whichPlayer
+	// four instance variables: int for messageType, int for whichPlayer, int for generic int that can be used based on contetx
+	// String for generic string that can be used based on context
 	/* Message Type Key: C2S = Client to Server. S2C = Server to Client.
 	1: Start (S2C)
 	2: Turn (S2C)
@@ -11,12 +12,17 @@ public class Message implements Serializable {
 	6: Pass (C2S)
 	7: Win (S2C)
 	8: Quit (C2S)
-	9: Connect (C2S)
+	9: Desired Players (C2S) This only comes from player 1
 	10: Connection Status (S2C)
+	
 	0: not used but is initialized to so can use it for error checking for now
 	*/
+	
+	
 	protected int messageType;
 	protected int whichPlayer;
+	protected int genericInt;
+	protected String genericText;
 	
 	//make a default constructor
 	public Message() {
@@ -39,6 +45,14 @@ public class Message implements Serializable {
 		return whichPlayer;
 	}
 	
+	public int getInt() {
+		return genericInt;
+	}
+	
+	public String getText() {
+		return genericText;
+	}
+	
 	// set methods
 	public void setPlayer(int newPlayer) {
 		this.whichPlayer = newPlayer;
@@ -46,5 +60,13 @@ public class Message implements Serializable {
 	
 	public void setType(int newType) {
 		this.messageType = newType;
+	}
+	
+	public void setInt(int newInt) {
+		this.genericInt = newInt;
+	}
+	
+	public void setText(String newText) {
+		this.genericText = newText;
 	}
 }

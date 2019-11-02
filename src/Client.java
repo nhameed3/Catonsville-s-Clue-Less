@@ -31,80 +31,39 @@ public class Client {
 		ObjectOutputStream out = new ObjectOutputStream( gameSocket.getOutputStream());
 		ObjectInputStream in = new ObjectInputStream( gameSocket.getInputStream());
 		
-		//create thread to send messages
-		Thread sendMessage = new Thread(new Runnable()
-		{
-			public void run() {
-				while(true) {
-					try {
-						//read next int from scanner
-						int messageType = inScn.nextInt();
-						//troubleshooting
-						System.out.println("Received command to send message of type " + messageType);
-							
-						// create a message to go out
-						Message outMessage = new Message(messageType, 0);
-						// write it to out stream
-						out.writeObject(outMessage);
-						// troubleshooting
-						System.out.println("Sent new message of type " + outMessage.getType());
-					}
-					// just catch all Exceptions for now
-					catch(Exception e) {
-						e.printStackTrace();
-					}
-						
-					}
-				}
-		});
+		// have a boolean flag for startGame, defaults to false
+		boolean startGame = false;
 		
-		//create thread to receive messages
-		// this is where message logic goes? When it receives the message it parses what it is and
-		// does the appropriate action based on the message type
-		Thread receiveMessage = new Thread(new Runnable() 
-		{
-			public void run() {
-				while(true) {
-					try {
-					//read incoming message
-					Message inMessage = (Message) in.readObject();
-					// parse the message
-					switch( inMessage.getType() ) {
-						// if message is connection status
-						case 10: 
-						{
-							MessageConnectionStatus connectionMessage  = (MessageConnectionStatus) inMessage;
-							// this is where it checks for how many players are connected
-							if ( connectionMessage.getPlayerCount() == 1 );
-							{
-								//print for now
-								System.out.println("This client is player 1");
-								break;
-							}
-						}
-						
-						// have a default for when the message doesn't have a case
-						default:
-						{
-							// print for now
-							System.out.println("Received a message with no case in Client.");
-							break;
-						}
-					}
-					//just print we got a message for now
-					System.out.println("Received message from " + inMessage.getType());
-					}
-					// catch all Exceptions for now
-					catch(Exception e) {
-						e.printStackTrace();
-					}
+		// track what player we are. I know this isn't how Sam wants to do it so can be overwritten
+		int playerNumber;
+		
+		// we start with a while loop waiting for the game to start
+		while ( startGame == false) {
+			Message inMessage = (Message) in.readObject();
+			// if the inMessage is type 10 it tells us what player we are
+			if (inMessage.getType() == 10) {
+				// store what player we are
+				playerNumber = inMessage.getInt();
+				// print what player we are
+				System.out.println("You are Player " + playerNumber);
+				//check if we are player 1
+				if( inMessage.getInt() == 1) {
+					//if we are player 1 we need to tell the server how many players
+					System.out.println("How many players do you want to play with?");
+					int maxPlayers = inScn.nextInt();
+					// sent that back to the server
+					Message desiredPlayers = new Message(9, 1);
+					desiredPlayers.setInt(maxPlayers);
+					out.writeObject(desiredPlayers);
 				}
 			}
-			
-		});
-		
-		//start the send and receive threads
-		sendMessage.start();
-		receiveMessage.start();
+			// the other message we want to look out for is the start message
+			else if (inMessage.getType() == 1) {
+				// print how many players
+				System.out.println("Game is starting! There are " + inMessage.getInt() + " players in this game.");
+				// set the start flag
+				startGame = true;
+			}
+		}
 	}
 }
