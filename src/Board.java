@@ -359,7 +359,7 @@ public class Board
 		{
 			Location temp = this.locationArray[possiblePosition];
 		
-			if( ( !temp.isOccupied ) || ( !temp.isHallway ) )
+			if( ( !temp.getIsOccupied() ) || ( !temp.getIsHallway() ) )
 			{
 				validPositionsArray.add( possiblePosition );
 			}
@@ -374,7 +374,7 @@ public class Board
 
 		for( int i = 0; i < 6; i++ )
 		{
-			positionName = this.locationArray[playerPosition[i]].locationName;
+			positionName = this.locationArray[playerPosition[i]].getLocationName();
 
 			System.out.println( "Player " + ( i+1 ) + " is at " + positionName + "." );
 		}
