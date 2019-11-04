@@ -38,6 +38,12 @@ public class Board
 		}			
 	}
 
+/**
+* locationArray: Store all 21 locations (9 rooms and 12 hallways) and their attributes
+* playerPosition: Store the position of players
+* locationMatrix: Store the next, possible position a player can move to 
+*/	
+	
 	Location[] locationArray = new Location[21];
 	int[] playerPosition = new int[6];
 	boolean[][] locationMatrix = new boolean[21][21];
@@ -326,6 +332,25 @@ public class Board
 		locationMatrix[20][10] = false;
 	}
 
+/**
+* A move() method consists of 2 components:
+* 1. The board provides all valid locations for moving. This involves three methods:
+*	a. getPlayerPosition() to return the player's current position
+*	b. getPossiblePositions() to return all possible next position, based on output of getPlayerposition()
+*	c. getValidPositions() to return all valid next positions, based on output of getPossiblePositions()
+* 2. The board receives decision from server for chosen position. This has three methods:
+*	a. setPlayerPosition() to set the new position of the player
+*	b. setIsOccupied() from the private class Location to set the isOccupied of new position to true
+*	c. setIsOccupied() from the private class Location to set the isOccupied of old position to false
+*/
+
+/** 
+* An isMoved() method (passive moving of player by suggestion/guessing step) has three methods:
+*	a. setPlayerPosition() to set the new position of the player
+*	b. setIsOccupied() from the private class Location to set the isOccupied of new position to true
+*	c. setIsOccupied() from the private class Location to set the isOccupied of old position to false
+*/	
+	
 	public int getPlayerPosition( int playerNumber )
 	{
 		return playerPosition[playerNumber];
