@@ -332,25 +332,6 @@ public class Board
 		locationMatrix[20][10] = false;
 	}
 
-/**
-* A move() method consists of 2 components:
-* 1. The board provides all valid locations for moving. This involves three methods:
-*	a. getPlayerPosition() to return the player's current position
-*	b. getPossiblePositions() to return all possible next position, based on output of getPlayerposition()
-*	c. getValidPositions() to return all valid next positions, based on output of getPossiblePositions()
-* 2. The board receives decision from server for chosen position. This has three methods:
-*	a. setPlayerPosition() to set the new position of the player
-*	b. setIsOccupied() from the private class Location to set the isOccupied of new position to true
-*	c. setIsOccupied() from the private class Location to set the isOccupied of old position to false
-*/
-
-/** 
-* An isMoved() method (passive moving of player by suggestion/guessing step) has three methods:
-*	a. setPlayerPosition() to set the new position of the player
-*	b. setIsOccupied() from the private class Location to set the isOccupied of new position to true
-*	c. setIsOccupied() from the private class Location to set the isOccupied of old position to false
-*/	
-	
 	public int getPlayerPosition( int playerNumber )
 	{
 		return playerPosition[playerNumber];
@@ -361,6 +342,37 @@ public class Board
 		this.playerPosition[playerNumber] = playerNewPosition;
 	}
 
+/**
+* Method canMove() returns true if a move to the new location is valid
+* Method canGuess() returns true if the player can make a guess at the current position (i.e. in a room)
+*/
+	
+	public boolean canMove( int playerNumber, int moveLocation )
+	{
+		boolean canMove = false;
+
+		int playerCurrentPosition = getPlayerPosition( playerNumber );
+		ArrayList<Integer> possiblePositionsArray = getPossiblePositions( playerCurrentPosition );
+		ArrayList<Integer> validPositionsArray = getValidPositions( possiblePositionsArray );
+
+		for( int validPosition: validPositionsArray )
+		{
+			if( moveLocation == validPosition )
+			{
+				canMove = true;
+			}
+		}
+		
+		return canMove;
+	}
+
+	public boolean canGuess( int playerNumber )
+	{
+		int playerCurrentPosition = getPlayerPosition( playerNumber );
+
+		return ( !this.locationArray[playerCurrentPosition].getIsHallway() );
+	}	
+	
 	public ArrayList<Integer> getPossiblePositions( int playerCurrentPosition )
 	{
 		ArrayList<Integer> possiblePositionsArray = new ArrayList<Integer>();
