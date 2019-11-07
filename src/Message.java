@@ -13,7 +13,7 @@ public class Message implements Serializable {
 	7: Win (S2C)
 	8: Quit (C2S)
 	9: Desired Players (C2S) This only comes from player 1
-	10: Connection Status (S2C)
+	10: Connection Status (S2C and C2S)
 	
 	0: not used but is initialized to so can use it for error checking for now
 	*/

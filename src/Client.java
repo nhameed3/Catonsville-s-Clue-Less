@@ -3,8 +3,7 @@ import java.util.*;
 import java.net.*;
 
 /* Client is the driver of the game on client computers. It takes two arguments (IP and port) and connects to the
-server. It launches threads for receiving objects and sending objects to and from and the server. For now this
-is also where all Player code goes?
+server.
 */
 public class Client {
 
@@ -27,43 +26,130 @@ public class Client {
 		//create a scanner for user input
 		Scanner inScn = new Scanner(System.in);
 		
+		// boolean flag for gameOver
+		boolean gameOver = false;
+		
 		//grab input and output streams
 		ObjectOutputStream out = new ObjectOutputStream( gameSocket.getOutputStream());
 		ObjectInputStream in = new ObjectInputStream( gameSocket.getInputStream());
 		
-		// have a boolean flag for startGame, defaults to false
-		boolean startGame = false;
+		// accept connectionStatus message from Server
+		MessageConnectionStatus incomingMessage = (MessageConnectionStatus) in.readObject();
 		
-		// track what player we are. I know this isn't how Sam wants to do it so can be overwritten
-		int playerNumber;
+		// call startUp and store it as outgoingMessage
+		MessageConnectionStatus outgoingMessage = startUp(incomingMessage, inScn);
 		
-		// we start with a while loop waiting for the game to start
-		while ( startGame == false) {
-			Message inMessage = (Message) in.readObject();
-			// if the inMessage is type 10 it tells us what player we are
-			if (inMessage.getType() == 10) {
-				// store what player we are
-				playerNumber = inMessage.getInt();
-				// print what player we are
-				System.out.println("You are Player " + playerNumber);
-				//check if we are player 1
-				if( inMessage.getInt() == 1) {
-					//if we are player 1 we need to tell the server how many players
-					System.out.println("How many players do you want to play with?");
-					int maxPlayers = inScn.nextInt();
-					// sent that back to the server
-					Message desiredPlayers = new Message(9, 1);
-					desiredPlayers.setInt(maxPlayers);
-					out.writeObject(desiredPlayers);
+		// send output message
+		out.writeObject(outgoingMessage);
+		
+		// create Player with info from outgoingMessage
+		Player currentPlayer = new Player(outgoingMessage.getText(), outgoingMessage.getPlayer());
+		
+		// run a While loop until agmeOver = true;
+		while( gameOver == false) {
+			gameOver = playGame(currentPlayer, in, out);
+		}
+	
+		}
+	
+	
+	/* startUp takes the MessageConnectionStatus from Server and creates a return MEssageConnectionStatus
+	 * 
+	 */
+	private static MessageConnectionStatus startUp( MessageConnectionStatus inMessage, Scanner inScn) {
+		// create outgoing Message
+		MessageConnectionStatus outMessage = new MessageConnectionStatus();
+		
+		// ask the player their username
+		System.out.println("Please enter a username.");
+		outMessage.setText( inScn.nextLine());
+		
+		// are we player 1?
+		if( inMessage.getInt() == 1) {
+			// if this is 1st client we ask how many players to wait for
+			System.out.println("You are the 1st player to connect. How many players do you wish to play with?");
+			// store users response as the genericInt in outgoingMessage
+			outMessage.setInt(inScn.nextInt());
+		}
+		
+		// what player does user want to be
+		System.out.println("Which character do you want to be?");
+		for( int i = 0; i < 6; i++) {
+			// grab the avatar array
+			boolean [] tempAvatars = inMessage.getAvatars();
+			// check if that character is available
+					
+			if (tempAvatars[i] == false) {
+				switch( i ) {
+					case 0:
+					{
+						System.out.println("0: Miss Scarlett");
+						break;
+					}
+					case 1:
+					{
+						System.out.println("1: Reverend Green");
+						break;
+					}
+					case 2:
+					{
+						System.out.println("2: Colonel Mustard");
+						break;
+					}
+					case 3:
+					{
+						System.out.println("3: Professor Plum");
+						break;
+					}
+					case 4:
+					{
+						System.out.println("4: Mrs. White");
+						break;
+					}
+					case 5:
+					{
+						System.out.println("5: Mrs. Peacock");
+						break;
+					}
 				}
 			}
-			// the other message we want to look out for is the start message
-			else if (inMessage.getType() == 1) {
-				// print how many players
-				System.out.println("Game is starting! There are " + inMessage.getInt() + " players in this game.");
-				// set the start flag
-				startGame = true;
-			}
+					
+			//grab the players choice
+			int playerChoice = inScn.nextInt();
+					
+			//set that element to true
+			tempAvatars[playerChoice] = true;
+			
+			// set whichPlayer to playerChoice
+			outMessage.setPlayer(playerChoice);
+			// write the new array to outMessage
+			outMessage.setAvatars(tempAvatars);
 		}
+		
+		return outMessage;
+		
+	}
+	
+	/* 
+	 * 
+	 */
+	private static boolean playGame(Player thisPlayer, ObjectInputStream in, ObjectOutputStream out) throws IOException, ClassNotFoundException{
+		// receive a message from the server
+		Message inMessage = (Message) in.readObject();
+		
+		// store a boolean flag that we return
+		boolean gameOver = false;
+		
+		// run a switch where we handle the Message as appropriate
+		switch( inMessage.getType()) {
+		// type 2 means its this players turn
+		case 2:
+		{
+			// cue players turn and store result as outgoingMessage
+			Message outgoingMessage = thisPlayer.playerTurn();
+			
+		}
+		}
+		
 	}
 }

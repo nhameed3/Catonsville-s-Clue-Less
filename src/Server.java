@@ -57,7 +57,7 @@ public class Server{
 		}
 		
 		// start the board. Commenting out until that class is available
-		//Board gameBoard = new Board();
+		Board gameBoard = new Board();
 		// start the deck
 		Deck gameDeck = new Deck();
 		
