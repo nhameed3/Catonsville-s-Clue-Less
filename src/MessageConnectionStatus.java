@@ -9,6 +9,20 @@ public class MessageConnectionStatus extends Message{
 	// we store which avatars are available in a boolean array length 6
 	private boolean [] avatars = new boolean[6];
 	
+	// default constructor
+	MessageConnectionStatus() {
+		
+	}
+	
+	//constructor
+	MessageConnectionStatus(int messageType, int whichPlayer, boolean[] avatars) {
+		this.messageType = messageType;
+		this.whichPlayer = whichPlayer;
+		this.avatars = avatars;
+	}
+	
+	
+	
 	// method to set the avatars
 	public void setAvatars(boolean[] newAvatars) {
 		this.avatars = newAvatars;

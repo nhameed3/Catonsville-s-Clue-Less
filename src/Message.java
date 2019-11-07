@@ -15,6 +15,9 @@ public class Message implements Serializable {
 	9: Deal (S2C)
 	10: Connection Status (S2C and C2S)
 	11: status update (print to screen) (S2C)
+	12: Board Status Update (S2C)
+	13: GuessDisprove (S2C)
+	14: GameOver (S2C)
 	
 	0: not used but is initialized to so can use it for error checking for now
 	*/
@@ -27,8 +30,6 @@ public class Message implements Serializable {
 	
 	//make a default constructor
 	public Message() {
-		this.messageType = 0;
-		this.whichPlayer = -1;
 	}
 	
 	// constructor, two int arguments to set type and which player

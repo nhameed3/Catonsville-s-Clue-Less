@@ -43,14 +43,16 @@ public class Client {
 		out.writeObject(outgoingMessage);
 		
 		// create Player with info from outgoingMessage
-		Player currentPlayer = new Player(outgoingMessage.getText(), outgoingMessage.getPlayer());
+		//Player currentPlayer = new Player(outgoingMessage.getText(), outgoingMessage.getPlayer());
 		
 		// run a While loop until agmeOver = true;
+		/*
 		while( gameOver == false) {
 			gameOver = playGame(currentPlayer, in, out);
 		}
+		*/
 	
-		}
+	}
 	
 	
 	/* startUp takes the MessageConnectionStatus from Server and creates a return MEssageConnectionStatus
@@ -71,12 +73,13 @@ public class Client {
 			// store users response as the genericInt in outgoingMessage
 			outMessage.setInt(inScn.nextInt());
 		}
+		// grab the avatar array
+		boolean [] tempAvatars = inMessage.getAvatars();
 		
 		// what player does user want to be
 		System.out.println("Which character do you want to be?");
 		for( int i = 0; i < 6; i++) {
-			// grab the avatar array
-			boolean [] tempAvatars = inMessage.getAvatars();
+			
 			// check if that character is available
 					
 			if (tempAvatars[i] == false) {
@@ -114,17 +117,18 @@ public class Client {
 				}
 			}
 					
-			//grab the players choice
-			int playerChoice = inScn.nextInt();
-					
-			//set that element to true
-			tempAvatars[playerChoice] = true;
 			
-			// set whichPlayer to playerChoice
-			outMessage.setPlayer(playerChoice);
-			// write the new array to outMessage
-			outMessage.setAvatars(tempAvatars);
 		}
+		//grab the players choice
+		int playerChoice = inScn.nextInt();
+				
+		//set that element to true
+		tempAvatars[playerChoice] = true;
+		
+		// set whichPlayer to playerChoice
+		outMessage.setPlayer(playerChoice);
+		// write the new array to outMessage
+		outMessage.setAvatars(tempAvatars);
 		
 		return outMessage;
 		
@@ -172,7 +176,7 @@ public class Client {
 			{
 				//cast to MessageDeal
 				inMessage = (MessageDeal) inMessage;
-				thisPlayer.setHand(inMessage);
+				//thisPlayer.setHand(inMessage);
 				break;
 			}
 			// type 10 means this is board status update
@@ -186,8 +190,8 @@ public class Client {
 			{
 				// case it to MessageGuAc
 				inMessage = (MessageGuAc) inMessage;
-				Message outMessage = thisPlayer.disproveGuess(inMessage);
-				out.writeObject(outMessage);
+				//Message outMessage = thisPlayer.disproveGuess(inMessage);
+				//out.writeObject(outMessage);
 				break;
 			}
 			// case 14 means game is over
