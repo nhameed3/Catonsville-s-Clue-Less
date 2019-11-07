@@ -134,22 +134,71 @@ public class Client {
 	 * 
 	 */
 	private static boolean playGame(Player thisPlayer, ObjectInputStream in, ObjectOutputStream out) throws IOException, ClassNotFoundException{
+		// store a boolean flag that we return
+		boolean gameOver = false;
+				
+		
 		// receive a message from the server
 		Message inMessage = (Message) in.readObject();
 		
-		// store a boolean flag that we return
-		boolean gameOver = false;
 		
 		// run a switch where we handle the Message as appropriate
 		switch( inMessage.getType()) {
-		// type 2 means its this players turn
-		case 2:
-		{
-			// cue players turn and store result as outgoingMessage
-			Message outgoingMessage = thisPlayer.playerTurn();
-			
+			// type 2 means its this players turn
+			case 2:
+			{
+				/* this case should probably be expanded. Like a while loop that sends and accepts
+				 * messages back and forth until the player's turn is over because
+				 * players can do numerous things and the way it's written now it's like the turn starts
+				 * over every action. Plus sometimes the player will be waiting to get a result back
+				 * from their action like valid move or result of guess or accuse.
+				 * 
+				 * Or the results of move, guess, and accuse can be seperate messages
+				 */
+				
+				// cue players turn and store result as outgoingMessage
+				Message outgoingMessage = thisPlayer.playerTurn();
+				out.writeObject(outgoingMessage);
+				break;
+			}
+			// type 11 means its a status message, for now print to screen
+			case 11:
+			{
+				System.out.println(inMessage.getText());
+				break;
+			}
+			// type 9 means this is a deal message, pass to player
+			case 9:
+			{
+				//cast to MessageDeal
+				inMessage = (MessageDeal) inMessage;
+				thisPlayer.setHand(inMessage);
+				break;
+			}
+			// type 10 means this is board status update
+			case 10:
+			{
+				// do something with board status update?
+				break;
+			}
+			// case 13 means someone else guessed and we have to disprove it
+			case 13:
+			{
+				// case it to MessageGuAc
+				inMessage = (MessageGuAc) inMessage;
+				Message outMessage = thisPlayer.disproveGuess(inMessage);
+				out.writeObject(outMessage);
+				break;
+			}
+			// case 14 means game is over
+			case 14:
+			{
+				gameOver = true;
+				break;
+			}
 		}
-		}
+		
+		return gameOver;
 		
 	}
 }

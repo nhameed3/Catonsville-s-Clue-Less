@@ -12,8 +12,9 @@ public class Message implements Serializable {
 	6: Pass (C2S)
 	7: Win (S2C)
 	8: Quit (C2S)
-	9: Desired Players (C2S) This only comes from player 1
+	9: Deal (S2C)
 	10: Connection Status (S2C and C2S)
+	11: status update (print to screen) (S2C)
 	
 	0: not used but is initialized to so can use it for error checking for now
 	*/
