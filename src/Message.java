@@ -18,6 +18,7 @@ public class Message implements Serializable {
 	12: Board Status Update (S2C)
 	13: GuessDisprove (S2C)
 	14: GameOver (S2C)
+	15: Lose (S2C)
 	
 	0: not used but is initialized to so can use it for error checking for now
 	*/

@@ -79,10 +79,23 @@ public class Server{
 			// create array to track whose out of the game. All start as false
 			boolean [] eliminatedPlayers = new boolean[maxPlayers];
 			
+			// have a 2 element boolean array for turnResults
+			boolean [] turnResults = new boolean[2];
+			
 			// check to see if currentPlayer is eliminated
 			if ( eliminatedPlayers[currentPlayer] == false ) {
-				gameOver = playerTurn(gameBoard, gameDeck, clientList, currentPlayer);
+				// store the results of the turn in turnResults
+				turnResults = playerTurn(gameBoard, gameDeck, clientList, turnResults, currentPlayer);
 				turnCount++;
+				// check if game is over
+				if( turnResults[0]) {
+					gameOver = true;
+				}
+				// check if player is eliminated
+				if( turnResults[1]) {
+					// register player as eliminated
+					eliminatedPlayers[currentPlayer] = true;
+				}
 			}
 
 		}
@@ -161,31 +174,47 @@ public class Server{
 	}
 	
 	// move method
-	private static boolean move(Message moveMessage, Board gameBoard, ArrayList<ConnectionManager> clientList, int currentPlayer) {
+	private static Message move(Message moveMessage, Board gameBoard, ArrayList<ConnectionManager> clientList, int currentPlayer) {
 		// case moveMessage to MessageMove
 		moveMessage = (MessageMove) moveMessage;
 		
 	}
 	
-	// accuse method should return true if succesful or false if unsuccesufl
+	// accuse method should return a message from Deck that can be parsed for success status and also be sent to 
+	// accuser to let them know if they got it wrong
 	
-	private static boolean accuse(Message accuseMessage, Board gameBoard, ArrayList<ConnectionManager> clientList, int currentPlayer) {
+	private static Message accuse(Message accuseMessage, Board gameBoard, Deck gameDeck, ArrayList<ConnectionManager> clientList, int currentPlayer) {
 		// cast to MessageGuAc
 		accuseMessage = (MessageGuAc) accuseMessage;
+		//grab current client
+		ConnectionManager currentClient = clientList.get(currentPlayer);
+
 		
-		// boolean for success
-		boolean success;
+		// tell the board there's an accusation. MNo current method so I'm making it up
+		gameBoard.processAccusation(accuseMessage);
+		// there should be a board status message here
 		
-		// return whether we win or not
-		return success;
+		// tell everyone accusation status. This needs to be updated once MessageGuAc has getters and setters for cards
+		{
+			Message statusMessage = new Message(11, -1);
+			statusMessage.setText(currentClient.getName() + "has made an accusation!");
+			sendToAll(clientList, statusMessage);
+		}
+		
+		// check with deck for accusation. This actually needs a Message return beacause we need to tell the accuser 
+		// what they got wrong
+		Message accusationResult = gameDeck.checkAccusation(accuseMessage);
+		
+		//return the Message
+		return accusationResult;
 	}
 	
 	// playerTurn method
 	
-	private static boolean playerTurn(Board gameBoard, Deck gameDeck, ArrayList<ConnectionManager> clientList, int currentPlayer) {
-		//have two flags, one for tracking if turn is over the for tracking if game is over. will return game is over
-		boolean gameOver = false;
+	private static boolean[] playerTurn(Board gameBoard, Deck gameDeck, ArrayList<ConnectionManager> clientList, boolean [] turnResults, int currentPlayer) {
+		//have a flag for tracking turnOver
 		boolean turnOver = false;
+		
 		
 		// grab reference to currentClient
 		ConnectionManager currentClient = clientList.get(currentPlayer);
@@ -217,7 +246,39 @@ public class Server{
 				
 				case 5:
 				{
-					gameOver = accuse(playerAction);
+					Message accusationResult = accuse(playerAction, gameBoard, gameDeck, clientList, currentPlayer);
+					//parse success. if genericInt = 1 it's a win. this may need to be integrated into whatever Pete codes
+					if (accusationResult.getInt() == 1) {
+						// send update to everyone
+						{
+							Message statusUpdate = new Message(11,-1);
+							statusUpdate.setText(currentClient.getName() + " solved the crime and wins!");
+							sendToAll(clientList, statusUpdate);
+						}
+						// send win message to user
+						{
+							Message winMessage = new Message(7, -1);
+							currentClient.sendMessage(winMessage);
+						}
+						//set turnResult[0] to true to indicate game is over
+						turnResults[0] = true;
+					}
+					// if it's not 1 it's a lose
+					else {
+						// send update to everyone
+						{
+							Message statusUpdate = new Message(11,-1);
+							statusUpdate.setText(currentClient.getName() + "was wrong and they are out of the game!");
+							sendToAll(clientList, statusUpdate);
+						}
+						// send elimination message to Accuser. This should have info about what they got wrong but not inplemented
+						{
+							Message loseMessage = new Message(15, -1);
+							currentClient.sendMessage(loseMessage);
+							//set turnResult[1] to true to indicate player is eliminated
+							turnResults[1] = true;
+						}
+					}
 					
 					// if a player accuses the turn is over because they are either out or they win
 					turnOver = true;
@@ -227,7 +288,7 @@ public class Server{
 		
 		
 		// return gameOver
-		return gameOver;
+		return turnResults;
 		
 	}
 	
