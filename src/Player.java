@@ -1,4 +1,4 @@
-import java.util.Scanner;;
+import java.util.Scanner;
 import java.io.*;
 import java.util.*;
 import java.net.*;
@@ -336,9 +336,9 @@ public class Player {
     //The user can either pass or guess. The user is asked who what and where 
     // and a message containing their guess is returned.
     public Message makeGuess(){
-        Card personGuess = new Card();
-        Card weaponGuess = new Card();
-        Card roomGuess = new Card();
+        Card personGuess = new Card(Card.Suspect.REV_GREEN,null,null);
+        Card weaponGuess = new Card(null,null,Card.Weapon.CANDLE_STICK);
+        Card roomGuess = new Card(null,Card.Room.BALLROOM ,null);
 
         //Our software uses accuse variables for both guesses and accusations 
         System.out.println("Player::makeGuess");
@@ -366,27 +366,27 @@ public class Player {
             int choice = input.nextInt();
             switch(choice){
                 case 1:
-                    personGuess.setSuspect(REV_GREEN);
+                    personGuess.setSuspect(Card.Suspect.REV_GREEN);
                     invalid = 0;
                     break;
                 case 2:
-                    personGuess.setSuspect(COLONEL_MUSTARD);
+                    personGuess.setSuspect(Card.Suspect.COLONEL_MUSTARD);
                     invalid = 0;
                     break;
                 case 3:
-                    personGuess.setSuspect(MRS_PEACOCK);
+                    personGuess.setSuspect(Card.Suspect.MRS_PEACOCK);
                     invalid = 0;
                     break;
                 case 4:
-                    personGuess.setSuspect(PROFESSOR_PLUM);
+                    personGuess.setSuspect(Card.Suspect.PROFESSOR_PLUM);
                     invalid = 0;
                     break;
                 case  5:
-                    personGuess.setSuspect(MISS_SCARLET);
+                    personGuess.setSuspect(Card.Suspect.MISS_SCARLET);
                     invalid = 0;
                     break;
                 case 6:
-                    personGuess.setSuspect(MRS_WHITE);
+                    personGuess.setSuspect(Card.Suspect.MRS_WHITE);
                     invalid = 0;
                     break;
                 default:
@@ -413,39 +413,39 @@ public class Player {
             int choice = input.nextInt();
             switch(choice){
                 case 1:
-                    roomGuess.setRoom(BALLROOM);
+                    roomGuess.setRoom(Card.Room.BALLROOM);
                     invalid = 0;
                     break;
                 case 2:
-                    roomGuess.setRoom(BILLIARD_ROOM);
+                    roomGuess.setRoom(Card.Room.BILLIARD_ROOM);
                     invalid = 0;
                     break;
                 case 3:
-                    roomGuess.setRoom(CONSERVATORY);
+                    roomGuess.setRoom(Card.Room.CONSERVATORY);
                     invalid = 0;
                     break;
                 case 4:
-                    roomGuess.setRoom(DINING_ROOM);
+                    roomGuess.setRoom(Card.Room.DINING_ROOM);
                     invalid = 0;
                     break;
                 case  5:
-                    roomGuess.setRoom(HALL);
+                    roomGuess.setRoom(Card.Room.HALL);
                     invalid = 0;
                     break;
                 case 6:
-                    roomGuess.setRoom(KITCHEN);
+                    roomGuess.setRoom(Card.Room.KITCHEN);
                     invalid = 0;
                     break;
                 case 7:
-                    roomGuess.setRoom(LIBRARY);
+                    roomGuess.setRoom(Card.Room.LIBRARY);
                     invalid = 0;
                     break;
                 case 8:
-                    roomGuess.setRoom(LOUNGE);
+                    roomGuess.setRoom(Card.Room.LOUNGE);
                     invalid = 0;
                     break;
                 case 9:
-                    roomGuess.setRoom(STUDY);
+                    roomGuess.setRoom(Card.Room.STUDY);
                     invalid = 0;
                     break;
                 default:
@@ -469,31 +469,31 @@ public class Player {
             int choice = input.nextInt();
             switch(choice){
                 case 1:
-                    weaponGuess.setWeapon(CANDLE_STICK);
+                    weaponGuess.setWeapon(Card.Weapon.CANDLE_STICK);
                     invalid = 0;
                     break;
                 case 2:
-                    weaponGuess.setWeapon(DAGGER);
+                    weaponGuess.setWeapon(Card.Weapon.DAGGER);
                     invalid = 0;
                     break;
                 case 3:
-                    weaponGuess.setWeapon(LEAD);
+                    weaponGuess.setWeapon(Card.Weapon.LEAD);
                     invalid = 0;
                     break;
                 case 4:
-                    weaponGuess.setWeapon(PIPE);
+                    weaponGuess.setWeapon(Card.Weapon.PIPE);
                     invalid = 0;
                     break;
                 case  5:
-                    weaponGuess.setWeapon(REVOLVER);
+                    weaponGuess.setWeapon(Card.Weapon.REVOLVER);
                     invalid = 0;
                     break;
                 case 6:
-                    weaponGuess.setWeapon(ROPE);
+                    weaponGuess.setWeapon(Card.Weapon.ROPE);
                     invalid = 0;
                     break;
                 case 7:
-                    weaponGuess.setWeapon(WRENCH);
+                    weaponGuess.setWeapon(Card.Weapon.WRENCH);
                     invalid = 0;
                     break;
                 default:
@@ -502,7 +502,7 @@ public class Player {
             }
         }
 
-        Message message = new Message (personGuess, roomGuess, weaponGuess);
+        MessageAccusation message = new MessageAccusation (personGuess, roomGuess, weaponGuess);
         return message;        
     }
 
