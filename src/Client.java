@@ -42,15 +42,15 @@ public class Client {
 		// send output message
 		out.writeObject(outgoingMessage);
 		
-		// create Player with info from outgoingMessage
-		//Player currentPlayer = new Player(outgoingMessage.getText(), outgoingMessage.getPlayer());
+		//create Player with info from outgoingMessage
+		Player currentPlayer = new Player(outgoingMessage.getText(), outgoingMessage.getPlayer());
 		
 		// run a While loop until agmeOver = true;
-		/*
+		
 		while( gameOver == false) {
 			gameOver = playGame(currentPlayer, in, out);
 		}
-		*/
+		
 	
 	}
 	
@@ -151,18 +151,8 @@ public class Client {
 			// type 2 means its this players turn
 			case 2:
 			{
-				/* this case should probably be expanded. Like a while loop that sends and accepts
-				 * messages back and forth until the player's turn is over because
-				 * players can do numerous things and the way it's written now it's like the turn starts
-				 * over every action. Plus sometimes the player will be waiting to get a result back
-				 * from their action like valid move or result of guess or accuse.
-				 * 
-				 * Or the results of move, guess, and accuse can be seperate messages
-				 */
-				
-				// cue players turn and store result as outgoingMessage
-				Message outgoingMessage = thisPlayer.playerTurn();
-				out.writeObject(outgoingMessage);
+				// invoke the processTurn method that returns boolean for gameOver?
+				processTurn(thisPlayer, in, out);
 				break;
 			}
 			// type 11 means its a status message, for now print to screen
@@ -188,10 +178,10 @@ public class Client {
 			// case 13 means someone else guessed and we have to disprove it
 			case 13:
 			{
-				// case it to MessageGuAc
-				inMessage = (MessageGuAc) inMessage;
-				//Message outMessage = thisPlayer.disproveGuess(inMessage);
-				//out.writeObject(outMessage);
+				// case it to MessageAccusation
+				inMessage = (MessageAccusation) inMessage;
+				Message guessResult = thisPlayer.disprove(inMessage);
+				out.writeObject(guessResult);
 				break;
 			}
 			// case 14 means game is over
@@ -200,9 +190,145 @@ public class Client {
 				gameOver = true;
 				break;
 			}
+			// case 7 means we win
+			case 7:
+			{
+				System.out.println("You win!");
+				break;
+			}
+			// case 8 means we lose
+			case 8:
+			{
+				System.out.println("You lose!");
+				break;
+			}
 		}
 		
 		return gameOver;
 		
+	}
+	
+	// write a method that processes a players turn
+	private static void processTurn(Player thisPlayer, ObjectInputStream in, ObjectOutputStream out) throws IOException, ClassNotFoundException{
+		// boolean for turnOver
+		boolean turnOver = false;
+		// boolean for gameOver, only sets to true is acc
+		// run this loop until turnOver is true
+		while( turnOver == false) {
+			// get a Message for the start of the players turn
+			Message firstAction = thisPlayer.playerTurn();
+			
+			// is it a move?
+			if (firstAction.getType() == 3 ) {
+				// send that to the client
+				out.writeObject(firstAction);
+				// get Message back
+				Message moveResult = (Message) in.readObject();
+				// check to see if it was a valid move
+				if ( moveResult.getType() == 16 ) {
+					// if it was a valid move can they make a guess?
+					if ( moveResult.getInt() == 1 ) {
+						// after a valid move they're only going down one of these cases and then turn is over
+						turnOver = true;
+						Message guessMessage = thisPlayer.makeGuess();
+						// did player make a guess, an accusation, or pass?
+						switch( guessMessage.getType() ) {
+							//case 4 means they made a guess
+							case 4:
+							{		
+								//send guesMessage to server
+								out.writeObject(guessMessage);
+								
+								// receive result back
+								Message resultMessage = (Message) in.readObject();
+								
+								//send result to player and store return in finalAct
+								Message finalAct = thisPlayer.getGuessResult(resultMessage);
+								
+								// did player Accuse?
+								if ( finalAct.getType() == 5) {
+									
+									//send accusage method to server
+									out.writeObject(finalAct);
+									// get result
+									Message accuseResult = (Message) in.readObject();
+									// pass result to Player
+									thisPlayer.getAccusationResult(accuseResult);
+								}
+								break;
+							}
+							// case 5 means they are making an accusation
+							case 5:
+							{
+								//send accusage method to server
+								out.writeObject(guessMessage);
+								// get result
+								Message accuseResult = (Message) in.readObject();
+								// pass result to Player
+								thisPlayer.getAccusationResult(accuseResult);
+								break;
+							}
+							// case 6 means they're passing
+							case 6:
+							{
+								// send it to Server
+								Message passMessage = new Message(6, thisPlayer.getPlayerNum());
+								out.writeObject(passMessage);
+								break;
+							}		
+						}
+					}
+					// if they can't make a guess they can only pass or accuse
+					else {
+						// turn is over
+						turnOver = true;
+						// ask player if they want to guess or accuse
+						Message finalAct = thisPlayer.makeAccusation();
+						// run a switch based on accusation or guess
+						switch( finalAct.getType() ) {
+							// if its an accusation its type 5
+							case 5: 
+							{
+								//send accusage method to server
+								out.writeObject(finalAct);
+								// get result
+								Message accuseResult = (Message) in.readObject();
+								// pass result to Player
+								thisPlayer.getAccusationResult(accuseResult);
+								break;
+							}
+							// the other option is a pass
+							case 6:
+							{
+								// send it to Server
+								Message passMessage = new Message(6, thisPlayer.getPlayerNum());
+								out.writeObject(passMessage);
+								break;
+							}
+						}
+					}
+				}
+				// if it wasn't a valid move we do nothing and this loop repeats
+			}
+			// is it a accusation?
+			else if( firstAction.getType() == 5) {
+				//turn is over
+				turnOver = true;
+				// send accusation to server
+				out.writeObject(firstAction);
+				// get result
+				Message accuseResult = (Message) in.readObject();
+				// pass result to Player
+				thisPlayer.getAccusationResult(accuseResult);
+			}
+			// if its not a move or accusation its a pass
+			else {
+				// pass means turn is over
+				turnOver = true;
+				// send it to Server
+				Message passMessage = new Message(6, thisPlayer.getPlayerNum());
+				out.writeObject(passMessage);
+			}
+		}
 	}
 }

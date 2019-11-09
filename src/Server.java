@@ -174,9 +174,11 @@ public class Server{
 	}
 	
 	// move method
-	private static Message move(Message moveMessage, Board gameBoard, ArrayList<ConnectionManager> clientList, int currentPlayer) {
-		// case moveMessage to MessageMove
-		moveMessage = (MessageMove) moveMessage;
+	private static move(Message moveMessage, Board gameBoard, ArrayList<ConnectionManager> clientList, int currentPlayer) {
+		// pass move request from player into board and accept a Message back
+		Mesage moveResult = gameBoard.processMove(moveMessage);
+		// send the Message back to client
+		clientList.get(currentPlayer).sendMessage(moveResult);
 		
 	}
 	
@@ -219,21 +221,37 @@ public class Server{
 		// grab reference to currentClient
 		ConnectionManager currentClient = clientList.get(currentPlayer);
 		
+		// create a starTurn Message
+		Message yourTurn = new Message(2, -1);
+		// send the message
+		currentClient.sendMessage(yourTurn);
+		
 		// start a while loop that goes until turnOver is flagged
 		while( turnOver == false) {
-			// create a starTurn Message
-			Message yourTurn = new Message(2, -1);
-			// send the message
-			currentClient.sendMessage(yourTurn);;
 			// get the players action back
 			Message playerAction = currentClient.getMessage();
+			
 			// run a switch for what do with whatever player did
 			switch( playerAction.getType() ) {
 				//case 3 is move
 				case 3:
 				{
-					// call move
-					move(playerAction);	
+					// call move and store return as a message
+					Message outgoingMessage = move(playerAction, gameBoard, clientList, currentPlayer);
+					// was the move succesful or not? if it was it's type 16.
+					if (outgoingMessage.getType() == 16) {
+						// if it was a succesful move, are they in a room and can guess?
+						if (outgoingMessage.getInt() == 1) {
+							// 
+						}
+						// if succesful move and aren't in a room
+						else {
+							
+						}
+						
+					}
+					
+					break;
 				}
 				// case 4 is player wants to guess
 				case 4:
