@@ -4,16 +4,16 @@ public class MessageAccusation extends Message{
 	public Card sus;
 	public Card rm;
 	public Card weap;
-	//if accusation = true it is an accusation, if false it is a guess
-	public boolean accusation;
+	public int type;
 	
-	public MessageAccusation(Card suspect, Card room, Card weapon, boolean accuse) {
+	public MessageAccusation(Card suspect, Card room, Card weapon, int type) {
 		
 		super();
 		this.sus = suspect;
 		this.rm = room;
 		this.weap = weapon;
-		this.accusation = accuse;
+		//if type = 0, it is a guess, if 1, an accusation
+		this.type = type;
 		
 	}
 	
