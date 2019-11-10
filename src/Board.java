@@ -168,9 +168,19 @@ class Board
 
 		else
 		{
+			int canGuess;
 			String returnText = new String( "Move successful. Player's position is updated." );
 			
-			returnMessage = new Message (16, playerNumber, 1, returnText );
+			if( this.locationArray[playerNextPosition].getIsHallway() )
+			{
+				canGuess = 0;
+			}
+			else
+			{
+				canGuess = 1;
+			}
+
+			returnMessage = new Message (16, playerNumber, canGuess, returnText );
 
 			this.locationArray[playerCurrentPosition].setIsOccupied( false );
 			this.locationArray[playerNextPosition].setIsOccupied( true );
