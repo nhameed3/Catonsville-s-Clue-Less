@@ -13,4 +13,12 @@ public class MessageDeal extends Message{
 		this.playerCards = cards;
 		
 	}
+	
+	public ArrayList<Card> getCards(){
+		return this.playerCards;
+	}
+	
+	public int getSize() {
+		return this.playerCards.size();
+	}
 }
