@@ -246,7 +246,7 @@ public class Client {
 								sendMessage(guessMessage, out, thisPlayer.getPlayerNum());
 								
 								// receive result back
-								MessageCheckSolution resultMessage = (MessageCheckSolution) getMessage(in);
+								MessageCheckGuess resultMessage = (MessageCheckGuess) getMessage(in);
 								
 								//send result to player and store return in finalAct
 								Message finalAct = thisPlayer.getGuessResult(resultMessage);
