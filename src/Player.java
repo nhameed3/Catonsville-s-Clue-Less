@@ -588,13 +588,19 @@ public class Player {
         Card personDisprove = new Card(null, null, null);
         Card weaponDisprove = new Card(null, null, null);
         Card roomDisprove = new Card(null, null, null);
+        Card suspect = new Card();
+        Card weapon = new Card();
+        Card room = new Card();
         for(int i = 0; i < 9; i++){
             if(this.hand[i] == message.getSuspect())
-                personDisprove = message.getSuspect();
+            	suspect = message.getSuspect();
+                personDisprove.setSuspect(suspect.getSuspect());
             if(this.hand[i] == message.getWeapon())
-                weaponDisprove = message.getWeapon();
+                weapon = message.getWeapon();
+            	personDisprove.setWeapon(weapon.getWeapon());
             if(this.hand[i] == message.getRoom());
                 roomDisprove = message.getRoom();
+                personDisprove.setRoom(room.getRoom());
         }
 
         while(true){
