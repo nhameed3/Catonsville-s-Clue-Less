@@ -39,6 +39,15 @@ public class Message implements Serializable {
 		this.whichPlayer = givenPlayer;
 		
 	}
+	
+	//4 field constructor
+	public Message(int givenType, int givenPlayer, int givenInt, String givenString) {
+		this.messageType = givenType;
+		this.whichPlayer = givenPlayer;
+		this.genericInt = givenInt;
+		this.genericText = givenString;
+	}
+	
 	// get methods to return attributes
 	public int getType() {
 		return messageType;
