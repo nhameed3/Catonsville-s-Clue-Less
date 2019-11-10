@@ -611,11 +611,11 @@ public class Player {
         }
 
         while(true){
-            if(personDisprove != null)
+            if(personDisprove.getSuspect() != null)
                 System.out.println("[1] Disprove with: "+personDisprove);
-            if(weaponDisprove != null)
+            if(weaponDisprove.getWeapon() != null)
                 System.out.println("[2] Disprove with: "+weaponDisprove);
-            if(roomDisprove != null)
+            if(roomDisprove.getRoom() != null)
                 System.out.println("[3] Disprove with: "+roomDisprove);
 
             if(roomDisprove == null && weaponDisprove == null && personDisprove == null){
