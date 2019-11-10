@@ -87,15 +87,15 @@ class Board
 
 	public Board()
 	{
-		locationArray[0] = new Location( 0, "Study", false, false, -1, 11, -1, 9, 8 );
-		locationArray[1] = new Location( 1, "Hall", false, false, -1, 12, 9, 10, -2 );
-		locationArray[2] = new Location( 2, "Lounge", false, false, -1, 13, 10 , -1, 6  );
-		locationArray[3] = new Location( 3, "Library", false, false, 11, 16, -1, 14, -2  );
-		locationArray[4] = new Location( 4, "Billiard Room", false, false, 12, 17, 14, 15, -2 );
-		locationArray[5] = new Location( 5, "Dining Room", false, false, 13, 18, 15, -1, -2 );
-		locationArray[6] = new Location( 6, "Conservatory", false, false, 16, -1, -1, 19, 2 );
-		locationArray[7] = new Location( 7, "Ballroom", false, false, 17, -1, 19, 20, -2 );
-		locationArray[8] = new Location( 8, "Kitchen", false, false, 18, -1, 20, -1, 0 );
+		locationArray[0] = new Location( 0, "STUDY", false, false, -1, 11, -1, 9, 8 );
+		locationArray[1] = new Location( 1, "HALL", false, false, -1, 12, 9, 10, -2 );
+		locationArray[2] = new Location( 2, "LOUNGE", false, false, -1, 13, 10 , -1, 6  );
+		locationArray[3] = new Location( 3, "LIBRARY", false, false, 11, 16, -1, 14, -2  );
+		locationArray[4] = new Location( 4, "BILLIARD_ROOM", false, false, 12, 17, 14, 15, -2 );
+		locationArray[5] = new Location( 5, "DINING_ROOM", false, false, 13, 18, 15, -1, -2 );
+		locationArray[6] = new Location( 6, "CONSERVATORY", false, false, 16, -1, -1, 19, 2 );
+		locationArray[7] = new Location( 7, "BALLROOM", false, false, 17, -1, 19, 20, -2 );
+		locationArray[8] = new Location( 8, "KITCHEN", false, false, 18, -1, 20, -1, 0 );
 		locationArray[9] = new Location( 9, "Hallway 1", true, false, -1, -1, 0, 1, -2 );
 		locationArray[10] = new Location( 10, "Hallway 2", true, true, -1, -1, 1, 2, -2 );
 		locationArray[11] = new Location( 11, "Hallway 3", true, true, 0, 3, -1, -1, -2 );
@@ -235,46 +235,68 @@ class Board
 		return returnMessage;
 	}
 
-	public void processGuess( MessageAccusation guessMessage )
+	public Message processGuess( MessageAccusation guessMessage )
 	{
 		int playerMakingGuess = guessMessage.getPlayer();
-		int playerUnderGuess = -1;
+		String crimeLocation = guessMessage.getRoom().toString();
 		
-		switch( guessMessage.getSuspect().getSuspect() )
+		int returnInt;
+		String returnText;
+		Message returnMessage;
+
+		if ( crimeLocation == this.locationArray[playerPosition[playerMakingGuess]].locationName )
 		{
-			case MISS_SCARLET:
+			int playerUnderGuess = -1;
+
+			switch( guessMessage.getSuspect().getSuspect() )
 			{
-				playerUnderGuess = 0;
-				break;
+				case MISS_SCARLET:
+				{
+					playerUnderGuess = 0;
+					break;
+				}
+				case REV_GREEN:
+				{
+					playerUnderGuess = 1;
+					break;	
+				}			
+				case COLONEL_MUSTARD:
+				{	
+					playerUnderGuess = 2;
+					break;
+				}
+				case PROFESSOR_PLUM:
+				{
+					playerUnderGuess = 3;
+					break;
+				}
+				case MRS_WHITE:
+				{
+					playerUnderGuess = 4;
+					break;
+				}
+				case MRS_PEACOCK:
+				{
+					playerUnderGuess = 5;
+					break;
+				}
 			}
-			case REV_GREEN:
-			{
-				playerUnderGuess = 1;
-				break;	
-			}			
-			case COLONEL_MUSTARD:
-			{	
-				playerUnderGuess = 2;
-				break;
-			}
-			case PROFESSOR_PLUM:
-			{
-				playerUnderGuess = 3;
-				break;
-			}
-			case MRS_WHITE:
-			{
-				playerUnderGuess = 4;
-				break;
-			}
-			case MRS_PEACOCK:
-			{
-				playerUnderGuess = 5;
-				break;
-			}
+
+			returnText = new String( " room of the guess is the same as room of the player. Valid guess." );
+			returnInt = 20;
+
+			playerPosition[playerUnderGuess] = playerPosition[playerMakingGuess];
 		}
 
-		playerPosition[playerUnderGuess] = playerPosition[playerMakingGuess];
+		else
+		{
+			returnText = new String( " room of the guess is different from the room of the player. Invalid guess." );
+			returnInt = 21;
+		}
+
+		returnMessage = new Message( returnInt, playerMakingGuess, 0, returnText );
+
+		return returnMessage;			
 	}
 
 	public String getStatus()
