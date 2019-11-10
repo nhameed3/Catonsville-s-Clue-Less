@@ -85,8 +85,8 @@ public class Player {
         System.out.println("Would you like to edit your log: (y = 1/ n = 0)");
         Scanner input = new Scanner(System.in);
         int choice = input.nextInt();
-        if(choice)
-            this.setLog();
+        //if(choice == 1)
+            //this.setLog();
     }
 
     public void setLog(Card card, int index) {
@@ -167,14 +167,18 @@ public class Player {
 //METHODS Preconditions: must be players turn
 //////////////////////////////////////////////////
 
-
-
+    
     // The user is asked who what and where 
     // and a message containing their guess is returned.
     public Message makeAccusation(){
+    	
+    	 Card personGuess = new Card(Card.Suspect.REV_GREEN,null,null);
+         Card weaponGuess = new Card(null,null,Card.Weapon.CANDLE_STICK);
+         Card roomGuess = new Card(null,Card.Room.BALLROOM ,null);
+    	
         System.out.println("Player::makeAccusation");
                 //Get the suspect suggestion from user
-        int invalid = 1; 
+        boolean invalid = true; 
         while(invalid){
             System.out.println("Who do you think did it?");
             System.out.println("[1] REV_GREEN");
@@ -187,28 +191,28 @@ public class Player {
             int choice = input.nextInt();
             switch(choice){
                 case 1:
-                    personGuess.setSuspect(REV_GREEN);
-                    invalid = 0;
+                    personGuess.setSuspect(Card.Suspect.REV_GREEN);
+                    invalid = false;
                     break;
                 case 2:
-                    personGuess.setSuspect(COLONEL_MUSTARD);
-                    invalid = 0;
+                    personGuess.setSuspect(Card.Suspect.COLONEL_MUSTARD);
+                    invalid = false;
                     break;
                 case 3:
-                    personGuess.setSuspect(MRS_PEACOCK);
-                    invalid = 0;
+                    personGuess.setSuspect(Card.Suspect.MRS_PEACOCK);
+                    invalid = false;
                     break;
                 case 4:
-                    personGuess.setSuspect(PROFESSOR_PLUM);
-                    invalid = 0;
+                    personGuess.setSuspect(Card.Suspect.PROFESSOR_PLUM);
+                    invalid = false;
                     break;
                 case  5:
-                    personGuess.setSuspect(MISS_SCARLET);
-                    invalid = 0;
+                    personGuess.setSuspect(Card.Suspect.MISS_SCARLET);
+                    invalid = false;
                     break;
                 case 6:
-                    personGuess.setSuspect(MRS_WHITE);
-                    invalid = 0;
+                    personGuess.setSuspect(Card.Suspect.MRS_WHITE);
+                    invalid = false;
                     break;
                 default:
                     System.out.println("INVALID ENTRY TRY AGAIN");
@@ -217,7 +221,7 @@ public class Player {
         }
 
         //Get the room suggestion from user
-        invalid = 1; 
+        invalid = true; 
         while(invalid){
             System.out.println("Where do you think they did it?");
             System.out.println("[1] BALLROOM");
@@ -234,40 +238,40 @@ public class Player {
             int choice = input.nextInt();
             switch(choice){
                 case 1:
-                    roomGuess.setRoom(BALLROOM);
-                    invalid = 0;
+                    roomGuess.setRoom(Card.Room.BALLROOM);
+                    invalid = false;
                     break;
                 case 2:
-                    roomGuess.setRoom(BILLIARD_ROOM);
-                    invalid = 0;
+                    roomGuess.setRoom(Card.Room.BILLIARD_ROOM);
+                    invalid = false;
                     break;
                 case 3:
-                    roomGuess.setRoom(CONSERVATORY);
-                    invalid = 0;
+                    roomGuess.setRoom(Card.Room.CONSERVATORY);
+                    invalid = false;
                     break;
                 case 4:
-                    roomGuess.setRoom(DINING_ROOM);
-                    invalid = 0;
+                    roomGuess.setRoom(Card.Room.DINING_ROOM);
+                    invalid = false;
                     break;
                 case  5:
-                    roomGuess.setRoom(HALL);
-                    invalid = 0;
+                    roomGuess.setRoom(Card.Room.HALL);
+                    invalid = false;
                     break;
                 case 6:
-                    roomGuess.setRoom(KITCHEN);
-                    invalid = 0;
+                    roomGuess.setRoom(Card.Room.KITCHEN);
+                    invalid = false;
                     break;
                 case 7:
-                    roomGuess.setRoom(LIBRARY);
-                    invalid = 0;
+                    roomGuess.setRoom(Card.Room.LIBRARY);
+                    invalid = false;
                     break;
                 case 8:
-                    roomGuess.setRoom(LOUNGE);
-                    invalid = 0;
+                    roomGuess.setRoom(Card.Room.LOUNGE);
+                    invalid = false;
                     break;
                 case 9:
-                    roomGuess.setRoom(STUDY);
-                    invalid = 0;
+                    roomGuess.setRoom(Card.Room.STUDY);
+                    invalid = false;
                     break;
                 default:
                     System.out.println("INVALID ENTRY TRY AGAIN");
@@ -276,7 +280,7 @@ public class Player {
         }
 
         //Get the weapon suggestion from user
-        invalid = 1; 
+        invalid = true; 
         while(invalid){
             System.out.println("Who do you think did it?");
             System.out.println("[1] CANDLE_STICK");
@@ -290,32 +294,32 @@ public class Player {
             int choice = input.nextInt();
             switch(choice){
                 case 1:
-                    weaponGuess.setWeapon(CANDLE_STICK);
-                    invalid = 0;
+                    weaponGuess.setWeapon(Card.Weapon.CANDLE_STICK);
+                    invalid = false;
                     break;
                 case 2:
-                    weaponGuess.setWeapon(DAGGER);
-                    invalid = 0;
+                    weaponGuess.setWeapon(Card.Weapon.DAGGER);
+                    invalid = false;
                     break;
                 case 3:
-                    weaponGuess.setWeapon(LEAD);
-                    invalid = 0;
+                    weaponGuess.setWeapon(Card.Weapon.LEAD);
+                    invalid = false;
                     break;
                 case 4:
-                    weaponGuess.setWeapon(PIPE);
-                    invalid = 0;
+                    weaponGuess.setWeapon(Card.Weapon.PIPE);
+                    invalid = false;
                     break;
                 case  5:
-                    weaponGuess.setWeapon(REVOLVER);
-                    invalid = 0;
+                    weaponGuess.setWeapon(Card.Weapon.REVOLVER);
+                    invalid = false;
                     break;
                 case 6:
-                    weaponGuess.setWeapon(ROPE);
-                    invalid = 0;
+                    weaponGuess.setWeapon(Card.Weapon.ROPE);
+                    invalid = false;
                     break;
                 case 7:
-                    weaponGuess.setWeapon(WRENCH);
-                    invalid = 0;
+                    weaponGuess.setWeapon(Card.Weapon.WRENCH);
+                    invalid = false;
                     break;
                 default:
                     System.out.println("INVALID ENTRY TRY AGAIN");
@@ -323,7 +327,7 @@ public class Player {
             }
         }
 
-        Message message = new Message (personGuess, roomGuess, weaponGuess);
+        MessageAccusation message = new MessageAccusation (personGuess, roomGuess, weaponGuess, 0);
         return message; 
     }
 
@@ -350,11 +354,11 @@ public class Player {
         Scanner input = new Scanner(System.in);
         int choice = input.nextInt();
         if(choice == 1)
-            return new Message(0);      //pass message
+            return new Message(6, m_playerNum);      //pass message
         
         //Get the suspect suggestion from user
         int invalid = 1; 
-        while(invalid){
+        while(invalid == 1){
             System.out.println("Who do you think did it?");
             System.out.println("[1] REV_GREEN");
             System.out.println("[2] COLONEL_MUSTARD");
@@ -362,8 +366,8 @@ public class Player {
             System.out.println("[4] PROFESSOR_PLUM");
             System.out.println("[5] MISS_SCARLET");
             System.out.println("[6] MRS_WHITE");
-            Scanner input = new Scanner(System.in);
-            int choice = input.nextInt();
+            input = new Scanner(System.in);
+            choice = input.nextInt();
             switch(choice){
                 case 1:
                     personGuess.setSuspect(Card.Suspect.REV_GREEN);
@@ -397,7 +401,7 @@ public class Player {
 
         //Get the room suggestion from user
         invalid = 1; 
-        while(invalid){
+        while(invalid == 1){
             System.out.println("Where do you think they did it?");
             System.out.println("[1] BALLROOM");
             System.out.println("[2] BILLIARD_ROOM");
@@ -409,8 +413,8 @@ public class Player {
             System.out.println("[8] LOUNGE");
             System.out.println("[9] STUDY");
             
-            Scanner input = new Scanner(System.in);
-            int choice = input.nextInt();
+            input = new Scanner(System.in);
+            choice = input.nextInt();
             switch(choice){
                 case 1:
                     roomGuess.setRoom(Card.Room.BALLROOM);
@@ -456,7 +460,7 @@ public class Player {
 
         //Get the weapon suggestion from user
         invalid = 1; 
-        while(invalid){
+        while(invalid == 1){
             System.out.println("Who do you think did it?");
             System.out.println("[1] CANDLE_STICK");
             System.out.println("[2] DAGGER");
@@ -465,8 +469,8 @@ public class Player {
             System.out.println("[5] REVOLVER");
             System.out.println("[6] ROPE");
             System.out.println("[7] WRENCH");
-            Scanner input = new Scanner(System.in);
-            int choice = input.nextInt();
+            input = new Scanner(System.in);
+            choice = input.nextInt();
             switch(choice){
                 case 1:
                     weaponGuess.setWeapon(Card.Weapon.CANDLE_STICK);
@@ -502,7 +506,7 @@ public class Player {
             }
         }
 
-        MessageAccusation message = new MessageAccusation (personGuess, roomGuess, weaponGuess);
+        MessageAccusation message = new MessageAccusation (personGuess, roomGuess, weaponGuess, 0);
         return message;        
     }
 
@@ -511,79 +515,100 @@ public class Player {
     //Asks user which direction they want to move in and returns message with that movement
     public Message move(){
         System.out.println("Player::move");
-        while(1){
+        while(true){
             System.out.println("[1] UP");
             System.out.println("[2] DOWN");
             System.out.println("[3] LEFT");
             System.out.println("[4] RIGHT");
             Scanner input = new Scanner(System.in);
             int choice = input.nextInt();
+            
+            Message message = new Message(3, m_playerNum);
+            
             switch(choice){
                 case 1:
-                    return new Message(up);
+                	message.setInt(1);
+                    break;
                 case 2:
-                    return new Message(down);
+                	message.setInt(2);
+                    break;
                 case 3:
-                    return new Message(left);
+                	message.setInt(3);
+                    break;
                 case 4:
-                    return new Message(right);
+                	message.setInt(4);
+                    break;
                 default:
                     System.out.println("INVALID ENTRY TRY AGAIN");
                     break;
             }
+            return message;
         }
     }
 
 
     //Called directly from Client. Compares the cards within the message to players hand.
-    public Message disprove(Message message){
+    public Message disprove(MessageAccusation message){
         System.out.println("Player::disprove");
-        Card personDisprove = new Card();
-        Card weaponDisprove = new Card();
-        Card roomDisprove = new Card();
+        Card personDisprove = new Card(null, null, null);
+        Card weaponDisprove = new Card(null, null, null);
+        Card roomDisprove = new Card(null, null, null);
         for(int i = 0; i < 9; i++){
-            if(this.hand[i] == message.personAccused)
-                personDisprove = message.personAccused;
-            if(this.hand[i] == message.weaponAccused)
-                weaponDisprove = message.weaponAccused;
-            if(this.hand[i] == message.roomAccused)
-                roomDisprove = message.roomAccused;
+            if(this.hand[i] == message.getSuspect())
+                personDisprove = message.getSuspect();
+            if(this.hand[i] == message.getWeapon())
+                weaponDisprove = message.getWeapon();
+            if(this.hand[i] == message.getRoom());
+                roomDisprove = message.getRoom();
         }
 
-        while(1){
-            if(personDisprove != NULL)
+        while(true){
+            if(personDisprove != null)
                 System.out.println("[1] Disprove with: "+personDisprove);
-            if(weaponDisprove != NULL)
+            if(weaponDisprove != null)
                 System.out.println("[2] Disprove with: "+weaponDisprove);
-            if(roomDisprove != NULL)
+            if(roomDisprove != null)
                 System.out.println("[3] Disprove with: "+roomDisprove);
 
-            if(roomDisprove != NULL && weaponDisprove != NULL && personDisprove != NULL){
+            if(roomDisprove == null && weaponDisprove == null && personDisprove == null){
                 System.out.println("You cannot disprove this guess");
-                return new Message(0);      //pass message
+                MessageCheckSolution cannotDisprove = new MessageCheckSolution(false, null);      //pass message
+                cannotDisprove.setPlayer(m_playerNum);
+                return cannotDisprove;
             }
 
             Scanner input = new Scanner(System.in);
             int choice = input.nextInt();
+            
+            MessageCheckSolution canDisprove = new MessageCheckSolution(true, null);      //pass message
+            //canDisprove.incorrectCards
+           
+            
             switch(choice){
                 case 1:
-                    return new Message(personDisprove);
+                    //canDisprove.
+                    break;
                 case 2:
-                    return new Message(weaponDisprove);
+                    //return new Message(weaponDisprove);
+                    break;
                 case 3:
-                    return new Message(roomDisprove);
+                    //return new Message(roomDisprove);
+                    break;
                 default:
                     System.out.println("INVALID ENTRY TRY AGAIN");
                     break;
             }
+            
+            return canDisprove;
         }
+        
     }
 
 
 
     //Called directly from client
     public Message playerTurn(){
-        while(1){
+        while(true){
             System.out.println("Player::playerTurn");
             System.out.println("[1] Move");
             System.out.println("[2] Make Accusation");
@@ -607,82 +632,11 @@ public class Player {
                 this.getLog();
                 break;
             case 5:
-                return new Message(0);      //pass message
+                return new Message(6, m_playerNum);      //pass message
             default:
                 System.out.println("INVALID ENTRY TRY AGAIN");
                 break;
             }
         }
     }
-}
-
-
-/* Client is the driver of the game on client computers. It takes two arguments (IP and port) and connects to the
-server. It launches threads for receiving objects and sending objects to and from and the server. For now this
-is also where all Player code goes?
-*/
-public class Client {
-
-	public static void main(String[] args) throws IOException, ClassNotFoundException{
-
-		// check to make sure we got the args we need
-		if (args.length != 2) {
-			System.err.println("Missing arugments. java PlayerClient <hostname> <port>");
-			System.exit(1);
-		}
-				
-		// parse host
-		String host = args[0];
-		// parse port
-		int port = Integer.parseInt(args[1]);
-		
-		// establish the socket
-		Socket gameSocket = new Socket(host, port);
-		
-		//create a scanner for user input
-		Scanner inScn = new Scanner(System.in);
-		
-		//grab input and output streams
-		ObjectOutputStream out = new ObjectOutputStream( gameSocket.getOutputStream());
-		ObjectInputStream in = new ObjectInputStream( gameSocket.getInputStream());
-		
-		// have a boolean flag for startGame, defaults to false
-		boolean startGame = false;
-		
-		// track what player we are. I know this isn't how Sam wants to do it so can be overwritten
-		int playerNumber;
-
-		// we start with a while loop waiting for the game to start
-		while ( startGame == false) {
-			Message inMessage = (Message) in.readObject();
-			// if the inMessage is type 10 it tells us what player we are
-			if (inMessage.getType() == 10) {
-				// store what player we are
-				playerNumber = inMessage.getInt();
-                
-                //Create player
-                Player player = new Player("name", 1, playerNumber);
-
-				// print what player we are
-				System.out.println("You are Player " + playerNumber);
-				//check if we are player 1
-				if( player.m_playerNum == 1) {
-					//if we are player 1 we need to tell the server how many players
-					System.out.println("How many players do you want to play with?");
-					int maxPlayers = inScn.nextInt();
-					// sent that back to the server
-					Message desiredPlayers = new Message(9, 1);
-					desiredPlayers.setInt(maxPlayers);
-					out.writeObject(desiredPlayers);
-				}
-			}
-			// the other message we want to look out for is the start message
-			else if (inMessage.getType() == 1) {
-				// print how many players
-				System.out.println("Game is starting! There are " + inMessage.getInt() + " players in this game.");
-				// set the start flag
-				startGame = true;
-			}
-		}
-	}
 }
