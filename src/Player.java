@@ -629,23 +629,21 @@ public class Player {
             Scanner input = new Scanner(System.in);
             int choice = input.nextInt();
             
-            MessageCheckGuess canDisprove = new MessageCheckGuess(true, null, 19);      //pass message
-            //canDisprove.incorrectCards
-            
             switch(choice){
                 case 1:
-                    //canDisprove.
+                	MessageCheckGuess canDisprove = new MessageCheckGuess(true, personDisprove, 19);
                     break;
                 case 2:
-                    //return new Message(weaponDisprove);
+                	MessageCheckGuess canDisprove = new MessageCheckGuess(true, weaponDisprove, 19);
                     break;
                 case 3:
-                    //return new Message(roomDisprove);
+                	MessageCheckGuess canDisprove = new MessageCheckGuess(true, roomDisprove, 19);
                     break;
                 default:
                     System.out.println("INVALID ENTRY TRY AGAIN");
                     break;
             }
+            
             
             return canDisprove;
         }
