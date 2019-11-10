@@ -218,9 +218,9 @@ public class Server{
 				// send the Guess message
 				clientList.get(i).sendMessage(guessMessage);
 				// receive the result
-				MessageCheckSolution guessResult = (MessageCheckSolution) clientList.get(i).getMessage();
+				MessageCheckGuess guessResult = (MessageCheckGuess) clientList.get(i).getMessage();
 				//is the guess disproven? For now I'm using genericInt but this probably needs to be rewritten to match Pete's
-				if( guessResult.getCorrect() == false) {
+				if( guessResult.getDisproven() == true) {
 					//we set guessDisproven to true
 					guessDisproven = true;
 					// we send the original player the message disproving the guess
@@ -242,7 +242,7 @@ public class Server{
 			 * set to 0 to mean no one disproved it
 			 */
 			if( guessDisproven == false) {
-				MessageCheckSolution guessResult = new MessageCheckSolution(true, null);
+				MessageCheckGuess guessResult = new MessageCheckGuess(true, null, 19);
 				guessResult.setPlayer(-1);
 				clientList.get(currentPlayer).sendMessage(guessResult);
 				
@@ -311,7 +311,7 @@ public class Server{
 				// case 5 is player wants to accuse
 				case 5:
 				{
-					MessageCheckSolution accusationResult = gameDeck.checkSolution((MessageAccusation) playerAction);
+					MessageCheckSolution accusationResult = gameDeck.checkAccusation((MessageAccusation) playerAction);
 					//parse success. if genericInt = 1 it's a win. this may need to be integrated into whatever Pete codes
 					if (accusationResult.getCorrect()) {
 						// send result to player
