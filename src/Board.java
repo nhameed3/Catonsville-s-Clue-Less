@@ -75,6 +75,7 @@ class Board
 
 	Location[] locationArray = new Location[21];
 	int[] playerPosition = new int[6];
+	String description;
 
 	public Board()
 	{
@@ -118,6 +119,21 @@ class Board
 		this.playerPosition[playerNumber] = playerNewPosition;
 	}
 
+	public String getDescription()
+	{
+		return description;
+	}
+
+	public void setDescription( String description )
+	{
+		this.description = description;
+	}
+
+	public String toString()
+	{
+		return getDescription();
+	}
+
 	public Message processMove( Message moveMessage )
 	{
 		int playerNumber = moveMessage.getPlayer();
@@ -125,8 +141,8 @@ class Board
 
 		int playerCurrentPosition = getPlayerPosition( playerNumber );	
 		int playerNextPosition = -1;
+		String returnText;
 		Message returnMessage;
-
 
 		switch( direction )
 		{
@@ -154,14 +170,14 @@ class Board
 
 		if( playerNextPosition == -1 )
 		{
-			String returnText = new String( "The move is invalid because player cannot move out of the boundary." );
+			returnText = new String( "move is invalid because player cannot move out of the boundary." );
 			
 			returnMessage = new Message( 17, playerNumber, 0, returnText );
 		}
 
 		else if( this.locationArray[playerNextPosition].getIsOccupied() && this.locationArray[playerNextPosition].getIsHallway() )
 		{
-			String returnText = new String( "The move is invalid because player cannot move into an occupied hallway." );
+			returnText = new String( "move is invalid because player cannot move into an occupied hallway." );
 
 			returnMessage = new Message( 17, playerNumber, 0, returnText );
 		}
@@ -169,7 +185,7 @@ class Board
 		else
 		{
 			int canGuess;
-			String returnText = new String( "Move successful. Player's position is updated." );
+			returnText = new String( "move is successful and position is updated." );
 			
 			if( this.locationArray[playerNextPosition].getIsHallway() )
 			{
@@ -186,6 +202,8 @@ class Board
 			this.locationArray[playerNextPosition].setIsOccupied( true );
 			playerPosition[playerNumber] = playerNextPosition;
 		}
+
+		setDescription( "Player " + ( playerNumber+1 ) + "'s" + returnText );
 
 		return returnMessage;
 	}
@@ -230,5 +248,20 @@ class Board
 		}
 
 		playerPosition[playerUnderGuess] = playerPosition[playerMakingGuess];
-	}		
+	}
+
+	public String getStatus()
+	{
+		String positionName;
+		String status = new String();
+
+		for( int i = 0; i < 6; i++ )
+		{
+			positionName = this.locationArray[playerPosition[i]].locationName;
+
+			status += "Player " + ( i+1 ) + " is at " + positionName + ".\n";
+		}
+
+		return status;
+	}			
 }
