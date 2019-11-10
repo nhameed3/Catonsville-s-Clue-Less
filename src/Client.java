@@ -173,6 +173,7 @@ public class Client {
 				//cast to MessageDeal
 				inMessage = (MessageDeal) inMessage;
 				thisPlayer.setHand((MessageDeal) inMessage);
+				thisPlayer.getHand();
 				break;
 			}
 			// type 10 means this is board status update
@@ -256,10 +257,20 @@ public class Client {
 									
 									//send accusage method to server
 									sendMessage(finalAct, out, thisPlayer.getPlayerNum());
+									System.out.println("Send accusation to Server.");
 									// get result
-									MessageCheckSolution accuseResult = (MessageCheckSolution) getMessage(in);
+									Message accuseResult = (Message) getMessage(in);
+									{
+										boolean gotResult = false;
+										while( gotResult == false) {
+											if( accuseResult.getType() == 18) {
+												gotResult = true;
+											}
+										}
+									}
+									System.out.println("Received result from Server");
 									// pass result to Player
-									thisPlayer.getAccuseResult(accuseResult);
+									thisPlayer.getAccuseResult((MessageCheckSolution) accuseResult);
 								}
 								break;
 							}
@@ -315,8 +326,10 @@ public class Client {
 						}
 					}
 				}
+				else {
 				// if it wasn't a valid move we do nothing and this loop repeats
 				System.out.println("Invalid move requested, starting turn over again");
+				}
 			}
 			// is it a accusation?
 			else if( firstAction.getType() == 5) {
@@ -344,6 +357,7 @@ public class Client {
 	private static void sendMessage(Message outMessage, ObjectOutputStream out, int thisPlayer) throws IOException{
 		System.out.println("Send Message of Type " + outMessage.getType());
 		out.writeObject(outMessage);
+		out.flush();
 	}
 	
 	private static Message getMessage(ObjectInputStream in) throws IOException, ClassNotFoundException{

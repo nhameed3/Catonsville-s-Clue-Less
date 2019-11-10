@@ -85,11 +85,12 @@ public class Server{
 			// calculate whose turn it is
 			int currentPlayer = turnCount % maxPlayers;
 			// send out a board status
+			/*
 			{
 				Message statusUpdate = new Message(11,-1);
 				statusUpdate.setText(gameBoard.getStatus());
 				sendToAll(clientList, statusUpdate, 7);
-			}
+			}*/
 			// create array to track whose out of the game. All start as false
 			boolean [] eliminatedPlayers = new boolean[maxPlayers];
 			
@@ -236,7 +237,7 @@ public class Server{
 					{
 						Message statusMessage = new Message(11, -1);
 						statusMessage.setText(clientList.get(i).getName() + " disproved the guess!");
-						sendToAll(clientList, statusMessage, 7);
+						sendToAll(clientList, statusMessage, currentPlayer);
 					}
 					// we break from the for loop because someone has proven the guess wrong
 					break;
@@ -324,11 +325,14 @@ public class Server{
 						// send result to player
 						clientList.get(currentPlayer).sendMessage((MessageCheckSolution) accusationResult);
 						// send update to everyone
+						/*
 						{
+							System.out.println("Entering the correct accusation block.");
 							Message statusUpdate = new Message(11,-1);
 							statusUpdate.setText(currentClient.getName() + " solved the crime and wins!");
 							sendToAll(clientList, statusUpdate, currentPlayer);
 						}
+						*/
 						// send win message to user
 						{
 							Message winMessage = new Message(7, -1);
@@ -343,21 +347,24 @@ public class Server{
 					// if it's not 1 it's a lose
 					else {
 						// send result to player
+						System.out.println("Sending result to player");
 						clientList.get(currentPlayer).sendMessage(accusationResult);
-						// send status update to everyone
-						{
-							Message statusUpdate = new Message(11,-1);
-							statusUpdate.setText(currentClient.getName() + "was wrong and they are out of the game!");
-							sendToAll(clientList, statusUpdate, currentPlayer);
-						}
-						
-						// send lose message to Accuser. This should have info about what they got wrong but not inplemented
+
 						{
 							Message loseMessage = new Message(15, -1);
 							currentClient.sendMessage(loseMessage);
 							//set turnResult[1] to true to indicate player is eliminated
 							turnResults[1] = true;
 						}
+						/*
+						{
+							Message statusUpdate = new Message(11,-1);
+							statusUpdate.setText(currentClient.getName() + "was wrong and they are out of the game!");
+							sendToAll(clientList, statusUpdate, currentPlayer);
+						}
+						*/
+						// send lose message to Accuser. This should have info about what they got wrong but not inplemented
+						
 					}
 					// if a player accuses the turn is over because they are either out or they win
 					turnOver = true;
@@ -426,6 +433,7 @@ class ConnectionManager implements Runnable{
 			// catch exception and print stack trace
 			catch(Exception e) {
 				e.printStackTrace();
+				
 			}
 		}
 
@@ -433,6 +441,7 @@ class ConnectionManager implements Runnable{
 		public void sendMessage( Message newMessage) {
 			try {
 			out.writeObject(newMessage);
+			out.flush();
 			//troubleshooting
 			System.out.println("CM sent message of type " + newMessage.getType() + "to player " + this.name);
 			}
