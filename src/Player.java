@@ -171,6 +171,9 @@ public class Player {
     	return new MessageAccusation(null, null, null, 1);
     }
     
+    public Message getAccuseResult(MessageCheckSolution message){
+    	return new MessageAccusation(null, null, null, 1);
+    }
     
     // The user is asked who what and where 
     // and a message containing their guess is returned.
