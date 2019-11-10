@@ -209,7 +209,7 @@ public class Server{
 				// receive the result
 				MessageCheckSolution guessResult = (MessageCheckSolution) clientList.get(i).getMessage();
 				//is the guess disproven? For now I'm using genericInt but this probably needs to be rewritten to match Pete's
-				if( guessResult.getCorrect()) {
+				if( guessResult.getCorrect() == false) {
 					//we set guessDisproven to true
 					guessDisproven = true;
 					// we send the original player the message disproving the guess
@@ -231,7 +231,7 @@ public class Server{
 			 * set to 0 to mean no one disproved it
 			 */
 			if( guessDisproven == false) {
-				MessageCheckSolution guessResult = new MessageCheckSolution(false, null);
+				MessageCheckSolution guessResult = new MessageCheckSolution(true, null);
 				guessResult.setPlayer(-1);
 				clientList.get(currentPlayer).sendMessage(guessResult);
 				
