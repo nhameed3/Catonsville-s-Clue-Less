@@ -177,7 +177,7 @@ public class Player {
     
     // The user is asked who what and where 
     // and a message containing their guess is returned.
-    public Message makeAccusation(MessageCheckSolution message){
+    public Message makeAccusation(){
     	
     	 Card personGuess = new Card(Card.Suspect.REV_GREEN,null,null);
          Card weaponGuess = new Card(null,null,Card.Weapon.CANDLE_STICK);
