@@ -63,6 +63,7 @@ public class Server{
 		
 		// start the deck
 		Deck gameDeck = new Deck();
+		gameDeck.createSolution();
 		
 		//ask the deck for Deal. again in a block so that the array is limited scope
 		{
@@ -321,7 +322,7 @@ public class Server{
 					//parse success. if genericInt = 1 it's a win. this may need to be integrated into whatever Pete codes
 					if (accusationResult.getCorrect()) {
 						// send result to player
-						clientList.get(currentPlayer).sendMessage(accusationResult);
+						clientList.get(currentPlayer).sendMessage((MessageCheckSolution) accusationResult);
 						// send update to everyone
 						{
 							Message statusUpdate = new Message(11,-1);
