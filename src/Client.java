@@ -182,7 +182,7 @@ public class Client {
 				break;
 			}
 			// case 13 means someone else guessed and we have to disprove it
-			case 13:
+			case 4:
 			{
 				// cast it to MessageAccusation
 				Message guessResult = thisPlayer.disprove( (MessageAccusation) inMessage);
