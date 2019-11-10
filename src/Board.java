@@ -188,5 +188,47 @@ class Board
 		}
 
 		return returnMessage;
-	}			
+	}
+	
+	public void processGuess( MessageAccusation guessMessage )
+	{
+		int playerMakingGuess = guessMessage.getPlayer();
+		int playerUnderGuess = -1;
+		
+		switch( guessMessage.getSuspect().getSuspect() )
+		{
+			case MISS_SCARLET:
+			{
+				playerUnderGuess = 0;
+				break;
+			}
+			case REV_GREEN:
+			{
+				playerUnderGuess = 1;
+				break;	
+			}			
+			case COLONEL_MUSTARD:
+			{	
+				playerUnderGuess = 2;
+				break;
+			}
+			case PROFESSOR_PLUM:
+			{
+				playerUnderGuess = 3;
+				break;
+			}
+			case MRS_WHITE:
+			{
+				playerUnderGuess = 4;
+				break;
+			}
+			case MRS_PEACOCK:
+			{
+				playerUnderGuess = 5;
+				break;
+			}
+		}
+
+		playerPosition[playerUnderGuess] = playerPosition[playerMakingGuess];
+	}		
 }
