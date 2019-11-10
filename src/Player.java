@@ -582,8 +582,7 @@ public class Player {
     }
 
     
-    
-
+   
     //Called directly from Client. Compares the cards within the message to players hand.
     public Message disprove(MessageAccusation message){
         System.out.println("Player::disprove");
@@ -628,16 +627,17 @@ public class Player {
 
             Scanner input = new Scanner(System.in);
             int choice = input.nextInt();
+            MessageCheckGuess canDisprove = new MessageCheckGuess(true, null, 19);
             
             switch(choice){
                 case 1:
-                	MessageCheckGuess canDisprove = new MessageCheckGuess(true, personDisprove, 19);
+                	canDisprove = new MessageCheckGuess(true, personDisprove, 19);
                     break;
                 case 2:
-                	MessageCheckGuess canDisprove = new MessageCheckGuess(true, weaponDisprove, 19);
+                	canDisprove = new MessageCheckGuess(true, weaponDisprove, 19);
                     break;
                 case 3:
-                	MessageCheckGuess canDisprove = new MessageCheckGuess(true, roomDisprove, 19);
+                	canDisprove = new MessageCheckGuess(true, roomDisprove, 19);
                     break;
                 default:
                     System.out.println("INVALID ENTRY TRY AGAIN");
