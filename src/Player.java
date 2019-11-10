@@ -169,10 +169,10 @@ public class Player {
 //METHODS Preconditions: must be players turn
 //////////////////////////////////////////////////
 
-    public Message getGuessResult(MessageCheckSolution message){
-    	if(message.cards[0] != null)
-    		System.out.println("Disproved by: "+ message.cards[0]);
-    	else if(message.cards[0] == null)
+    public Message getGuessResult(MessageCheckGuess message){
+    	if(message.disproven == true)
+    		System.out.println("Disproved by: "+ message.incorrectCard.toString());
+    	else if(message.disproven == false)
     		System.out.println("No one was able to disprove");
     	
     	System.out.println("Would you like to make an accusation (y = 1/ n = 0)");
@@ -185,8 +185,8 @@ public class Player {
     }
     
     public void getAccuseResult(MessageCheckSolution message){
-    	if(message.cards[0] != null) {
-    		System.out.println("Disproved by: "+ message.cards[0]);
+    	if(message.incorrectCards.get(0) != null) {
+    		System.out.println("Disproved by: "+ message.incorrectCards.get(0));
     		System.out.println("YOU LOSE");
     	}
     	else
@@ -607,7 +607,7 @@ public class Player {
 
             if(roomDisprove == null && weaponDisprove == null && personDisprove == null){
                 System.out.println("You cannot disprove this guess");
-                MessageCheckSolution cannotDisprove = new MessageCheckSolution(false, null);      //pass message
+                MessageCheckGuess cannotDisprove = new MessageCheckGuess(false, null, 19);      //pass message
                 cannotDisprove.setPlayer(m_playerNum);
                 return cannotDisprove;
             }
@@ -615,7 +615,7 @@ public class Player {
             Scanner input = new Scanner(System.in);
             int choice = input.nextInt();
             
-            MessageCheckSolution canDisprove = new MessageCheckSolution(true, null);      //pass message
+            MessageCheckGuess canDisprove = new MessageCheckGuess(true, null, 19);      //pass message
             //canDisprove.incorrectCards
             
             switch(choice){
