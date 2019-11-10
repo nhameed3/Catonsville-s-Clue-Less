@@ -101,11 +101,11 @@ class Board
 		locationArray[20] = new Location( 20, "Hallway 12", true, true, -1, -1, 7, 8 );
 
 		playerPosition[0] = 10;
-		playerPosition[1] = 13;
-		playerPosition[2] = 20;
-		playerPosition[3] = 19;
-		playerPosition[4] = 16;
-		playerPosition[5] = 11;
+		playerPosition[1] = 19;
+		playerPosition[2] = 13;
+		playerPosition[3] = 11;
+		playerPosition[4] = 20;
+		playerPosition[5] = 16;
 	}
 
 	public int getPlayerPosition( int playerNumber )
@@ -121,7 +121,7 @@ class Board
 	public Message processMove( Message moveMessage )
 	{
 		int playerNumber = moveMessage.getPlayer();
-		String direction = moveMessage.getText();
+		int direction = moveMessage.getInt();
 
 		int playerCurrentPosition = getPlayerPosition( playerNumber );	
 		int playerNextPosition = -1;
@@ -130,22 +130,22 @@ class Board
 
 		switch( direction )
 		{
-			case "up": 
+			case 1: 
 			{
 				playerNextPosition = this.locationArray[playerCurrentPosition].getUp();
 				break;
 			}
-			case "down":
+			case 2:
 			{
 				playerNextPosition = this.locationArray[playerCurrentPosition].getDown();
 				break;
 			}
-			case "left":
+			case 3:
 			{
 				playerNextPosition = this.locationArray[playerCurrentPosition].getLeft();
 				break;
 			}
-			case "right":
+			case 4:
 			{
 				playerNextPosition = this.locationArray[playerCurrentPosition].getRight();
 				break;
@@ -189,7 +189,7 @@ class Board
 
 		return returnMessage;
 	}
-	
+
 	public void processGuess( MessageAccusation guessMessage )
 	{
 		int playerMakingGuess = guessMessage.getPlayer();
