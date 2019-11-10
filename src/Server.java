@@ -54,7 +54,7 @@ public class Server{
 			// create startMessage
 			Message startMessage = new Message(1, -1);
 			// send startMessage to all clients
-			sendToAll(clientList, startMessage);
+			sendToAll(clientList, startMessage, 7);
 		}
 
 		
@@ -114,7 +114,7 @@ public class Server{
 		// once the game is over we send out the gameOver message
 		{
 			Message gameOverMessage = new Message(14, -1);
-			sendToAll(clientList, gameOverMessage);
+			sendToAll(clientList, gameOverMessage, 7);
 		}
 	}
 	
@@ -207,9 +207,9 @@ public class Server{
 				// send the Guess message
 				clientList.get(i).sendMessage(guessMessage);
 				// receive the result
-				Message guessResult = clientList.get(i).getMessage();
+				MessageCheckSolution guessResult = (MessageCheckSolution) clientList.get(i).getMessage();
 				//is the guess disproven? For now I'm using genericInt but this probably needs to be rewritten to match Pete's
-				if( guessResult.getInt() == 1) {
+				if( guessResult.getCorrect()) {
 					//we set guessDisproven to true
 					guessDisproven = true;
 					// we send the original player the message disproving the guess
@@ -231,8 +231,8 @@ public class Server{
 			 * set to 0 to mean no one disproved it
 			 */
 			if( guessDisproven == false) {
-				Message guessResult = new Message(13, -1);
-				guessResult.setInt(0);
+				MessageCheckSolution guessResult = new MessageCheckSolution(false, null);
+				guessResult.setPlayer(-1);
 				clientList.get(currentPlayer).sendMessage(guessResult);
 				
 				// send out a message to everyone else status update
@@ -302,14 +302,14 @@ public class Server{
 				{
 					MessageCheckSolution accusationResult = gameDeck.checkSolution((MessageAccusation) playerAction);
 					//parse success. if genericInt = 1 it's a win. this may need to be integrated into whatever Pete codes
-					if (accusationResult.getInt() == 1) {
+					if (accusationResult.getCorrect()) {
 						// send result to player
 						clientList.get(currentPlayer).sendMessage(accusationResult);
 						// send update to everyone
 						{
 							Message statusUpdate = new Message(11,-1);
 							statusUpdate.setText(currentClient.getName() + " solved the crime and wins!");
-							sendToAll(clientList, statusUpdate);
+							sendToAll(clientList, statusUpdate, currentPlayer);
 						}
 						// send win message to user
 						{
@@ -330,7 +330,7 @@ public class Server{
 						{
 							Message statusUpdate = new Message(11,-1);
 							statusUpdate.setText(currentClient.getName() + "was wrong and they are out of the game!");
-							sendToAll(clientList, statusUpdate);
+							sendToAll(clientList, statusUpdate, currentPlayer);
 						}
 						
 						// send lose message to Accuser. This should have info about what they got wrong but not inplemented

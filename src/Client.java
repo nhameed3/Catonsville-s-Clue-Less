@@ -180,7 +180,7 @@ public class Client {
 			{
 				// case it to MessageAccusation
 				inMessage = (MessageAccusation) inMessage;
-				Message guessResult = thisPlayer.disprove(inMessage);
+				MessageCheckSolution guessResult = thisPlayer.disprove(inMessage);
 				out.writeObject(guessResult);
 				break;
 			}
@@ -240,7 +240,7 @@ public class Client {
 								out.writeObject(guessMessage);
 								
 								// receive result back
-								Message resultMessage = (Message) in.readObject();
+								MessageCheckSolution resultMessage = (MessageCheckSolution) in.readObject();
 								
 								//send result to player and store return in finalAct
 								Message finalAct = thisPlayer.getGuessResult(resultMessage);
@@ -251,7 +251,7 @@ public class Client {
 									//send accusage method to server
 									out.writeObject(finalAct);
 									// get result
-									Message accuseResult = (Message) in.readObject();
+									MessageCheckSolution accuseResult = (MessageCheckSolution) in.readObject();
 									// pass result to Player
 									thisPlayer.getAccusationResult(accuseResult);
 								}
@@ -263,7 +263,7 @@ public class Client {
 								//send accusage method to server
 								out.writeObject(guessMessage);
 								// get result
-								Message accuseResult = (Message) in.readObject();
+								MessageCheckSolution accuseResult = (MessageCheckSolution) in.readObject();
 								// pass result to Player
 								thisPlayer.getAccusationResult(accuseResult);
 								break;
@@ -292,7 +292,7 @@ public class Client {
 								//send accusage method to server
 								out.writeObject(finalAct);
 								// get result
-								Message accuseResult = (Message) in.readObject();
+								MessageCheckSolution accuseResult = (MessageCheckSolution) in.readObject();
 								// pass result to Player
 								thisPlayer.getAccusationResult(accuseResult);
 								break;
@@ -317,7 +317,7 @@ public class Client {
 				// send accusation to server
 				out.writeObject(firstAction);
 				// get result
-				Message accuseResult = (Message) in.readObject();
+				MessageCheckSolution accuseResult = (MessageCheckSolution) in.readObject();
 				// pass result to Player
 				thisPlayer.getAccusationResult(accuseResult);
 			}
