@@ -24,15 +24,13 @@ public class MessageCheckSolution extends Message{
 		
 		String str[] = new String[incorrectCards.size()]; 
 		  
-        // ArrayList to Array Conversion 
-        for (int j = 0; j < incorrectCards.size(); j++) { 
-  
-            // Assign each value to String array 
-            str[j] = incorrectCards.get(j).toString(); 
-        }
 		if(correct == true) {
 			message = "Congrats!  Your accusation is correct, you win!";
 		}else {
+			for (int j = 0; j < incorrectCards.size(); j++) { 
+				  
+	            str[j] = incorrectCards.get(j).toString(); 
+	        }
 			message = "Incorrect accusation! Cards wrong: " + Arrays.deepToString(str);
 		}
 		
