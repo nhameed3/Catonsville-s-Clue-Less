@@ -178,9 +178,8 @@ public class Client {
 			// case 13 means someone else guessed and we have to disprove it
 			case 13:
 			{
-				// case it to MessageAccusation
-				inMessage = (MessageAccusation) inMessage;
-				MessageCheckSolution guessResult = thisPlayer.disprove(inMessage);
+				// cast it to MessageAccusation
+				Message guessResult = thisPlayer.disprove( (MessageAccusation) inMessage);
 				out.writeObject(guessResult);
 				break;
 			}
@@ -253,7 +252,7 @@ public class Client {
 									// get result
 									MessageCheckSolution accuseResult = (MessageCheckSolution) in.readObject();
 									// pass result to Player
-									thisPlayer.getAccusationResult(accuseResult);
+									thisPlayer.getAccuseResult(accuseResult);
 								}
 								break;
 							}
@@ -265,7 +264,7 @@ public class Client {
 								// get result
 								MessageCheckSolution accuseResult = (MessageCheckSolution) in.readObject();
 								// pass result to Player
-								thisPlayer.getAccusationResult(accuseResult);
+								thisPlayer.getAccuseResult(accuseResult);
 								break;
 							}
 							// case 6 means they're passing
@@ -294,7 +293,7 @@ public class Client {
 								// get result
 								MessageCheckSolution accuseResult = (MessageCheckSolution) in.readObject();
 								// pass result to Player
-								thisPlayer.getAccusationResult(accuseResult);
+								thisPlayer.getAccuseResult(accuseResult);
 								break;
 							}
 							// the other option is a pass
@@ -319,7 +318,7 @@ public class Client {
 				// get result
 				MessageCheckSolution accuseResult = (MessageCheckSolution) in.readObject();
 				// pass result to Player
-				thisPlayer.getAccusationResult(accuseResult);
+				thisPlayer.getAccuseResult(accuseResult);
 			}
 			// if its not a move or accusation its a pass
 			else {

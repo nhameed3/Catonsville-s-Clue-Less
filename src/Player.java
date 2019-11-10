@@ -335,7 +335,7 @@ public class Player {
         }
 
         MessageAccusation message1 = new MessageAccusation (personGuess, roomGuess, weaponGuess, 0);
-        return message; 
+        return message1; 
     }
 
 
