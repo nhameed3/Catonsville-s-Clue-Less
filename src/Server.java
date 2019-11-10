@@ -71,6 +71,8 @@ public class Server{
 			for(int i = 0; i < clientCount; i++) {
 				//grab one of the MessageDeal
 				MessageDeal currentDeal = dealArray.get(i);
+				//set the type but this should be done by Deck not here
+				currentDeal.setType(9);
 				//send the MessageDeal
 				clientList.get(i).sendMessage(currentDeal);
 			}
@@ -171,13 +173,16 @@ public class Server{
 			{
 				MessageConnectionStatus incomingMessage = (MessageConnectionStatus) newClient.getMessage();
 				// troubleshooting
-				System.out.println("Message " + incomingMessage.getType() + "received from player " + incomingMessage.getPlayer());
+				System.out.println("Message received by main of type " + incomingMessage.getType() +  "from avatar# " + incomingMessage.getPlayer());
 				// update the avatars
 				avatars = incomingMessage.getAvatars();
 				// if this was player 1 we need to update maxPlayers
 				if (clientCount == 1) {
 					maxPlayers = incomingMessage.getInt();
 				}
+				
+				// set the players name
+				newClient.setName(incomingMessage.getText());
 				
 			}
 		}
@@ -385,7 +390,7 @@ public class Server{
 
 
 
-class ConnectionManager extends Thread{
+class ConnectionManager implements Runnable{
 	// store input and output object streams and a String name, a boolean flag
 		ObjectOutputStream out;
 		ObjectInputStream in;
@@ -408,7 +413,7 @@ class ConnectionManager extends Thread{
 					inMessage = (Message) in.readObject();
 					hasMessage = true;
 					// trouble shooting
-					System.out.println("Received message " + inMessage.getType() + " from " + inMessage.getPlayer());
+					System.out.println("Thread received message " + inMessage.getType() + " from " + this.name);
 				}
 			}
 			// catch exception and print stack trace
@@ -422,7 +427,7 @@ class ConnectionManager extends Thread{
 			try {
 			out.writeObject(newMessage);
 			//troubleshooting
-			System.out.println("Sent message");
+			System.out.println("CM sent message of type " + newMessage.getType() + "to player " + this.name);
 			}
 			catch (IOException e) {
 				e.printStackTrace();
@@ -436,7 +441,7 @@ class ConnectionManager extends Thread{
 				while ( hasMessage == false) {
 					Thread.sleep(1000);
 				}
-				System.out.println(inMessage.getPlayer() + "Message of Type " + inMessage.getType());
+				System.out.println("CM returned message of type " + inMessage.getType() + " from " + this.name);
 				hasMessage = false;
 				return inMessage;
 			}
@@ -446,7 +451,7 @@ class ConnectionManager extends Thread{
 				return new Message();
 			}
 		}
-		/*
+		
 		// setters and getters
 		public String getName() {
 			return this.name;
@@ -456,5 +461,5 @@ class ConnectionManager extends Thread{
 		public void setName(String newName) {
 			this.name = newName;
 		}
-		*/
+		
 }
