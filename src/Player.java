@@ -18,6 +18,8 @@ public class Player {
     //Minimum of two players so max hand is 9 cards
     Card hand[] = new Card[9];
 
+    
+//This key is not being used really
 /******Key for reference*************************
     // public static final int SCARLET = 0;
     // public static final int GREEN   = 1;
@@ -85,11 +87,11 @@ public class Player {
         System.out.println("Would you like to edit your log: (y = 1/ n = 0)");
         Scanner input = new Scanner(System.in);
         int choice = input.nextInt();
-        //if(choice == 1)
-            //this.setLog();
+        if(choice == 1)
+            this.setLog();
     }
 
-    public void setLog(Card card, int index) {
+    public void setLog() {
         System.out.println("Enter your new log.");
         Scanner input = new Scanner(System.in);
         String newLog = input.nextLine();
@@ -168,6 +170,7 @@ public class Player {
 //////////////////////////////////////////////////
 
     public Message getGuessResult(MessageCheckSolution message){
+    	
     	return new MessageAccusation(null, null, null, 1);
     }
     
@@ -527,6 +530,7 @@ public class Player {
             System.out.println("[2] DOWN");
             System.out.println("[3] LEFT");
             System.out.println("[4] RIGHT");
+            System.out.println("[5] DIAGONAL");
             Scanner input = new Scanner(System.in);
             int choice = input.nextInt();
             
@@ -544,6 +548,9 @@ public class Player {
                     break;
                 case 4:
                 	message.setInt(4);
+                    break;
+                case 5:
+                	message.setInt(5);
                     break;
                 default:
                     System.out.println("INVALID ENTRY TRY AGAIN");
