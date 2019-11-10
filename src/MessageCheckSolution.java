@@ -13,5 +13,9 @@ public class MessageCheckSolution extends Message{
 		this.incorrectCards = cards;
 	}
 	
+	public boolean getCorrect(){
+		return this.correct;	
+	}
+	
 	
 }
