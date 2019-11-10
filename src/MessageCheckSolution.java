@@ -29,9 +29,9 @@ public class MessageCheckSolution extends Message{
 		}else {
 			for (int j = 0; j < incorrectCards.size(); j++) { 
 				  
-	            str[j] = incorrectCards.get(j).toString(); 
+	            		str[j] = incorrectCards.get(j).toString(); 
 	        }
-			message = "Incorrect accusation! Cards wrong: " + Arrays.deepToString(str);
+			message = "Incorrect accusation! Cards wrong: " + Arrays.toString(str);
 		}
 		
 		
