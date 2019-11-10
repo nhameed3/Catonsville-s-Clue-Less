@@ -44,11 +44,11 @@ public class Card implements Serializable{
 	public String toString() {
 		String cardString = "";
 		if(room == null && suspect == null) {
-			//cardString = (this.weapon).toString();
+			cardString = (this.weapon).toString();
 		}else if(room == null && weapon == null) {
-			//cardString = (this.suspect).toString();
+			cardString = (this.suspect).toString();
 		}else {
-			//cardString = (this.room).toString();
+			cardString = (this.room).toString();
 		}
 		return cardString;
 	}
