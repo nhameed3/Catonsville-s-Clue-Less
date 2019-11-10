@@ -37,7 +37,6 @@ public class Card implements Serializable{
 		}
 		
 	}
-	
 	public Card() {
 		
 	}
