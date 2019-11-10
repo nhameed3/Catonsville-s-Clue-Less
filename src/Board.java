@@ -82,6 +82,7 @@ class Board
 
 	Location[] locationArray = new Location[21];
 	int[] playerPosition = new int[6];
+	String[] playerAvatar = new String[6];
 	String description;
 
 	public Board()
@@ -114,6 +115,13 @@ class Board
 		playerPosition[3] = 11;
 		playerPosition[4] = 20;
 		playerPosition[5] = 16;
+
+		playerAvatar[0] = "SCARLET";
+		playerAvatar[1] = "GREEN";
+		playerAvatar[2] = "MUSTARD";
+		playerAvatar[3] = "PLUM";
+		playerAvatar[4] = "WHITE";
+		playerAvatar[5] = "PEACOCK";
 	}
 
 	public int getPlayerPosition( int playerNumber )
@@ -272,13 +280,15 @@ class Board
 	public String getStatus()
 	{
 		String positionName;
+		String avatarName;
 		String status = new String();
 
 		for( int i = 0; i < 6; i++ )
 		{
+			avatarName = this.playerAvatar[i];
 			positionName = this.locationArray[playerPosition[i]].locationName;
 
-			status += "Player " + ( i+1 ) + " is at " + positionName + ".\n";
+			status += "Player " + ( i+1 ) + "(" + avatarName + ") is at " + positionName + ".\n";
 		}
 
 		return status;
