@@ -16,7 +16,8 @@ public class Player {
     private int weaponAccuse = 0;
 
     //Minimum of two players so max hand is 9 cards
-    Card hand[] = new Card[9];
+    ArrayList<Card> hand = new ArrayList<Card>();
+    private int handSize = 0;
 
     
 //This key is not being used really
@@ -72,13 +73,14 @@ public class Player {
 //////////////////////////////////////////////////
     public void getHand() {
         System.out.println("Your Cards:");
-        for(int i = 0; i < 9; i++){
-            System.out.println(this.hand[i]);
+        for(int i = 0; i < handSize; i++){
+            System.out.println(this.hand.get(i));
         }
     }
 
-    public void setHand(Card card, int index) {
-        this.hand[index] = card;
+    public void setHand(MessageDeal message) {
+    	this.hand = message.getCards();
+    	handSize = message.getSize();
     }
 
 //////////////////////////////////////////////////
@@ -591,7 +593,7 @@ public class Player {
         Card suspect = new Card();
         Card weapon = new Card();
         Card room = new Card();
-        for(int i = 0; i < 9; i++){
+        for(int i = 0; i < handSize; i++){
             if(this.hand[i] == message.getSuspect())
             	suspect = message.getSuspect();
                 personDisprove.setSuspect(suspect.getSuspect());
