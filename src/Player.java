@@ -644,6 +644,7 @@ public class Player {
                     break;
             }
             
+            
             return canDisprove;
         }
         
