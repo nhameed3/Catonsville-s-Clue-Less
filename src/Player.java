@@ -170,13 +170,32 @@ public class Player {
 //////////////////////////////////////////////////
 
     public Message getGuessResult(MessageCheckSolution message){
+    	if(message.cards[0] != null)
+    		System.out.println("Disproved by: "+ message.cards[0]);
+    	else if(message.cards[0] == null)
+    		System.out.println("No one was able to disprove");
     	
-    	return new MessageAccusation(null, null, null, 1);
+    	System.out.println("Would you like to make an accusation (y = 1/ n = 0)");
+        Scanner input = new Scanner(System.in);
+        int choice = input.nextInt();
+        if(choice == 1)
+            return this.makeAccusation();
+        else
+        	return new Message(6, m_playerNum);
     }
     
-    public Message getAccuseResult(MessageCheckSolution message){
-    	return new MessageAccusation(null, null, null, 1);
+    public void getAccuseResult(MessageCheckSolution message){
+    	if(message.cards[0] != null) {
+    		System.out.println("Disproved by: "+ message.cards[0]);
+    		System.out.println("YOU LOSE");
+    	}
+    	else
+    		System.out.println("YOU WIN!");
     }
+    
+    
+    
+    
     
     // The user is asked who what and where 
     // and a message containing their guess is returned.
@@ -337,7 +356,7 @@ public class Player {
             }
         }
 
-        MessageAccusation message1 = new MessageAccusation (personGuess, roomGuess, weaponGuess, 0);
+        MessageAccusation message1 = new MessageAccusation (personGuess, roomGuess, weaponGuess, 5);
         return message1; 
     }
 
@@ -516,7 +535,7 @@ public class Player {
             }
         }
 
-        MessageAccusation message = new MessageAccusation (personGuess, roomGuess, weaponGuess, 0);
+        MessageAccusation message = new MessageAccusation (personGuess, roomGuess, weaponGuess, 4);
         return message;        
     }
 
