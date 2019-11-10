@@ -172,7 +172,7 @@ public class Client {
 			{
 				//cast to MessageDeal
 				inMessage = (MessageDeal) inMessage;
-				//thisPlayer.setHand(inMessage);
+				thisPlayer.setHand(inMessage);
 				break;
 			}
 			// type 10 means this is board status update
