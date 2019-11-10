@@ -110,10 +110,7 @@ public class Deck {
 			MessageDeal playerHand = new MessageDeal(playerCards);
 			dealMessages.add(playerHand);
 			
-		}
-	
-	
-		
+		}		
 		return dealMessages;
 		
 	}
