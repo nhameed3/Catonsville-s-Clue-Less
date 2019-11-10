@@ -41,7 +41,7 @@ public class Deck {
 
 	}
 	
-	public MessageCheckSolution checkSolution(MessageAccusation accuse) {
+	public MessageCheckSolution checkAccusation(MessageAccusation accuse) {
 		
 		ArrayList<Card> incorrect = new ArrayList<Card>();
 		boolean correct = true;
@@ -62,9 +62,28 @@ public class Deck {
 			
 		MessageCheckSolution userReturn = new MessageCheckSolution(correct, incorrect);
 		
-		return userReturn;
-
+		return userReturn;	
 		
+	}
+	
+	public MessageCheckGuess checkGuess(MessageAccusation accuse) {
+		
+		Card incorrectCard = new Card();
+		boolean correct = true;
+		if(accuse.getRoom() != solution.get(0)) {
+			incorrectCard = accuse.getRoom();
+			correct = false;
+		}else if(accuse.getWeapon() != solution.get(1)) {
+			incorrectCard =accuse.getWeapon();
+			correct = false;
+		}else if(accuse.getSuspect() != solution.get(2)) {
+			incorrectCard = accuse.getSuspect();
+			correct = false;
+		}
+			
+		MessageCheckGuess userReturn = new MessageCheckGuess(correct, incorrectCard);
+		
+		return userReturn;
 		
 	}
 	

@@ -38,6 +38,22 @@ public class Card implements Serializable{
 		
 	}
 	
+	public Card() {
+		
+	}
+	
+	public String toString() {
+		String cardString = "";
+		if(room == null && suspect == null) {
+			cardString = this.weapon.toString();
+		}else if(room == null && weapon == null) {
+			cardString = this.suspect.toString();
+		}else {
+			cardString = this.room.toString();
+		}
+		return cardString;
+	}
+	
 	public Type getType() {
 		return this.type;
 	}
