@@ -60,7 +60,7 @@ public class Deck {
 			correct = false;
 		}
 			
-		MessageCheckSolution userReturn = new MessageCheckSolution(correct, incorrect);
+		MessageCheckSolution userReturn = new MessageCheckSolution(correct, incorrect, 18);
 		
 		return userReturn;	
 		
@@ -81,7 +81,7 @@ public class Deck {
 			correct = false;
 		}
 			
-		MessageCheckGuess userReturn = new MessageCheckGuess(correct, incorrectCard);
+		MessageCheckGuess userReturn = new MessageCheckGuess(correct, incorrectCard, 19);
 		
 		return userReturn;
 		

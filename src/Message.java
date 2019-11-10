@@ -19,6 +19,10 @@ public class Message implements Serializable {
 	13: GuessDisprove (S2C)
 	14: GameOver (S2C)
 	15: Lose (S2C)
+	16: Valid move
+	17: Invalid move
+	18:	Check solution
+	19: Check guess
 	
 	0: not used but is initialized to so can use it for error checking for now
 	*/

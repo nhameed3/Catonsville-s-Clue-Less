@@ -7,11 +7,12 @@ public class MessageCheckSolution extends Message{
 	boolean correct = false;
 	ArrayList<Card> incorrectCards = new ArrayList<Card>();
 	
-	public MessageCheckSolution(boolean solution, ArrayList<Card> cards) {
+	public MessageCheckSolution(boolean solution, ArrayList<Card> cards, int type) {
 		
 		super();
 		this.correct = solution;
 		this.incorrectCards = cards;
+		this.messageType = type;
 	}
 	
 	public boolean getCorrect(){
@@ -29,9 +30,9 @@ public class MessageCheckSolution extends Message{
 		}else {
 			for (int j = 0; j < incorrectCards.size(); j++) { 
 				  
-	            str[j] = incorrectCards.get(j).toString(); 
+	            		str[j] = incorrectCards.get(j).toString(); 
 	        }
-			message = "Incorrect accusation! Cards wrong: " + Arrays.deepToString(str);
+			message = "Incorrect accusation! Cards wrong: " + Arrays.toString(str);
 		}
 		
 		
