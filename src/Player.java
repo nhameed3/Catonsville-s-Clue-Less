@@ -594,15 +594,18 @@ public class Player {
         Card weapon = new Card();
         Card room = new Card();
         for(int i = 0; i < handSize; i++){
-            if(this.hand.get(i) == message.getSuspect())
+            if(this.hand.get(i) == message.getSuspect()) {
             	suspect = message.getSuspect();
                 personDisprove.setSuspect(suspect.getSuspect());
-            if(this.hand.get(i) == message.getWeapon())
+            }
+            if(this.hand.get(i) == message.getWeapon()) {
                 weapon = message.getWeapon();
             	personDisprove.setWeapon(weapon.getWeapon());
-            if(this.hand.get(i) == message.getRoom());
+            }
+            if(this.hand.get(i) == message.getRoom());{
                 roomDisprove = message.getRoom();
                 personDisprove.setRoom(room.getRoom());
+            }
         }
 
         while(true){
