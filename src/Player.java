@@ -595,14 +595,17 @@ public class Player {
         Card room = new Card();
         for(int i = 0; i < handSize; i++){
             if(this.hand.get(i) == message.getSuspect()) {
+            	System.out.println("get suspect to disprove");
             	suspect = message.getSuspect();
                 personDisprove.setSuspect(suspect.getSuspect());
             }
             if(this.hand.get(i) == message.getWeapon()) {
+            	System.out.println("get weapon to disprove");
                 weapon = message.getWeapon();
             	personDisprove.setWeapon(weapon.getWeapon());
             }
             if(this.hand.get(i) == message.getRoom());{
+            	System.out.println("get room to disprove");
                 roomDisprove = message.getRoom();
                 personDisprove.setRoom(room.getRoom());
             }
