@@ -64,11 +64,16 @@ public class Server{
 		// start the deck
 		Deck gameDeck = new Deck();
 		
-		// ask the deck for Deal. again in a block so that the array is limited scope
+		//ask the deck for Deal. again in a block so that the array is limited scope
 		{
-			// MessageDeal [] dealArray = gameDeck.deal();
-			// deal the cards to the players with specialized method
-			//dealCards(clientList, dealArray);
+			ArrayList<MessageDeal> dealArray = gameDeck.dealCards(clientCount);
+			// deal the cards
+			for(int i = 0; i < clientCount; i++) {
+				//grab one of the MessageDeal
+				MessageDeal currentDeal = dealArray.get(i);
+				//send the MessageDeal
+				clientList.get(i).sendMessage(currentDeal);
+			}
 		}
 		
 		
@@ -167,48 +172,60 @@ public class Server{
 	}
 	
 	// guess method
-	private static boolean guess(Message guessMessage, Board gameBoard, ArrayList<ConnectionManager> clientList, int currentPlayer) {
-			// cast guessMessage to MessageGuAc
-			guessMessage = (MessageGuAc) guessMessage;
+	private static void guess(Message guessMessage, Board gameBoard, ArrayList<ConnectionManager> clientList, int currentPlayer) {
+			// cast guessMessage to MessageAccusation
+			guessMessage = (MessageAccusation) guessMessage;
+			
+			// boolean for guessDisproven
+			boolean guessDisproven = false;
+			
+			/*We loop through the client list but it's a weird loop. We start at 
+			 * currentPlayer+1 (the next player), we want to go through the loop as many times
+			 * as their are players in the game which we get from clientList.size(). But 
+			 * we have to add that to currentPlayer to get the end of the loop.
+			 */
+			for( int i = (currentPlayer + 1); i < (currentPlayer + clientList.size() ); i++) {
+				// because we can loop from last player to first player we need to reset i back to 0 and then
+				if ( i >= clientList.size() ) {
+					i = i - clientList.size();
+				}
+				
+				// now we do the guess thing on this currentClient
+				// send the Guess message
+				clientList.get(i).sendMessage(guessMessage);
+				// receive the result
+				Message guessResult = clientList.get(i).getMessage();
+				//is the guess disproven? For now I'm using genericInt but this probably needs to be rewritten to match Pete's
+				if( guessResult.getInt() == 1) {
+					//we set guessDisproven to true
+					guessDisproven = true;
+					// we send the original player the message disproving the guess
+					clientList.get(currentPlayer).sendMessage(guessResult);
+					// we break from the for loop because someone has proven the guess wrong
+					break;
+				}
+			}
+			
+			/* if guessDisproven is still false that means no one disproved the guess. Send back
+			 * a Message of guessDisproven with status false from the server. For now this is a generic
+			 * Message but this probably needs to be updated once Pete adds this class. I'm using genericInt
+			 * set to 0 to mean no one disproved it
+			 */
+			if( guessDisproven == false) {
+				Message guessResult = new Message(13, -1);
+				guessResult.setInt(0);
+				clientList.get(currentPlayer).sendMessage(guessResult);
+			}
 		
 	}
 	
 	// move method
-	private static move(Message moveMessage, Board gameBoard, ArrayList<ConnectionManager> clientList, int currentPlayer) {
+	private static void move(Message moveMessage, Board gameBoard, ArrayList<ConnectionManager> clientList, int currentPlayer) {
 		// pass move request from player into board and accept a Message back
-		Mesage moveResult = gameBoard.processMove(moveMessage);
+		Message moveResult = gameBoard.processMove(moveMessage);
 		// send the Message back to client
 		clientList.get(currentPlayer).sendMessage(moveResult);
 		
-	}
-	
-	// accuse method should return a message from Deck that can be parsed for success status and also be sent to 
-	// accuser to let them know if they got it wrong
-	
-	private static Message accuse(Message accuseMessage, Board gameBoard, Deck gameDeck, ArrayList<ConnectionManager> clientList, int currentPlayer) {
-		// cast to MessageGuAc
-		accuseMessage = (MessageGuAc) accuseMessage;
-		//grab current client
-		ConnectionManager currentClient = clientList.get(currentPlayer);
-
-		
-		// tell the board there's an accusation. MNo current method so I'm making it up
-		gameBoard.processAccusation(accuseMessage);
-		// there should be a board status message here
-		
-		// tell everyone accusation status. This needs to be updated once MessageGuAc has getters and setters for cards
-		{
-			Message statusMessage = new Message(11, -1);
-			statusMessage.setText(currentClient.getName() + "has made an accusation!");
-			sendToAll(clientList, statusMessage);
-		}
-		
-		// check with deck for accusation. This actually needs a Message return beacause we need to tell the accuser 
-		// what they got wrong
-		Message accusationResult = gameDeck.checkAccusation(accuseMessage);
-		
-		//return the Message
-		return accusationResult;
 	}
 	
 	// playerTurn method
@@ -236,21 +253,7 @@ public class Server{
 				//case 3 is move
 				case 3:
 				{
-					// call move and store return as a message
-					Message outgoingMessage = move(playerAction, gameBoard, clientList, currentPlayer);
-					// was the move succesful or not? if it was it's type 16.
-					if (outgoingMessage.getType() == 16) {
-						// if it was a succesful move, are they in a room and can guess?
-						if (outgoingMessage.getInt() == 1) {
-							// 
-						}
-						// if succesful move and aren't in a room
-						else {
-							
-						}
-						
-					}
-					
+					move(playerAction, gameBoard, clientList, currentPlayer);
 					break;
 				}
 				// case 4 is player wants to guess
@@ -258,15 +261,17 @@ public class Server{
 				{
 					// call guess method
 					guess(playerAction, gameBoard, clientList, currentPlayer);
+					break;
 				
 				}
-				// case 5 is player wnats to accuse
-				
+				// case 5 is player wants to accuse
 				case 5:
 				{
-					Message accusationResult = accuse(playerAction, gameBoard, gameDeck, clientList, currentPlayer);
+					MessageCheckSolution accusationResult = gameDeck.checkSolution((MessageAccusation) playerAction);
 					//parse success. if genericInt = 1 it's a win. this may need to be integrated into whatever Pete codes
 					if (accusationResult.getInt() == 1) {
+						// send result to player
+						clientList.get(currentPlayer).sendMessage(accusationResult);
 						// send update to everyone
 						{
 							Message statusUpdate = new Message(11,-1);
@@ -278,18 +283,24 @@ public class Server{
 							Message winMessage = new Message(7, -1);
 							currentClient.sendMessage(winMessage);
 						}
+						
+						// here is another place i need a method to send a message to everyone but the current player
+						
 						//set turnResult[0] to true to indicate game is over
 						turnResults[0] = true;
 					}
 					// if it's not 1 it's a lose
 					else {
-						// send update to everyone
+						// send result to player
+						clientList.get(currentPlayer).sendMessage(accusationResult);
+						// send status update to everyone
 						{
 							Message statusUpdate = new Message(11,-1);
 							statusUpdate.setText(currentClient.getName() + "was wrong and they are out of the game!");
 							sendToAll(clientList, statusUpdate);
 						}
-						// send elimination message to Accuser. This should have info about what they got wrong but not inplemented
+						
+						// send lose message to Accuser. This should have info about what they got wrong but not inplemented
 						{
 							Message loseMessage = new Message(15, -1);
 							currentClient.sendMessage(loseMessage);
@@ -297,15 +308,23 @@ public class Server{
 							turnResults[1] = true;
 						}
 					}
-					
 					// if a player accuses the turn is over because they are either out or they win
 					turnOver = true;
+					break;
+					
+				}
+				// case 6 is pass
+				case 6:
+				{
+					// if they pass the turn is over
+					turnOver = true;
+					break;
 				}
 			}
 		}
 		
 		
-		// return gameOver
+		// return turnResults
 		return turnResults;
 		
 	}
@@ -314,15 +333,6 @@ public class Server{
 	private static void sendToAll(ArrayList<ConnectionManager> clientList, Message outMessage) {
 		for ( ConnectionManager c : clientList ) {
 			c.sendMessage(outMessage);
-		}
-	}
-	
-	// write a method to deal out cards
-	private static void dealCards(ArrayList<ConnectionManager> clientList, MessageDeal [] dealArray) {
-		// just iterate through both arrays sending the cards out
-		for( int i = 0; i < maxPlayers; i++) {
-			ConnectionManager currentClient = clientList.get(i);
-			currentClient.sendMessage(dealArray[i]);
 		}
 	}
 }
