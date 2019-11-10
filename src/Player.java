@@ -167,10 +167,14 @@ public class Player {
 //METHODS Preconditions: must be players turn
 //////////////////////////////////////////////////
 
+    public Message getGuessResult(MessageCheckSolution message){
+    	return new MessageAccusation(null, null, null, 1);
+    }
+    
     
     // The user is asked who what and where 
     // and a message containing their guess is returned.
-    public Message makeAccusation(){
+    public Message makeAccusation(MessageCheckSolution message){
     	
     	 Card personGuess = new Card(Card.Suspect.REV_GREEN,null,null);
          Card weaponGuess = new Card(null,null,Card.Weapon.CANDLE_STICK);
@@ -327,7 +331,7 @@ public class Player {
             }
         }
 
-        MessageAccusation message = new MessageAccusation (personGuess, roomGuess, weaponGuess, 0);
+        MessageAccusation message1 = new MessageAccusation (personGuess, roomGuess, weaponGuess, 0);
         return message; 
     }
 
@@ -546,6 +550,8 @@ public class Player {
         }
     }
 
+    
+    
 
     //Called directly from Client. Compares the cards within the message to players hand.
     public Message disprove(MessageAccusation message){
@@ -582,7 +588,6 @@ public class Player {
             
             MessageCheckSolution canDisprove = new MessageCheckSolution(true, null);      //pass message
             //canDisprove.incorrectCards
-           
             
             switch(choice){
                 case 1:
