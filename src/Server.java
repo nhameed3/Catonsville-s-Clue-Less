@@ -254,7 +254,7 @@ public class Server{
 	// move method
 	private static void move(Message moveMessage, Board gameBoard, ArrayList<ConnectionManager> clientList, int currentPlayer) {
 		// pass move request from player into board and accept a Message back
-		Message moveResult = gameBoard.processMove((MessageMove) moveMessage);
+		Message moveResult = gameBoard.processMove(moveMessage);
 		
 		// send out a status message
 		{

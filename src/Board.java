@@ -118,7 +118,7 @@ class Board
 		this.playerPosition[playerNumber] = playerNewPosition;
 	}
 
-	public Message processMove( MessageMove moveMessage )
+	public Message processMove( Message moveMessage )
 	{
 		int playerNumber = moveMessage.getPlayer();
 		int direction = moveMessage.getInt();
