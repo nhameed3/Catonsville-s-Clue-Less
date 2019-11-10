@@ -12,7 +12,7 @@ public class MessageAccusation extends Message{
 		this.sus = suspect;
 		this.rm = room;
 		this.weap = weapon;
-		//if type = 0, it is a guess, if 1, an accusation
+		//if type = 4, it is a guess, if 5, an accusation
 		this.messageType = type;
 		
 	}
