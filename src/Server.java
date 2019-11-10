@@ -89,7 +89,13 @@ public class Server{
 			
 			// check to see if currentPlayer is eliminated
 			if ( eliminatedPlayers[currentPlayer] == false ) {
-				// store the results of the turn in turnResults
+				// send out a message that it's someones turn
+				{
+					Message statusMessage = new Message(11, -1);
+					statusMessage.setText("It's " + clientList.get(currentPlayer).getName() + " turn!");
+					sendToAll(clientList, statusMessage, 7);
+				}
+				// store the results of the turn in turnResults and start their turn
 				turnResults = playerTurn(gameBoard, gameDeck, clientList, turnResults, currentPlayer);
 				turnCount++;
 				// check if game is over
@@ -179,6 +185,13 @@ public class Server{
 			// boolean for guessDisproven
 			boolean guessDisproven = false;
 			
+			// send out status message
+			{
+				Message statusMessage = new Message(11, -1);
+				statusMessage.setText(clientList.get(currentPlayer).getName() + " has made a guess.");
+				sendToAll(clientList, statusMessage, currentPlayer);
+			}
+			
 			/*We loop through the client list but it's a weird loop. We start at 
 			 * currentPlayer+1 (the next player), we want to go through the loop as many times
 			 * as their are players in the game which we get from clientList.size(). But 
@@ -201,6 +214,12 @@ public class Server{
 					guessDisproven = true;
 					// we send the original player the message disproving the guess
 					clientList.get(currentPlayer).sendMessage(guessResult);
+					// we sent a message to everyone else
+					{
+						Message statusMessage = new Message(11, -1);
+						statusMessage.setText(clientList.get(i).getName() + " disproved the guess!");
+						sendToAll(clientList, statusMessage, 7);
+					}
 					// we break from the for loop because someone has proven the guess wrong
 					break;
 				}
@@ -215,6 +234,13 @@ public class Server{
 				Message guessResult = new Message(13, -1);
 				guessResult.setInt(0);
 				clientList.get(currentPlayer).sendMessage(guessResult);
+				
+				// send out a message to everyone else status update
+				{
+					Message statusMessage = new Message(11, -1);
+					statusMessage.setText(clientList.get(currentPlayer).getName() + "'s guess was not disproven by anyone.");
+					sendToAll(clientList, statusMessage, currentPlayer);
+				}
 			}
 		
 	}
@@ -329,10 +355,17 @@ public class Server{
 		
 	}
 	
-	// write a method to send a message to all connected clients
-	private static void sendToAll(ArrayList<ConnectionManager> clientList, Message outMessage) {
-		for ( ConnectionManager c : clientList ) {
-			c.sendMessage(outMessage);
+	/* write a method to send a message to all connected clients. The third argument, an int allows
+	 * the method to skip one client, this is important during a players turn to not break
+	 * the communication loop between server and client. To not use this feature just pass
+	 * a int that wouldn't be in clientList like 7 (since max is 7)
+	 */
+	private static void sendToAll(ArrayList<ConnectionManager> clientList, Message outMessage, int skipClient) {
+		for ( int i = 0; i < clientList.size(); i++) {
+			// we send the message as long as i doesn't = skipClint
+			if( i != skipClient) {
+				clientList.get(i).sendMessage(outMessage);
+			}
 		}
 	}
 }
