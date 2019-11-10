@@ -25,12 +25,12 @@ public class Deck {
 		
 		for(Card.Weapon weapon : Card.Weapon.values()) { 
 			Card weapon1 = new Card(null, null, weapon);
-		     roomCards.add(weapon1);
+		     weaponCards.add(weapon1);
 		}
 		
 		for(Card.Suspect suspect : Card.Suspect.values()) { 
 			Card suspect1 = new Card(suspect, null, null);
-		     roomCards.add(suspect1);
+		     suspectCards.add(suspect1);
 		}
 		
 		deckCards.addAll(roomCards);
@@ -88,7 +88,7 @@ public class Deck {
 	}
 	
 	public void createSolution(){
-
+		
 		roomCard  = roomCards.get(rand.nextInt(roomCards.size()));
 		weaponCard = weaponCards.get(rand.nextInt(weaponCards.size()));
 		suspectCard = suspectCards.get(rand.nextInt(suspectCards.size()));
