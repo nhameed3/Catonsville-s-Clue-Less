@@ -9,6 +9,9 @@ public class Client {
 
 	public static void main(String[] args) throws IOException, ClassNotFoundException{
 
+		// store player number (set by user when picking characters)
+		int playerNum;
+		
 		// check to make sure we got the args we need
 		if (args.length != 2) {
 			System.err.println("Missing arugments. java PlayerClient <hostname> <port>");
@@ -34,14 +37,17 @@ public class Client {
 		ObjectInputStream in = new ObjectInputStream( gameSocket.getInputStream());
 		
 		// accept connectionStatus message from Server
-		MessageConnectionStatus incomingMessage = (MessageConnectionStatus) in.readObject();
+		MessageConnectionStatus incomingMessage = (MessageConnectionStatus) getMessage(in);
 		
 		// call startUp and store it as outgoingMessage
 		MessageConnectionStatus outgoingMessage = startUp(incomingMessage, inScn);
 		
-		// send output message
-		out.writeObject(outgoingMessage);
+		// what player is this
+		playerNum = outgoingMessage.getPlayer();
 		
+		// send output message
+		sendMessage(outgoingMessage, out, playerNum);
+
 		//create Player with info from outgoingMessage
 		Player currentPlayer = new Player(outgoingMessage.getText(), outgoingMessage.getPlayer());
 		
@@ -143,7 +149,7 @@ public class Client {
 				
 		
 		// receive a message from the server
-		Message inMessage = (Message) in.readObject();
+		Message inMessage = getMessage(in);
 		
 		
 		// run a switch where we handle the Message as appropriate
@@ -180,6 +186,7 @@ public class Client {
 			{
 				// cast it to MessageAccusation
 				Message guessResult = thisPlayer.disprove( (MessageAccusation) inMessage);
+				sendMessage(guessResult, out, thisPlayer.getPlayerNum());
 				out.writeObject(guessResult);
 				break;
 			}
@@ -220,9 +227,9 @@ public class Client {
 			// is it a move?
 			if (firstAction.getType() == 3 ) {
 				// send that to the client
-				out.writeObject(firstAction);
+				sendMessage(firstAction, out, thisPlayer.getPlayerNum());
 				// get Message back
-				Message moveResult = (Message) in.readObject();
+				Message moveResult = getMessage(in);
 				// check to see if it was a valid move
 				if ( moveResult.getType() == 16 ) {
 					// if it was a valid move can they make a guess?
@@ -236,10 +243,10 @@ public class Client {
 							case 4:
 							{		
 								//send guesMessage to server
-								out.writeObject(guessMessage);
+								sendMessage(guessMessage, out, thisPlayer.getPlayerNum());
 								
 								// receive result back
-								MessageCheckSolution resultMessage = (MessageCheckSolution) in.readObject();
+								MessageCheckSolution resultMessage = (MessageCheckSolution) getMessage(in);
 								
 								//send result to player and store return in finalAct
 								Message finalAct = thisPlayer.getGuessResult(resultMessage);
@@ -248,9 +255,9 @@ public class Client {
 								if ( finalAct.getType() == 5) {
 									
 									//send accusage method to server
-									out.writeObject(finalAct);
+									sendMessage(finalAct, out, thisPlayer.getPlayerNum());
 									// get result
-									MessageCheckSolution accuseResult = (MessageCheckSolution) in.readObject();
+									MessageCheckSolution accuseResult = (MessageCheckSolution) getMessage(in);
 									// pass result to Player
 									thisPlayer.getAccuseResult(accuseResult);
 								}
@@ -260,9 +267,9 @@ public class Client {
 							case 5:
 							{
 								//send accusage method to server
-								out.writeObject(guessMessage);
+								sendMessage(guessMessage, out, thisPlayer.getPlayerNum());
 								// get result
-								MessageCheckSolution accuseResult = (MessageCheckSolution) in.readObject();
+								MessageCheckSolution accuseResult = (MessageCheckSolution) getMessage(in);
 								// pass result to Player
 								thisPlayer.getAccuseResult(accuseResult);
 								break;
@@ -272,7 +279,7 @@ public class Client {
 							{
 								// send it to Server
 								Message passMessage = new Message(6, thisPlayer.getPlayerNum());
-								out.writeObject(passMessage);
+								sendMessage(passMessage, out, thisPlayer.getPlayerNum());
 								break;
 							}		
 						}
@@ -289,9 +296,10 @@ public class Client {
 							case 5: 
 							{
 								//send accusage method to server
-								out.writeObject(finalAct);
+								sendMessage(finalAct, out, thisPlayer.getPlayerNum());
 								// get result
-								MessageCheckSolution accuseResult = (MessageCheckSolution) in.readObject();
+								
+								MessageCheckSolution accuseResult = (MessageCheckSolution) getMessage(in);
 								// pass result to Player
 								thisPlayer.getAccuseResult(accuseResult);
 								break;
@@ -301,22 +309,24 @@ public class Client {
 							{
 								// send it to Server
 								Message passMessage = new Message(6, thisPlayer.getPlayerNum());
-								out.writeObject(passMessage);
+								sendMessage(passMessage, out, thisPlayer.getPlayerNum());
 								break;
 							}
 						}
 					}
 				}
 				// if it wasn't a valid move we do nothing and this loop repeats
+				System.out.println("Invalid move requested, starting turn over again");
 			}
 			// is it a accusation?
 			else if( firstAction.getType() == 5) {
 				//turn is over
 				turnOver = true;
 				// send accusation to server
-				out.writeObject(firstAction);
+				sendMessage(firstAction, out, thisPlayer.getPlayerNum());
 				// get result
-				MessageCheckSolution accuseResult = (MessageCheckSolution) in.readObject();
+				
+				MessageCheckSolution accuseResult = (MessageCheckSolution) getMessage(in);
 				// pass result to Player
 				thisPlayer.getAccuseResult(accuseResult);
 			}
@@ -326,8 +336,19 @@ public class Client {
 				turnOver = true;
 				// send it to Server
 				Message passMessage = new Message(6, thisPlayer.getPlayerNum());
-				out.writeObject(passMessage);
+				sendMessage(passMessage, out, thisPlayer.getPlayerNum());
 			}
 		}
+	}
+	
+	private static void sendMessage(Message outMessage, ObjectOutputStream out, int thisPlayer) throws IOException{
+		System.out.println("Send Message of Type " + outMessage.getType());
+		out.writeObject(outMessage);
+	}
+	
+	private static Message getMessage(ObjectInputStream in) throws IOException, ClassNotFoundException{
+		Message inMessage = (Message) in.readObject();
+		System.out.println("Received Message of type " + inMessage.getType());
+		return inMessage;
 	}
 }
