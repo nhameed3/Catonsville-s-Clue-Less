@@ -83,6 +83,12 @@ public class Server{
 		while( !gameOver) {
 			// calculate whose turn it is
 			int currentPlayer = turnCount % maxPlayers;
+			// send out a board status
+			{
+				Message statusUpdate = new Message(11,-1);
+				statusUpdate.setText(gameBoard.getStatus());
+				sendToAll(clientList, statusUpdate, 7);
+			}
 			// create array to track whose out of the game. All start as false
 			boolean [] eliminatedPlayers = new boolean[maxPlayers];
 			
