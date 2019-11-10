@@ -154,6 +154,10 @@ public class Server{
 			// increment clientCount
 			clientCount++;
 			
+			//start newClient thread
+			Thread t = new Thread(newClient);
+			t.start();
+			
 			// create a new message to be sent to client, type 10 (connnectionStatus), -1 for server
 			MessageConnectionStatus connectionMessage = new MessageConnectionStatus(10, -1, avatars);
 			
@@ -166,6 +170,8 @@ public class Server{
 			// receive ConnectionStatusMessage back and update avatars and overwrite maxPlayers if this is client 1
 			{
 				MessageConnectionStatus incomingMessage = (MessageConnectionStatus) newClient.getMessage();
+				// troubleshooting
+				System.out.println("Message " + incomingMessage.getType() + "received from player " + incomingMessage.getPlayer());
 				// update the avatars
 				avatars = incomingMessage.getAvatars();
 				// if this was player 1 we need to update maxPlayers
@@ -379,11 +385,12 @@ public class Server{
 
 
 
-class ConnectionManager{
+class ConnectionManager extends Thread{
 	// store input and output object streams and a String name, a boolean flag
 		ObjectOutputStream out;
 		ObjectInputStream in;
 		String name;
+		boolean hasMessage = false;
 		
 		// have a class attribute that is incomingMEssage that can be returned when client asks
 		Message inMessage;
@@ -394,11 +401,28 @@ class ConnectionManager{
 			this.in = newIn;
 			this.out = newOut;
 		}
+		
+		public void run(){
+			try {
+				while( true ) {
+					inMessage = (Message) in.readObject();
+					hasMessage = true;
+					// trouble shooting
+					System.out.println("Received message " + inMessage.getType() + " from " + inMessage.getPlayer());
+				}
+			}
+			// catch exception and print stack trace
+			catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
 
 		// method to send a message to client, returns void for now
 		public void sendMessage( Message newMessage) {
 			try {
 			out.writeObject(newMessage);
+			//troubleshooting
+			System.out.println("Sent message");
 			}
 			catch (IOException e) {
 				e.printStackTrace();
@@ -408,8 +432,13 @@ class ConnectionManager{
 		// method to get whatever newMessage came in from client
 		public Message getMessage() {
 			try {
-				Message newMessage = (Message) in.readObject();
-				return newMessage;
+				//error checking
+				while ( hasMessage == false) {
+					Thread.sleep(1000);
+				}
+				System.out.println(inMessage.getPlayer() + "Message of Type " + inMessage.getType());
+				hasMessage = false;
+				return inMessage;
 			}
 			catch( Exception e) {
 				e.printStackTrace();
@@ -417,7 +446,7 @@ class ConnectionManager{
 				return new Message();
 			}
 		}
-		
+		/*
 		// setters and getters
 		public String getName() {
 			return this.name;
@@ -427,5 +456,5 @@ class ConnectionManager{
 		public void setName(String newName) {
 			this.name = newName;
 		}
-	
+		*/
 }

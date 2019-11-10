@@ -1,5 +1,6 @@
+import java.io.Serializable;
 
-public class Card {
+public class Card implements Serializable{
 
 	
 	public static enum Type{

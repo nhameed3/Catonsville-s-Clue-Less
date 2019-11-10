@@ -73,7 +73,7 @@ public class Client {
 			// store users response as the genericInt in outgoingMessage
 			outMessage.setInt(inScn.nextInt());
 		}
-		// grab the avatar array
+		// grab the avatar array from inMessage
 		boolean [] tempAvatars = inMessage.getAvatars();
 		
 		// what player does user want to be

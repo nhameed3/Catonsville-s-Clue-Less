@@ -11,7 +11,8 @@ public class MessageConnectionStatus extends Message{
 	
 	// default constructor
 	MessageConnectionStatus() {
-		
+		super();
+		this.messageType = 10;
 	}
 	
 	//constructor
