@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
 
@@ -98,6 +99,12 @@ public class Deck {
 		deckCards.remove(roomCard);
 		deckCards.remove(weaponCard);
 		deckCards.remove(suspectCard);
+		String str[] = new String[solution.size()]; 
+        
+        for (int j = 0; j < solution.size(); j++) {  
+            str[j] = solution.get(j).toString(); 
+        } 
+        System.out.println("Solution cards are: " + Arrays.toString(str));
 	}
 	
 	public ArrayList<MessageDeal> dealCards(int playerCount) {

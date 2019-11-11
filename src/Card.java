@@ -14,7 +14,7 @@ public class Card implements Serializable{
 		BALLROOM, BILLIARD_ROOM, CONSERVATORY, DINING_ROOM, HALL, KITCHEN, LIBRARY, LOUNGE, STUDY;
 	}
 	public static enum Weapon{
-		CANDLE_STICK, DAGGER, LEAD, PIPE, REVOLVER, ROPE, WRENCH;
+		CANDLE_STICK, DAGGER, LEAD_PIPE, REVOLVER, ROPE, WRENCH;
 	}
 
 	private Suspect suspect;

@@ -316,11 +316,10 @@ public class Player {
             System.out.println("Who do you think did it?");
             System.out.println("[1] CANDLE_STICK");
             System.out.println("[2] DAGGER");
-            System.out.println("[3] LEAD");
-            System.out.println("[4] PIPE");
-            System.out.println("[5] REVOLVER");
-            System.out.println("[6] ROPE");
-            System.out.println("[7] WRENCH");
+            System.out.println("[3] LEAD_PIPE");
+            System.out.println("[4] REVOLVER");
+            System.out.println("[5] ROPE");
+            System.out.println("[6] WRENCH");
             Scanner input = new Scanner(System.in);
             int choice = input.nextInt();
             switch(choice){
@@ -333,22 +332,18 @@ public class Player {
                     invalid = false;
                     break;
                 case 3:
-                    weaponGuess.setWeapon(Card.Weapon.LEAD);
+                    weaponGuess.setWeapon(Card.Weapon.LEAD_PIPE);
                     invalid = false;
                     break;
-                case 4:
-                    weaponGuess.setWeapon(Card.Weapon.PIPE);
-                    invalid = false;
-                    break;
-                case  5:
+                case  4:
                     weaponGuess.setWeapon(Card.Weapon.REVOLVER);
                     invalid = false;
                     break;
-                case 6:
+                case 5:
                     weaponGuess.setWeapon(Card.Weapon.ROPE);
                     invalid = false;
                     break;
-                case 7:
+                case 6:
                     weaponGuess.setWeapon(Card.Weapon.WRENCH);
                     invalid = false;
                     break;
@@ -495,11 +490,10 @@ public class Player {
             System.out.println("Who do you think did it?");
             System.out.println("[1] CANDLE_STICK");
             System.out.println("[2] DAGGER");
-            System.out.println("[3] LEAD");
-            System.out.println("[4] PIPE");
-            System.out.println("[5] REVOLVER");
-            System.out.println("[6] ROPE");
-            System.out.println("[7] WRENCH");
+            System.out.println("[3] LEAD_PIPE");
+            System.out.println("[4] REVOLVER");
+            System.out.println("[5] ROPE");
+            System.out.println("[6] WRENCH");
             input = new Scanner(System.in);
             choice = input.nextInt();
             switch(choice){
@@ -512,22 +506,18 @@ public class Player {
                     invalid = 0;
                     break;
                 case 3:
-                    weaponGuess.setWeapon(Card.Weapon.LEAD);
+                    weaponGuess.setWeapon(Card.Weapon.LEAD_PIPE);
                     invalid = 0;
                     break;
-                case 4:
-                    weaponGuess.setWeapon(Card.Weapon.PIPE);
-                    invalid = 0;
-                    break;
-                case  5:
+                case  4:
                     weaponGuess.setWeapon(Card.Weapon.REVOLVER);
                     invalid = 0;
                     break;
-                case 6:
+                case 5:
                     weaponGuess.setWeapon(Card.Weapon.ROPE);
                     invalid = 0;
                     break;
-                case 7:
+                case 6:
                     weaponGuess.setWeapon(Card.Weapon.WRENCH);
                     invalid = 0;
                     break;
@@ -592,24 +582,36 @@ public class Player {
         Card suspect = new Card();
         Card weapon = new Card();
         Card room = new Card();
+        ArrayList<Card> disprovingCards = new ArrayList<Card>();
         for(int i = 0; i < handSize; i++){
             if(this.hand.get(i).equals(message.getSuspect())) {
             	System.out.println("get suspect to disprove");
             	suspect = message.getSuspect();
                 personDisprove.setSuspect(suspect.getSuspect());
+                disprovingCards.add(personDisprove);
             }
             if(this.hand.get(i).equals(message.getWeapon())) {
             	System.out.println("get weapon to disprove");
                 weapon = message.getWeapon();
-            	personDisprove.setWeapon(weapon.getWeapon());
+            	weaponDisprove.setWeapon(weapon.getWeapon());
+            	disprovingCards.add(weaponDisprove);
             }
             if(this.hand.get(i).equals(message.getRoom()));{
             	System.out.println("get room to disprove");
                 roomDisprove = message.getRoom();
-                personDisprove.setRoom(room.getRoom());
+                roomDisprove.setRoom(room.getRoom());
+                disprovingCards.add(roomDisprove);
             }
         }
-
+        String str[] = new String[disprovingCards.size()]; 
+        
+        for (int j = 0; j < disprovingCards.size(); j++) {  
+            str[j] = disprovingCards.get(j).toString(); 
+        } 
+        System.out.println("you can use these cards to disprove the guess: " + Arrays.toString(str));
+        if(disprovingCards.isEmpty()) {
+        	System.out.println("you cannot disprove this guess");
+        }
         while(true){
             if(personDisprove.getSuspect() != null)
                 System.out.println("[1] Disprove with: "+personDisprove);
