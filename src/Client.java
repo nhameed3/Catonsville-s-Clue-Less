@@ -315,35 +315,12 @@ public class Client {
 							}		
 						}
 					}
-					// if they can't make a guess they can only pass or accuse
+					// if they can't make a guess they can only pass
 					else {
 						// turn is over
 						turnOver = true;
-						// ask player if they want to guess or accuse
-						Message finalAct = thisPlayer.makeAccusation();
-						// run a switch based on accusation or guess
-						switch( finalAct.getType() ) {
-							// if its an accusation its type 5
-							case 5: 
-							{
-								//send accusage method to server
-								sendMessage(finalAct, out, thisPlayer.getPlayerNum());
-								// get result
-								
-								MessageCheckSolution accuseResult = (MessageCheckSolution) getMessage(in);
-								// pass result to Player
-								thisPlayer.getAccuseResult(accuseResult);
-								break;
-							}
-							// the other option is a pass
-							case 6:
-							{
-								// send it to Server
-								Message passMessage = new Message(6, thisPlayer.getPlayerNum());
-								sendMessage(passMessage, out, thisPlayer.getPlayerNum());
-								break;
-							}
-						}
+						Message passMessage = new Message(6, thisPlayer.getPlayerNum());
+						sendMessage(passMessage, out, thisPlayer.getPlayerNum());
 					}
 				}
 				else {
