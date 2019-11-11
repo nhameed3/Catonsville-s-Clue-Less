@@ -353,6 +353,7 @@ public class Client {
 	
 	private static void sendMessage(Message outMessage, ObjectOutputStream out, int thisPlayer) throws IOException{
 		System.out.println("Send Message of Type " + outMessage.getType());
+		outMessage.setPlayer(thisPlayer);
 		out.writeObject(outMessage);
 		out.flush();
 	}
