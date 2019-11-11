@@ -187,8 +187,11 @@ public class Client {
 			{
 				// cast it to MessageAccusation
 				Message guessResult = thisPlayer.disprove( (MessageAccusation) inMessage);
-				sendMessage(guessResult, out, thisPlayer.getPlayerNum());
-				out.writeObject(guessResult);
+				//cast it
+				MessageCheckGuess guessResultCasted = (MessageCheckGuess) guessResult;
+				//error check
+				System.out.println("Result of guess check is " + guessResultCasted.getDisproven());
+				sendMessage(guessResultCasted, out, thisPlayer.getPlayerNum());
 				break;
 			}
 			// case 14 means game is over
@@ -252,6 +255,7 @@ public class Client {
 									System.out.println("Invalid guess, you're not in that room.");
 									//send back a pass message but we probably want to actually trigger another
 									Message passMessage = new Message(6, thisPlayer.getPlayerNum());
+									sendMessage(passMessage, out, thisPlayer.getPlayerNum());
 									break;
 								}
 								// if guess was valid

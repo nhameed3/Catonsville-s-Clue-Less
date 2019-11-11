@@ -282,6 +282,8 @@ public class Server{
 							statusMessage.setText(clientList.get(i).getName() + " disproved the guess!");
 							sendToAll(clientList, statusMessage, currentPlayer);
 						}
+						//break to exit the for loop since we've now disproved it
+						break;
 					}
 					
 					/* if guessDisproven is still false that means no one disproved the guess. Send back
