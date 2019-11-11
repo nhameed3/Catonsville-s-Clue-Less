@@ -608,9 +608,10 @@ public class Player {
 	        
 	        for (int j = 0; j < disprovingCards.size(); j++) {  
 	            str[j] = disprovingCards.get(j).toString(); 
-	        } 
+	        }
+	        System.out.println("you can use these cards to disprove the guess: " + Arrays.toString(str));
         }
-        System.out.println("you can use these cards to disprove the guess: " + Arrays.toString(str));
+        
         if(disprovingCards.isEmpty()) {
         	System.out.println("you cannot disprove this guess");
         }
