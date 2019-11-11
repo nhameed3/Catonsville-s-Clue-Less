@@ -96,18 +96,18 @@ class Board
 		locationArray[6] = new Location( 6, "CONSERVATORY", false, false, 16, -1, -1, 19, 2 );
 		locationArray[7] = new Location( 7, "BALLROOM", false, false, 17, -1, 19, 20, -2 );
 		locationArray[8] = new Location( 8, "KITCHEN", false, false, 18, -1, 20, -1, 0 );
-		locationArray[9] = new Location( 9, "Hallway 1", true, false, -1, -1, 0, 1, -2 );
-		locationArray[10] = new Location( 10, "Hallway 2", true, true, -1, -1, 1, 2, -2 );
-		locationArray[11] = new Location( 11, "Hallway 3", true, true, 0, 3, -1, -1, -2 );
-		locationArray[12] = new Location( 12, "Hallway 4", true, false, 1, 4, -1, -1, -2 );
-		locationArray[13] = new Location( 13, "Hallway 5", true, true, 2, 5, -1, -1, -2 );
-		locationArray[14] = new Location( 14, "Hallway 6", true, false, -1, -1, 3, 4, -2 );
-		locationArray[15] = new Location( 15, "Hallway 7", true, false, -1, -1, 4, 5, -2 );
-		locationArray[16] = new Location( 16, "Hallway 8", true, true, 3, 6, -1, -1, -2 );
-		locationArray[17] = new Location( 17, "Hallway 9", true, false, 4, 7, -1, -1, -2 );
-		locationArray[18] = new Location( 18, "Hallway 10", true, false, 5, 8, -1, -1, -2 );
-		locationArray[19] = new Location( 19, "Hallway 11", true, true, -1, -1, 6, 7, -2 );
-		locationArray[20] = new Location( 20, "Hallway 12", true, true, -1, -1, 7, 8, -2 );
+		locationArray[9] = new Location( 9, "HALLWAY 1", true, false, -1, -1, 0, 1, -2 );
+		locationArray[10] = new Location( 10, "HALLWAY 2", true, true, -1, -1, 1, 2, -2 );
+		locationArray[11] = new Location( 11, "HALLWAY 3", true, true, 0, 3, -1, -1, -2 );
+		locationArray[12] = new Location( 12, "HALLWAY 4", true, false, 1, 4, -1, -1, -2 );
+		locationArray[13] = new Location( 13, "HALLWAY 5", true, true, 2, 5, -1, -1, -2 );
+		locationArray[14] = new Location( 14, "HALLWAY 6", true, false, -1, -1, 3, 4, -2 );
+		locationArray[15] = new Location( 15, "HALLWAY 7", true, false, -1, -1, 4, 5, -2 );
+		locationArray[16] = new Location( 16, "HALLWAY 8", true, true, 3, 6, -1, -1, -2 );
+		locationArray[17] = new Location( 17, "HALLWAY 9", true, false, 4, 7, -1, -1, -2 );
+		locationArray[18] = new Location( 18, "HALLWAY 10", true, false, 5, 8, -1, -1, -2 );
+		locationArray[19] = new Location( 19, "HALLWAY 11", true, true, -1, -1, 6, 7, -2 );
+		locationArray[20] = new Location( 20, "HALLWAY 12", true, true, -1, -1, 7, 8, -2 );
 
 		playerPosition[0] = 10;
 		playerPosition[1] = 19;
@@ -244,7 +244,7 @@ class Board
 		String returnText;
 		Message returnMessage;
 
-		if ( crimeLocation == this.locationArray[playerPosition[playerMakingGuess]].locationName )
+		if ( crimeLocation.equalsIgnoreCase( this.locationArray[playerPosition[playerMakingGuess]].locationName ))
 		{
 			int playerUnderGuess = -1;
 
@@ -310,7 +310,7 @@ class Board
 			avatarName = this.playerAvatar[i];
 			positionName = this.locationArray[playerPosition[i]].locationName;
 
-			status += "Player " + ( i+1 ) + "(" + avatarName + ") is at " + positionName + ".\n";
+			status += "Player " + ( i+1 ) + " (" + avatarName + ") is at " + positionName + ".\n";
 		}
 
 		return status;
