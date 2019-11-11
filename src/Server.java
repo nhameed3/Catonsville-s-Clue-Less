@@ -82,18 +82,21 @@ public class Server{
 		// have a tracker for how many eliminated players there are
 		int eliminatedCount = 0;
 		
+		// set up array to track eliminated players
+		boolean [] eliminatedPlayers = new boolean[maxPlayers];
+		
 		// start a while loop that cycles through each players turn until game is over
 		while( !gameOver) {
 			// calculate whose turn it is
 			int currentPlayer = turnCount % maxPlayers;
+			// iterate turnCount
+			turnCount++;
 			// send out a board status
 			{
 				Message statusUpdate = new Message(11,-1);
 				statusUpdate.setText(gameBoard.getStatus());
 				sendToAll(clientList, statusUpdate, 7);
 			}
-			// create array to track whose out of the game. All start as false
-			boolean [] eliminatedPlayers = new boolean[maxPlayers];
 			
 			// have a 2 element boolean array for turnResults
 			boolean [] turnResults = new boolean[2];
@@ -110,7 +113,6 @@ public class Server{
 				}
 				// store the results of the turn in turnResults and start their turn
 				turnResults = playerTurn(gameBoard, gameDeck, clientList, turnResults, currentPlayer);
-				turnCount++;
 				// check if game is over
 				if( turnResults[0]) {
 					gameOver = true;
@@ -144,6 +146,8 @@ public class Server{
 					}
 				}
 			}
+			
+			
 
 		}
 		
