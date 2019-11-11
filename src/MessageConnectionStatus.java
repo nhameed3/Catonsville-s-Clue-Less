@@ -3,16 +3,19 @@
  * 
  */
 
+import java.util.*;
 
 public class MessageConnectionStatus extends Message{
 	
-	// we store which avatars are available in a boolean array length 6
-	private boolean [] avatars = new boolean[6];
+	// we store which avatars are available in an arrayList of integers
+	
+	private boolean[] avatars;
 	
 	// default constructor
 	MessageConnectionStatus() {
 		super();
 		this.messageType = 10;
+		this.avatars = new boolean[6];
 	}
 	
 	//constructor
@@ -25,7 +28,7 @@ public class MessageConnectionStatus extends Message{
 	
 	
 	// method to set the avatars
-	public void setAvatars(boolean[] newAvatars) {
+	public void setAvatars(boolean [] newAvatars) {
 		this.avatars = newAvatars;
 	}
 	
@@ -34,6 +37,4 @@ public class MessageConnectionStatus extends Message{
 	public boolean[] getAvatars() {
 		return this.avatars;
 	}
-	
-	
 }

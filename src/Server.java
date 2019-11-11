@@ -79,23 +79,26 @@ public class Server{
 			}
 		}
 		
+		// have a tracker for how many eliminated players there are
+		int eliminatedCount = 0;
 		
 		// start a while loop that cycles through each players turn until game is over
 		while( !gameOver) {
 			// calculate whose turn it is
 			int currentPlayer = turnCount % maxPlayers;
 			// send out a board status
-			/*
 			{
 				Message statusUpdate = new Message(11,-1);
 				statusUpdate.setText(gameBoard.getStatus());
 				sendToAll(clientList, statusUpdate, 7);
-			}*/
+			}
 			// create array to track whose out of the game. All start as false
 			boolean [] eliminatedPlayers = new boolean[maxPlayers];
 			
 			// have a 2 element boolean array for turnResults
 			boolean [] turnResults = new boolean[2];
+			
+			
 			
 			// check to see if currentPlayer is eliminated
 			if ( eliminatedPlayers[currentPlayer] == false ) {
@@ -116,6 +119,29 @@ public class Server{
 				if( turnResults[1]) {
 					// register player as eliminated
 					eliminatedPlayers[currentPlayer] = true;
+					eliminatedCount++;
+				}
+				
+				//check if there's only 1 player still left
+				if( eliminatedCount == (maxPlayers - 1) ) {
+					//game is over
+					gameOver = true;
+					//if only 1 player left they win, figure out who it is
+					int winningPlayer;
+					for( int i = 0; i < maxPlayers; i++) {
+						if( eliminatedPlayers[i] == false) {
+							//if they're not eliminated they win
+							winningPlayer = i;
+							//send a win Message
+							Message winningMessage = new Message(7, -1);
+							winningMessage.setText("You win!");
+							clientList.get(winningPlayer).sendMessage(winningMessage);
+							//send a status message to everyone
+							Message winnerMessage = new Message(11, -1);
+							winnerMessage.setText(clientList.get(winningPlayer).getName() + " wins the game!");
+							sendToAll(clientList, winnerMessage, 7);
+						}
+					}
 				}
 			}
 
@@ -136,13 +162,14 @@ public class Server{
 	players will there be
 	*/
 	private static void gatherConnections(ServerSocket server) throws IOException, ClassNotFoundException{
+		// create the boolean avatars array
+		boolean [] avatars = new boolean[6];
+		
 		while( clientCount < maxPlayers) {
-			
-			// create boolean array for tracking avatars
-			boolean [] avatars = new boolean[6];
 			
 			// accept client connection as Socket game
 			Socket game = server.accept();
+			
 			// troubleshooting message
 			System.out.println("Accepted connection at count " + clientCount);
 
@@ -204,65 +231,80 @@ public class Server{
 			// boolean for guessDisproven
 			boolean guessDisproven = false;
 			
-			// send out status message
-			{
-				Message statusMessage = new Message(11, -1);
-				statusMessage.setText(clientList.get(currentPlayer).getName() + " has made a guess.");
-				sendToAll(clientList, statusMessage, currentPlayer);
-			}
+			// ask the board to process the guess
+			Message guessCheck = gameBoard.processGuess((MessageAccusation) guessMessage);
 			
-			/*We loop through the client list but it's a weird loop. We start at 
-			 * currentPlayer+1 (the next player), we want to go through the loop as many times
-			 * as their are players in the game which we get from clientList.size(). But 
-			 * we have to add that to currentPlayer to get the end of the loop.
-			 */
-			for( int i = (currentPlayer + 1); i < (currentPlayer + clientList.size() ); i++) {
-				// because we can loop from last player to first player we need to reset i back to 0 and then
-				if ( i >= clientList.size() ) {
-					i = i - clientList.size();
-				}
-				
-				// now we do the guess thing on this currentClient
-				// send the Guess message
-				clientList.get(i).sendMessage(guessMessage);
-				// receive the result
-				MessageCheckGuess guessResult = (MessageCheckGuess) clientList.get(i).getMessage();
-				//is the guess disproven? For now I'm using genericInt but this probably needs to be rewritten to match Pete's
-				if( guessResult.getDisproven() == true) {
-					//we set guessDisproven to true
-					guessDisproven = true;
-					// we send the original player the message disproving the guess
-					clientList.get(currentPlayer).sendMessage(guessResult);
-					// we sent a message to everyone else
-					{
-						Message statusMessage = new Message(11, -1);
-						statusMessage.setText(clientList.get(i).getName() + " disproved the guess!");
-						sendToAll(clientList, statusMessage, currentPlayer);
-					}
-					// we break from the for loop because someone has proven the guess wrong
-					break;
+			//is the guess a valid one? guessCheck 21 is invalid, 20 is valid
+			if( guessCheck.getType() == 21) {
+				//if the guess is an invalid one we send it to the User and we're done here
+				clientList.get(currentPlayer).sendMessage(guessCheck);
+				//send status to rest of game
+				{
+					Message statusUpdate = new Message(11, -1);
+					statusUpdate.setText(clientList.get(currentPlayer).getName() + " tried to make an invalid guess.");
+					sendToAll(clientList, statusUpdate, currentPlayer);
 				}
 			}
-			
-			/* if guessDisproven is still false that means no one disproved the guess. Send back
-			 * a Message of guessDisproven with status false from the server. For now this is a generic
-			 * Message but this probably needs to be updated once Pete adds this class. I'm using genericInt
-			 * set to 0 to mean no one disproved it
-			 */
-			if( guessDisproven == false) {
-				MessageCheckGuess guessResult = new MessageCheckGuess(true, null, 19);
-				guessResult.setPlayer(-1);
-				clientList.get(currentPlayer).sendMessage(guessResult);
-				
-				// send out a message to everyone else status update
+			else {
+				// inform user guess was valid
+				clientList.get(currentPlayer).sendMessage(guessCheck);
+				// send out status message to everyone else
 				{
 					Message statusMessage = new Message(11, -1);
-					statusMessage.setText(clientList.get(currentPlayer).getName() + "'s guess was not disproven by anyone.");
+					statusMessage.setText(clientList.get(currentPlayer).getName() + " has made a guess.");
 					sendToAll(clientList, statusMessage, currentPlayer);
 				}
-			}
-		
-	}
+				/*We loop through the client list but it's a weird loop. We start at 
+				 * currentPlayer+1 (the next player), we want to go through the loop as many times
+				 * as their are players in the game which we get from clientList.size(). But 
+				 * we have to add that to currentPlayer to get the end of the loop.
+				 */
+				for( int i = (currentPlayer + 1); i < (currentPlayer + clientList.size() ); i++) {
+					// because we can loop from last player to first player we need to reset i back to 0 and then
+					if ( i >= clientList.size() ) {
+						i = i - clientList.size();
+					}
+					
+					// now we do the guess thing on this currentClient
+					// send the Guess message
+					clientList.get(i).sendMessage(guessMessage);
+					// receive the result
+					MessageCheckGuess guessResult = (MessageCheckGuess) clientList.get(i).getMessage();
+					//is the guess disproven?
+					if( guessResult.getDisproven() == true) {
+						//we set guessDisproven to true
+						guessDisproven = true;
+						// we send the original player the message disproving the guess
+						clientList.get(currentPlayer).sendMessage(guessResult);
+						// we sent update message to everyone else
+						{
+							Message statusMessage = new Message(11, -1);
+							statusMessage.setText(clientList.get(i).getName() + " disproved the guess!");
+							sendToAll(clientList, statusMessage, currentPlayer);
+						}
+					}
+					
+					/* if guessDisproven is still false that means no one disproved the guess. Send back
+					 * a Message of guessDisproven with status false from the server. For now this is a generic
+					 * Message but this probably needs to be updated once Pete adds this class. I'm using genericInt
+					 * set to 0 to mean no one disproved it
+					 */
+					
+					if( guessDisproven == false) {
+						MessageCheckGuess serverGuessResult = new MessageCheckGuess(true, null, 19);
+						serverGuessResult.setPlayer(-1);
+						clientList.get(currentPlayer).sendMessage(guessResult);
+						// send out a message to everyone else status update
+						{
+							Message statusMessage = new Message(11, -1);
+							statusMessage.setText(clientList.get(currentPlayer).getName() + "'s guess was not disproven by anyone.");
+							sendToAll(clientList, statusMessage, currentPlayer);
+						}
+					}
+				}
+			
+			}		
+		}
 	
 	// move method
 	private static void move(Message moveMessage, Board gameBoard, ArrayList<ConnectionManager> clientList, int currentPlayer) {

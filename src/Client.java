@@ -246,33 +246,49 @@ public class Client {
 								//send guesMessage to server
 								sendMessage(guessMessage, out, thisPlayer.getPlayerNum());
 								
-								// receive result back
-								MessageCheckGuess resultMessage = (MessageCheckGuess) getMessage(in);
-								
-								//send result to player and store return in finalAct
-								Message finalAct = thisPlayer.getGuessResult(resultMessage);
-								
-								// did player Accuse?
-								if ( finalAct.getType() == 5) {
+								// was guess valid?
+								Message guessValidity = (Message) getMessage(in);
+								if( guessValidity.getType() == 21) {
+									System.out.println("Invalid guess, you're not in that room.");
+									//send back a pass message but we probably want to actually trigger another
+									Message passMessage = new Message(6, thisPlayer.getPlayerNum());
+									break;
+								}
+								// if guess was valid
+								else {
+									// receive result back
+									MessageCheckGuess resultMessage = (MessageCheckGuess) getMessage(in);
 									
-									//send accusage method to server
-									sendMessage(finalAct, out, thisPlayer.getPlayerNum());
-									System.out.println("Send accusation to Server.");
-									// get result
-									Message accuseResult = (Message) getMessage(in);
-									{
-										boolean gotResult = false;
-										while( gotResult == false) {
-											if( accuseResult.getType() == 18) {
-												gotResult = true;
+									//send result to player and store return in finalAct
+									Message finalAct = thisPlayer.getGuessResult(resultMessage);
+									
+									// did player Accuse?
+									if ( finalAct.getType() == 5) {
+										
+										//send accusage method to server
+										sendMessage(finalAct, out, thisPlayer.getPlayerNum());
+										System.out.println("Send accusation to Server.");
+										// get result
+										Message accuseResult = (Message) getMessage(in);
+										{
+											boolean gotResult = false;
+											while( gotResult == false) {
+												if( accuseResult.getType() == 18) {
+													gotResult = true;
+												}
 											}
 										}
+										System.out.println("Received result from Server");
+										// pass result to Player
+										thisPlayer.getAccuseResult((MessageCheckSolution) accuseResult);
 									}
-									System.out.println("Received result from Server");
-									// pass result to Player
-									thisPlayer.getAccuseResult((MessageCheckSolution) accuseResult);
+									// if player didn't accuse they massed
+									else {
+										//send pass message
+										sendMessage(finalAct, out, thisPlayer.getPlayerNum());
+									}
 								}
-								break;
+								break;	
 							}
 							// case 5 means they are making an accusation
 							case 5:
