@@ -95,6 +95,9 @@ public class Deck {
 		solution.add(roomCard);
 		solution.add(weaponCard);
 		solution.add(suspectCard);
+		deckCards.remove(roomCard);
+		deckCards.remove(weaponCard);
+		deckCards.remove(suspectCard);
 	}
 	
 	public ArrayList<MessageDeal> dealCards(int playerCount) {
@@ -104,7 +107,7 @@ public class Deck {
 		for(int i = 1; i<= playerCount; i++) {
 			ArrayList<Card> playerCards = new ArrayList<Card>();
 			for(int cards = 0; cards<=numCards; cards++) {
-				if(deckCards.get(0) != null) {
+				if(!deckCards.isEmpty()) {
 					playerCards.add(deckCards.get(0));
 					deckCards.remove(0);
 				}else {

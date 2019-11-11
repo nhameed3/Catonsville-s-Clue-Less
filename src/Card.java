@@ -43,9 +43,9 @@ public class Card implements Serializable{
 	
 	public String toString() {
 		String cardString = "something broke in card to string";
-		if(room == null && suspect == null) {
+		if(this.room == null && this.suspect == null) {
 			cardString = (this.weapon).toString();
-		}else if(room == null && weapon == null) {
+		}else if(this.room == null && this.weapon == null) {
 			cardString = (this.suspect).toString();
 		}else {
 			cardString = (this.room).toString();
