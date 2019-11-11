@@ -45,17 +45,17 @@ public class Deck {
 		
 		ArrayList<Card> incorrect = new ArrayList<Card>();
 		boolean correct = true;
-		if(accuse.getRoom() != solution.get(0)) {
+		if(!accuse.getRoom().equals(solution.get(0))) {
 			incorrect.add(accuse.getRoom());
 			correct = false;
 		}
 		
-		if(accuse.getWeapon() != solution.get(1)) {
+		if(!accuse.getWeapon().equals(solution.get(1))) {
 			incorrect.add(accuse.getWeapon());
 			correct = false;
 		}
 		
-		if(accuse.getSuspect() != solution.get(2)) {
+		if(!accuse.getSuspect().equals(solution.get(2))) {
 			incorrect.add(accuse.getSuspect());
 			correct = false;
 		}
@@ -70,13 +70,13 @@ public class Deck {
 		
 		Card incorrectCard = new Card();
 		boolean correct = true;
-		if(accuse.getRoom() != solution.get(0)) {
+		if(!(accuse.getRoom()).equals(solution.get(0))) {
 			incorrectCard = accuse.getRoom();
 			correct = false;
-		}else if(accuse.getWeapon() != solution.get(1)) {
+		}else if(!(accuse.getWeapon()).equals(solution.get(1))) {
 			incorrectCard =accuse.getWeapon();
 			correct = false;
-		}else if(accuse.getSuspect() != solution.get(2)) {
+		}else if(!(accuse.getSuspect()).equals(solution.get(2))) {
 			incorrectCard = accuse.getSuspect();
 			correct = false;
 		}
@@ -100,12 +100,16 @@ public class Deck {
 	public ArrayList<MessageDeal> dealCards(int playerCount) {
 		
 		ArrayList<MessageDeal> dealMessages = new ArrayList<MessageDeal>();
-		
+		int numCards = deckCards.size()/playerCount;
 		for(int i = 1; i<= playerCount; i++) {
 			ArrayList<Card> playerCards = new ArrayList<Card>();
-			for(int cards = 0; cards<=deckCards.size()/playerCount; cards++) {
-				playerCards.add(deckCards.get(0));
-				deckCards.remove(0);
+			for(int cards = 0; cards<=numCards; cards++) {
+				if(deckCards.get(0) != null) {
+					playerCards.add(deckCards.get(0));
+					deckCards.remove(0);
+				}else {
+					break;
+				}
 			}
 			MessageDeal playerHand = new MessageDeal(playerCards);
 			dealMessages.add(playerHand);

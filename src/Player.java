@@ -618,7 +618,7 @@ public class Player {
             if(roomDisprove.getRoom() != null)
                 System.out.println("[3] Disprove with: "+roomDisprove);
 
-            if(roomDisprove == null && weaponDisprove == null && personDisprove == null){
+            if(roomDisprove.getRoom()==null &&weaponDisprove.getWeapon() ==null&& personDisprove.getSuspect() == null){
                 System.out.println("You cannot disprove this guess");
                 MessageCheckGuess cannotDisprove = new MessageCheckGuess(false, null, 19);      //pass message
                 cannotDisprove.setPlayer(m_playerNum);
