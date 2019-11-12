@@ -589,20 +589,23 @@ public class Player {
         System.out.println("room guess is " + message.getRoom());
         for(int i = 0; i < handSize; i++){
         	currentCard = this.hand.get(i);
-        	//System.out.println("current card is " + currentCard);
+        	System.out.println("current card is " + currentCard);
             if((this.hand.get(i).toString()).equals(message.getSuspect().toString())) {
             	suspect = message.getSuspect();
                 personDisprove.setSuspect(suspect.getSuspect());
                 disprovingCards.add(personDisprove);
                 //System.out.println(personDisprove);
             }
-            else if((this.hand.get(i).toString()).equals(message.getWeapon().toString())) {
+            if((this.hand.get(i).toString()).equals(message.getWeapon().toString())) {
                 weapon = message.getWeapon();
             	weaponDisprove.setWeapon(weapon.getWeapon());
             	disprovingCards.add(weaponDisprove);
             	//System.out.println(weaponDisprove);
             }
-            else if((this.hand.get(i).toString()).equals(message.getRoom().toString())){
+            System.out.println("this hand has " + this.hand.get(i).toString());
+            System.out.println("this message has room " + message.getRoom().toString());
+            System.out.println("comparing " + this.hand.get(i).toString() + " " + message.getRoom().toString());
+            if((this.hand.get(i).toString()).equals(message.getRoom().toString())){
                 roomDisprove = message.getRoom();
                 roomDisprove.setRoom(room.getRoom());
                 disprovingCards.add(roomDisprove);
