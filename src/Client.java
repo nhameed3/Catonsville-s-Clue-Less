@@ -355,7 +355,7 @@ public class Client {
 	}
 	
 	private static void sendMessage(Message outMessage, ObjectOutputStream out, int thisPlayer) throws IOException{
-		System.out.println("Send Message of Type " + outMessage.getType());
+		//System.out.println("Send Message of Type " + outMessage.getType());
 		outMessage.setPlayer(thisPlayer);
 		out.writeObject(outMessage);
 		out.flush();
@@ -363,7 +363,7 @@ public class Client {
 	
 	private static Message getMessage(ObjectInputStream in) throws IOException, ClassNotFoundException{
 		Message inMessage = (Message) in.readObject();
-		System.out.println("Received Message of type " + inMessage.getType());
+		//System.out.println("Received Message of type " + inMessage.getType());
 		return inMessage;
 	}
 }
