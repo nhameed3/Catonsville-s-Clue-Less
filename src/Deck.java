@@ -111,7 +111,8 @@ public class Deck {
 	public ArrayList<MessageDeal> dealCards(int playerCount) {
 		
 		ArrayList<MessageDeal> dealMessages = new ArrayList<MessageDeal>();
-		int numCards = deckCards.size()/playerCount;
+		int numCards = (deckCards.size()/playerCount)-1;
+		System.out.println("num cards is " + numCards);
 		for(int i = 1; i<= playerCount; i++) {
 			ArrayList<Card> playerCards = new ArrayList<Card>();
 			for(int cards = 0; cards<=numCards; cards++) {
