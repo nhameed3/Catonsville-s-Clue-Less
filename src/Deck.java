@@ -46,17 +46,18 @@ public class Deck {
 		
 		ArrayList<Card> incorrect = new ArrayList<Card>();
 		boolean correct = true;
-		if(!accuse.getRoom().equals(solution.get(0))) {
+		//System.out.println("comparing " + accuse.getRoom().toString() + " " + solution.get(0).toString());
+		if(!accuse.getRoom().toString().equals(solution.get(0).toString())) {
 			incorrect.add(accuse.getRoom());
 			correct = false;
 		}
-		
-		if(!accuse.getWeapon().equals(solution.get(1))) {
+		//System.out.println("comparing " + accuse.getWeapon().toString() + " " + solution.get(1).toString());
+		if(!accuse.getWeapon().toString().equals(solution.get(1).toString())) {
 			incorrect.add(accuse.getWeapon());
 			correct = false;
 		}
-		
-		if(!accuse.getSuspect().equals(solution.get(2))) {
+		//System.out.println("comparing " + accuse.getSuspect().toString() + " " + solution.get(2).toString());
+		if(!accuse.getSuspect().toString().equals(solution.get(2).toString())) {
 			incorrect.add(accuse.getSuspect());
 			correct = false;
 		}

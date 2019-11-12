@@ -187,7 +187,7 @@ public class Player {
     }
     
     public void getAccuseResult(MessageCheckSolution message){
-    	if(message.incorrectCards.get(0) != null) {
+    	if(!message.incorrectCards.isEmpty()) {
     		System.out.println("Disproved by: "+ message.incorrectCards.get(0));
     		System.out.println("YOU LOSE");
     	}
