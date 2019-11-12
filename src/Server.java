@@ -26,16 +26,14 @@ public class Server{
 	// turnCount: int to track how many turns we have
 	static int turnCount = 0;
 	
-	// boolean for gameOver
-	static boolean gameOver = false;
-	
-	
 	public static void main (String [] args) throws IOException, ClassNotFoundException {
 		//confirm arguments
 		if( args.length != 1) {
 			System.err.println("Invalid arugments. java GameSever <port>");
 			System.exit(1);
 		}
+		
+		
 				
 		// set the port
 		int port = Integer.parseInt(args[0]);
@@ -65,6 +63,9 @@ public class Server{
 		Deck gameDeck = new Deck();
 		gameDeck.createSolution();
 		
+		//boolean for gameOver
+		boolean gameOver = false;
+		
 		//ask the deck for Deal. again in a block so that the array is limited scope
 		{
 			ArrayList<MessageDeal> dealArray = gameDeck.dealCards(clientCount);
@@ -86,7 +87,7 @@ public class Server{
 		boolean [] eliminatedPlayers = new boolean[maxPlayers];
 		
 		// start a while loop that cycles through each players turn until game is over
-		while( !gameOver) {
+		while( gameOver == false) {
 			// calculate whose turn it is
 			int currentPlayer = turnCount % maxPlayers;
 			// iterate turnCount
@@ -114,7 +115,7 @@ public class Server{
 				// store the results of the turn in turnResults and start their turn
 				turnResults = playerTurn(gameBoard, gameDeck, clientList, turnResults, currentPlayer);
 				// check if game is over
-				if( turnResults[0]) {
+				if( turnResults[0] == true) {
 					gameOver = true;
 				}
 				// check if player is eliminated
@@ -373,24 +374,27 @@ public class Server{
 						// send result to player
 						clientList.get(currentPlayer).sendMessage((MessageCheckSolution) accusationResult);
 						// send update to everyone
-						/*
+						
+						// send win message to user
 						{
-							System.out.println("Entering the correct accusation block.");
+							
+							Message winMessage = new Message(7, -1);
+							currentClient.sendMessage(winMessage);
+						}
+						
+						// send status message to everyone
+						{
 							Message statusUpdate = new Message(11,-1);
 							statusUpdate.setText(currentClient.getName() + " solved the crime and wins!");
 							sendToAll(clientList, statusUpdate, currentPlayer);
 						}
-						*/
-						// send win message to user
-						{
-							Message winMessage = new Message(7, -1);
-							currentClient.sendMessage(winMessage);
-						}
+						
 						
 						// here is another place i need a method to send a message to everyone but the current player
 						
 						//set turnResult[0] to true to indicate game is over
 						turnResults[0] = true;
+						turnOver = true;
 					}
 					// if it's not 1 it's a lose
 					else {
