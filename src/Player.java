@@ -602,11 +602,8 @@ public class Player {
             	disprovingCards.add(weaponDisprove);
             	//System.out.println(weaponDisprove);
             }
-            System.out.println("this hand has " + this.hand.get(i).toString());
-            System.out.println("this message has room " + message.getRoom().toString());
-            System.out.println("comparing " + this.hand.get(i).toString() + " " + message.getRoom().toString());
             if((this.hand.get(i).toString()).equals(message.getRoom().toString())){
-                roomDisprove = message.getRoom();
+                room = message.getRoom();
                 roomDisprove.setRoom(room.getRoom());
                 disprovingCards.add(roomDisprove);
                 //System.out.println(roomDisprove);
