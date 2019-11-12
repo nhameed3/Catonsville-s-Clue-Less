@@ -119,7 +119,7 @@ public class Server{
 					gameOver = true;
 				}
 				// check if player is eliminated
-				if( turnResults[1]) {
+				if( turnResults[1] == true) {
 					// register player as eliminated
 					eliminatedPlayers[currentPlayer] = true;
 					eliminatedCount++;
@@ -335,6 +335,11 @@ public class Server{
 		//have a flag for tracking turnOver
 		boolean turnOver = false;
 		
+		// store the turnOver locally
+		boolean []  localResults = turnResults;
+		
+		
+		
 		
 		// grab reference to currentClient
 		ConnectionManager currentClient = clientList.get(currentPlayer);
@@ -373,7 +378,6 @@ public class Server{
 					if (accusationResult.getCorrect()) {
 						// send result to player
 						clientList.get(currentPlayer).sendMessage((MessageCheckSolution) accusationResult);
-						// send update to everyone
 						
 						// send win message to user
 						{
@@ -389,12 +393,8 @@ public class Server{
 							sendToAll(clientList, statusUpdate, currentPlayer);
 						}
 						
-						
-						// here is another place i need a method to send a message to everyone but the current player
-						
-						//set turnResult[0] to true to indicate game is over
-						turnResults[0] = true;
-						turnOver = true;
+						//set turnResult[0] to true to indicate turn is over
+						localResults[0] = true;
 					}
 					// if it's not 1 it's a lose
 					else {
@@ -405,17 +405,16 @@ public class Server{
 						{
 							Message loseMessage = new Message(15, -1);
 							currentClient.sendMessage(loseMessage);
-							//set turnResult[1] to true to indicate player is eliminated
-							turnResults[1] = true;
+							
 						}
-						/*
+	
 						{
 							Message statusUpdate = new Message(11,-1);
 							statusUpdate.setText(currentClient.getName() + "was wrong and they are out of the game!");
 							sendToAll(clientList, statusUpdate, currentPlayer);
 						}
-						*/
-						// send lose message to Accuser. This should have info about what they got wrong but not inplemented
+						//set turnResult[1] to true to indicate player is eliminated
+						localResults[1] = true;
 						
 					}
 					// if a player accuses the turn is over because they are either out or they win
@@ -435,7 +434,7 @@ public class Server{
 		
 		
 		// return turnResults
-		return turnResults;
+		return localResults;
 		
 	}
 	
