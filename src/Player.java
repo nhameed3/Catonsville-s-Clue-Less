@@ -624,11 +624,11 @@ public class Player {
         }
         while(true){
             if(personDisprove.getSuspect() != null)
-                System.out.println("[1] You can disprove with: "+personDisprove);
+                System.out.println("[1] You can disprove with: "+personDisprove + " enter 1 to disprove with this card");
             if(weaponDisprove.getWeapon() != null)
-                System.out.println("[2] You can disprove with: "+weaponDisprove);
+                System.out.println("[2] You can disprove with: "+weaponDisprove + " enter 2 to disprove with this card");
             if(roomDisprove.getRoom() != null)
-                System.out.println("[3] You can disprove with: "+roomDisprove);
+                System.out.println("[3] You can disprove with: "+roomDisprove + " enter 3 to disprove with this card");
 
             if(roomDisprove.getRoom()==null &&weaponDisprove.getWeapon() ==null&& personDisprove.getSuspect() == null){
                 System.out.println("You cannot disprove this guess");
@@ -636,7 +636,7 @@ public class Player {
                 cannotDisprove.setPlayer(m_playerNum);
                 return cannotDisprove;
             }
-
+            
             Scanner input = new Scanner(System.in);
             int choice = input.nextInt();
             MessageCheckGuess canDisprove = new MessageCheckGuess(true, null, 19);
