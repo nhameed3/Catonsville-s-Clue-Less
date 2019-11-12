@@ -57,6 +57,9 @@ public class Client {
 			gameOver = playGame(currentPlayer, in, out);
 		}
 		
+		// close the socket
+		gameSocket.close();
+		
 	
 	}
 	
