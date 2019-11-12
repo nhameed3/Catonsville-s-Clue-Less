@@ -579,31 +579,38 @@ public class Player {
         Card personDisprove = new Card(null, null, null);
         Card weaponDisprove = new Card(null, null, null);
         Card roomDisprove = new Card(null, null, null);
-        Card suspect = new Card();
-        Card weapon = new Card();
-        Card room = new Card();
+        Card suspect = new Card(null, null, null);
+        Card weapon = new Card(null, null, null);
+        Card room = new Card(null, null, null);
+        Card currentCard = new Card();
         ArrayList<Card> disprovingCards = new ArrayList<Card>();
+        System.out.println("weapon guess is " + message.getWeapon());
+        System.out.println("suspect guess is " + message.getSuspect());
+        System.out.println("room guess is " + message.getRoom());
         for(int i = 0; i < handSize; i++){
-            if(this.hand.get(i).equals(message.getSuspect())) {
-            	System.out.println("get suspect to disprove");
+        	currentCard = this.hand.get(i);
+        	//System.out.println("current card is " + currentCard);
+            if((this.hand.get(i).toString()).equals(message.getSuspect().toString())) {
             	suspect = message.getSuspect();
                 personDisprove.setSuspect(suspect.getSuspect());
                 disprovingCards.add(personDisprove);
+                //System.out.println(personDisprove);
             }
-            if(this.hand.get(i).equals(message.getWeapon())) {
-            	System.out.println("get weapon to disprove");
+            else if((this.hand.get(i).toString()).equals(message.getWeapon().toString())) {
                 weapon = message.getWeapon();
             	weaponDisprove.setWeapon(weapon.getWeapon());
             	disprovingCards.add(weaponDisprove);
+            	//System.out.println(weaponDisprove);
             }
-            if(this.hand.get(i).equals(message.getRoom()));{
-            	System.out.println("get room to disprove");
+            else if((this.hand.get(i).toString()).equals(message.getRoom().toString())){
                 roomDisprove = message.getRoom();
                 roomDisprove.setRoom(room.getRoom());
                 disprovingCards.add(roomDisprove);
+                //System.out.println(roomDisprove);
             }
         }
         if(disprovingCards.size()>0) {
+        	
 	        String str[] = new String[disprovingCards.size()]; 
 	        
 	        for (int j = 0; j < disprovingCards.size(); j++) {  
@@ -617,11 +624,11 @@ public class Player {
         }
         while(true){
             if(personDisprove.getSuspect() != null)
-                System.out.println("[1] Disprove with: "+personDisprove);
+                System.out.println("[1] You can disprove with: "+personDisprove);
             if(weaponDisprove.getWeapon() != null)
-                System.out.println("[2] Disprove with: "+weaponDisprove);
+                System.out.println("[2] You can disprove with: "+weaponDisprove);
             if(roomDisprove.getRoom() != null)
-                System.out.println("[3] Disprove with: "+roomDisprove);
+                System.out.println("[3] You can disprove with: "+roomDisprove);
 
             if(roomDisprove.getRoom()==null &&weaponDisprove.getWeapon() ==null&& personDisprove.getSuspect() == null){
                 System.out.println("You cannot disprove this guess");
