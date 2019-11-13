@@ -584,12 +584,12 @@ public class Player {
         Card room = new Card(null, null, null);
         Card currentCard = new Card();
         ArrayList<Card> disprovingCards = new ArrayList<Card>();
-        System.out.println("weapon guess is " + message.getWeapon());
-        System.out.println("suspect guess is " + message.getSuspect());
-        System.out.println("room guess is " + message.getRoom());
+        //System.out.println("weapon guess is " + message.getWeapon());
+        //System.out.println("suspect guess is " + message.getSuspect());
+        //System.out.println("room guess is " + message.getRoom());
         for(int i = 0; i < handSize; i++){
         	currentCard = this.hand.get(i);
-        	System.out.println("current card is " + currentCard);
+        	//System.out.println("current card is " + currentCard);
             if((this.hand.get(i).toString()).equals(message.getSuspect().toString())) {
             	suspect = message.getSuspect();
                 personDisprove.setSuspect(suspect.getSuspect());
