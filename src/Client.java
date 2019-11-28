@@ -1,66 +1,108 @@
 import java.io.*;
 import java.util.*;
 import java.net.*;
+import javafx.application.*;
+import javafx.stage.*;
+import javafx.scene.*;
+import javafx.scene.layout.*;
+import javafx.scene.control.TextArea;
 
 /* Client is the driver of the game on client computers. It takes two arguments (IP and port) and connects to the
 server.
 */
-public class Client {
+
+public class Client extends Application{
+	
+	//create the GUI control elements as class variables so various methods can access them directly
+	
+	TextArea updateArea = new TextArea();
+	
+	
+	public void start(Stage clientStage) throws Exception{
+		
+		///////////////////////////////////////////////////////////
+		//create the main gui window
+		
+		BorderPane rootNode = new BorderPane();
+		rootNode.setBottom(updateArea);
+		
+		Scene scene = new Scene(rootNode);
+		
+		clientStage.setScene(scene);
+		clientStage.show();
+		
+		//////////////////////////////////////////////////////////
+		
+		/////////////////////////////////////////////////////////
+		// connect to server
+		new Thread(() -> {
+			// parse host
+			String host = getParameters().getUnnamed().get(0);
+			// parse port
+			int port = Integer.parseInt(getParameters().getUnnamed().get(1));
+
+			Scanner inScn = new Scanner(System.in);
+			
+			// establish the socket
+			try {
+				Socket gameSocket = new Socket(host, port);
+				
+				// get input and output streams
+				//define input and output streams
+				ObjectOutputStream out = new ObjectOutputStream( gameSocket.getOutputStream());
+				ObjectInputStream in = new ObjectInputStream( gameSocket.getInputStream());
+				
+				// accept connectionStatus message from Server
+				MessageConnectionStatus incomingMessage = (MessageConnectionStatus) getMessage(in);
+				
+				// call startUp and store it as outgoingMessage
+				MessageConnectionStatus outgoingMessage = startUp(incomingMessage, inScn);
+				
+				// what player is this
+				int playerNum = outgoingMessage.getPlayer();
+				
+				// send output message
+				sendMessage(outgoingMessage, out, playerNum);
+
+				//create Player with info from outgoingMessage
+				Player currentPlayer = new Player(outgoingMessage.getText(), outgoingMessage.getPlayer());
+				
+				// run a While loop until agmeOver = true;
+				
+				boolean gameOver = false;
+				
+				while( gameOver == false) {
+					gameOver = playGame(currentPlayer, in, out);
+				}
+				
+				// close the socket
+				gameSocket.close();
+
+				
+			}
+			// handle exceptions
+			catch(Exception e) {
+				e.printStackTrace();
+			}				
+		}).start();
+		
+		
+				
+		
+		
+	}
 
 	public static void main(String[] args) throws IOException, ClassNotFoundException{
-
-		// store player number (set by user when picking characters)
-		int playerNum;
 		
-		// check to make sure we got the args we need
+		// check to make sure we got the args
 		if (args.length != 2) {
 			System.err.println("Missing arugments. java PlayerClient <hostname> <port>");
 			System.exit(1);
 		}
-				
-		// parse host
-		String host = args[0];
-		// parse port
-		int port = Integer.parseInt(args[1]);
 		
-		// establish the socket
-		Socket gameSocket = new Socket(host, port);
 		
-		//create a scanner for user input
-		Scanner inScn = new Scanner(System.in);
+		launch(args);	
 		
-		// boolean flag for gameOver
-		boolean gameOver = false;
-		
-		//grab input and output streams
-		ObjectOutputStream out = new ObjectOutputStream( gameSocket.getOutputStream());
-		ObjectInputStream in = new ObjectInputStream( gameSocket.getInputStream());
-		
-		// accept connectionStatus message from Server
-		MessageConnectionStatus incomingMessage = (MessageConnectionStatus) getMessage(in);
-		
-		// call startUp and store it as outgoingMessage
-		MessageConnectionStatus outgoingMessage = startUp(incomingMessage, inScn);
-		
-		// what player is this
-		playerNum = outgoingMessage.getPlayer();
-		
-		// send output message
-		sendMessage(outgoingMessage, out, playerNum);
-
-		//create Player with info from outgoingMessage
-		Player currentPlayer = new Player(outgoingMessage.getText(), outgoingMessage.getPlayer());
-		
-		// run a While loop until agmeOver = true;
-		
-		while( gameOver == false) {
-			gameOver = playGame(currentPlayer, in, out);
-		}
-		
-		// close the socket
-		gameSocket.close();
-		
-	
 	}
 	
 	
@@ -146,7 +188,7 @@ public class Client {
 	/* 
 	 * 
 	 */
-	private static boolean playGame(Player thisPlayer, ObjectInputStream in, ObjectOutputStream out) throws IOException, ClassNotFoundException{
+	private boolean playGame(Player thisPlayer, ObjectInputStream in, ObjectOutputStream out) throws IOException, ClassNotFoundException{
 		// store a boolean flag that we return
 		boolean gameOver = false;
 				
@@ -167,7 +209,9 @@ public class Client {
 			// type 11 means its a status message, for now print to screen
 			case 11:
 			{
+				updateArea.setText(updateArea.getText() + inMessage.getText());
 				System.out.println(inMessage.getText());
+				
 				break;
 			}
 			// type 9 means this is a deal message, pass to player
