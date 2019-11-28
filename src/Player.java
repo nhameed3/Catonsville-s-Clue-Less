@@ -3,6 +3,9 @@ import java.io.*;
 import java.util.*;
 import java.net.*;
 
+import javax.swing.JOptionPane;
+import javax.swing.JoptionPane;
+
 public class Player {
 
     private String userName = "";
@@ -218,8 +221,13 @@ public class Player {
             System.out.println("[4] PROFESSOR_PLUM");
             System.out.println("[5] MISS_SCARLET");
             System.out.println("[6] MRS_WHITE");
-            Scanner input = new Scanner(System.in);
-            int choice = input.nextInt();
+            
+            String input;
+            input = JOptionPane.showInputDialog("[1] REV_GREEN\n [2] COLONEL_MUSTARD\n [3] MRS_PEACOCK\n [4] PROFESSOR_PLUM\n [5] MISS_SCARLET\n [6] MRS_WHITE");
+            int choice = Integer.parseInt(input);
+            
+//            Scanner input = new Scanner(System.in);
+//            int choice = input.nextInt();
             switch(choice){
                 case 1:
                     personGuess.setSuspect(Card.Suspect.REV_GREEN);
@@ -265,8 +273,12 @@ public class Player {
             System.out.println("[8] LOUNGE");
             System.out.println("[9] STUDY");
             
-            Scanner input = new Scanner(System.in);
-            int choice = input.nextInt();
+            String input;
+            input = JOptionPane.showInputDialog("[1] BALLROOM\n [2] BILLIARD_ROOM\n [3] CONSERVATORY\n [4] DINING_ROOM\n [5] HALL\n [6] KITCHEN\n [7] LIBRARY\n [8] LOUNGE\n [9] STUDY");
+            int choice = Integer.parseInt(input);
+            
+//            Scanner input = new Scanner(System.in);
+//            int choice = input.nextInt();
             switch(choice){
                 case 1:
                     roomGuess.setRoom(Card.Room.BALLROOM);
@@ -320,8 +332,15 @@ public class Player {
             System.out.println("[4] REVOLVER");
             System.out.println("[5] ROPE");
             System.out.println("[6] WRENCH");
-            Scanner input = new Scanner(System.in);
-            int choice = input.nextInt();
+            
+            
+            String input;
+            input = JOptionPane.showInputDialog("[1] CANDLE_STICK\n [2] DAGGER\n [3] LEAD_PIPE\n [4] REVOLVER\n [5] ROPE\n [6] WRENCH");
+            int choice = Integer.parseInt(input);
+            
+            
+//            Scanner input = new Scanner(System.in);
+//            int choice = input.nextInt();
             switch(choice){
                 case 1:
                     weaponGuess.setWeapon(Card.Weapon.CANDLE_STICK);
@@ -392,8 +411,13 @@ public class Player {
             System.out.println("[4] PROFESSOR_PLUM");
             System.out.println("[5] MISS_SCARLET");
             System.out.println("[6] MRS_WHITE");
-            input = new Scanner(System.in);
-            choice = input.nextInt();
+            
+            String input;
+            input = JOptionPane.showInputDialog("[1] REV_GREEN\n [2] COLONEL_MUSTARD\n [3] MRS_PEACOCK\n [4] PROFESSOR_PLUM\n [5] MISS_SCARLET\n [6] MRS_WHITE");
+            int choice = Integer.parseInt(input);
+            
+//            input = new Scanner(System.in);
+//            choice = input.nextInt();
             switch(choice){
                 case 1:
                     personGuess.setSuspect(Card.Suspect.REV_GREEN);
@@ -439,8 +463,13 @@ public class Player {
             System.out.println("[8] LOUNGE");
             System.out.println("[9] STUDY");
             
-            input = new Scanner(System.in);
-            choice = input.nextInt();
+            String input;
+            input = JOptionPane.showInputDialog("[1] BALLROOM\n [2] BILLIARD_ROOM\n [3] CONSERVATORY\n [4] DINING_ROOM\n [5] HALL\n [6] KITCHEN\n [7] LIBRARY\n [8] LOUNGE\n [9] STUDY");
+            int choice = Integer.parseInt(input);
+            
+            
+//            input = new Scanner(System.in);
+//            choice = input.nextInt();
             switch(choice){
                 case 1:
                     roomGuess.setRoom(Card.Room.BALLROOM);
@@ -494,8 +523,13 @@ public class Player {
             System.out.println("[4] REVOLVER");
             System.out.println("[5] ROPE");
             System.out.println("[6] WRENCH");
-            input = new Scanner(System.in);
-            choice = input.nextInt();
+            
+            String input;
+            input = JOptionPane.showInputDialog("[1] CANDLE_STICK\n [2] DAGGER\n [3] LEAD_PIPE\n [4] REVOLVER\n [5] ROPE\n [6] WRENCH");
+            int choice = Integer.parseInt(input);
+            
+//            input = new Scanner(System.in);
+//            choice = input.nextInt();
             switch(choice){
                 case 1:
                     weaponGuess.setWeapon(Card.Weapon.CANDLE_STICK);
@@ -542,8 +576,13 @@ public class Player {
             System.out.println("[3] LEFT");
             System.out.println("[4] RIGHT");
             System.out.println("[5] DIAGONAL");
-            Scanner input = new Scanner(System.in);
-            int choice = input.nextInt();
+            
+            String input;
+            input = JOptionPane.showInputDialog("[1] UP\n [2] DOWN\n [3] LEFT\n [4] RIGHT\n [5] DIAGONAL\n");
+            int choice = Integer.parseInt(input);
+            
+//            Scanner input = new Scanner(System.in);
+//            int choice = input.nextInt();
             
             Message message = new Message(3, m_playerNum);
             
@@ -675,9 +714,14 @@ public class Player {
             System.out.println("[4] View/Edit Log");
             System.out.println("[5] Pass");
             //System.out.println("[5] Disprove");       
-
-            Scanner input = new Scanner(System.in);
-            int choice = input.nextInt();
+            
+            
+            String input;
+            input = JOptionPane.showInputDialog("[1] Move\n [2] Make Accusation\n [3] View Hand\n [4] View/Edit Log\n [5] Pass\n");
+            int choice = Integer.parseInt(input);
+            
+//            Scanner input = new Scanner(System.in);
+//            int choice = input.nextInt();
 
             switch(choice){
             case 1:
