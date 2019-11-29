@@ -2,9 +2,7 @@ import java.util.Scanner;
 import java.io.*;
 import java.util.*;
 import java.net.*;
-
 import javax.swing.JOptionPane;
-import javax.swing.JoptionPane;
 
 public class Player {
 
@@ -412,9 +410,9 @@ public class Player {
             System.out.println("[5] MISS_SCARLET");
             System.out.println("[6] MRS_WHITE");
             
-            String input;
-            input = JOptionPane.showInputDialog("[1] REV_GREEN\n [2] COLONEL_MUSTARD\n [3] MRS_PEACOCK\n [4] PROFESSOR_PLUM\n [5] MISS_SCARLET\n [6] MRS_WHITE");
-            int choice = Integer.parseInt(input);
+            String userInput;
+            userInput = JOptionPane.showInputDialog("[1] REV_GREEN\n [2] COLONEL_MUSTARD\n [3] MRS_PEACOCK\n [4] PROFESSOR_PLUM\n [5] MISS_SCARLET\n [6] MRS_WHITE");
+            choice = Integer.parseInt(userInput);
             
 //            input = new Scanner(System.in);
 //            choice = input.nextInt();
@@ -463,9 +461,9 @@ public class Player {
             System.out.println("[8] LOUNGE");
             System.out.println("[9] STUDY");
             
-            String input;
-            input = JOptionPane.showInputDialog("[1] BALLROOM\n [2] BILLIARD_ROOM\n [3] CONSERVATORY\n [4] DINING_ROOM\n [5] HALL\n [6] KITCHEN\n [7] LIBRARY\n [8] LOUNGE\n [9] STUDY");
-            int choice = Integer.parseInt(input);
+            String userInput;
+            userInput = JOptionPane.showInputDialog("[1] BALLROOM\n [2] BILLIARD_ROOM\n [3] CONSERVATORY\n [4] DINING_ROOM\n [5] HALL\n [6] KITCHEN\n [7] LIBRARY\n [8] LOUNGE\n [9] STUDY");
+            choice = Integer.parseInt(userInput);
             
             
 //            input = new Scanner(System.in);
@@ -524,9 +522,9 @@ public class Player {
             System.out.println("[5] ROPE");
             System.out.println("[6] WRENCH");
             
-            String input;
-            input = JOptionPane.showInputDialog("[1] CANDLE_STICK\n [2] DAGGER\n [3] LEAD_PIPE\n [4] REVOLVER\n [5] ROPE\n [6] WRENCH");
-            int choice = Integer.parseInt(input);
+            String userInput;
+            userInput = JOptionPane.showInputDialog("[1] CANDLE_STICK\n [2] DAGGER\n [3] LEAD_PIPE\n [4] REVOLVER\n [5] ROPE\n [6] WRENCH");
+            choice = Integer.parseInt(userInput);
             
 //            input = new Scanner(System.in);
 //            choice = input.nextInt();
