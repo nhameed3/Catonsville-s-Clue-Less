@@ -510,6 +510,7 @@ public class Player {
                     break;
             }
         }
+        
 
         //Get the weapon suggestion from user
         invalid = 1; 
