@@ -203,9 +203,9 @@ public class Player {
     // and a message containing their guess is returned.
     public Message makeAccusation(){
     	
-    	 Card personGuess = new Card(Card.Suspect.REV_GREEN,null,null);
-         Card weaponGuess = new Card(null,null,Card.Weapon.CANDLE_STICK);
-         Card roomGuess = new Card(null,Card.Room.BALLROOM ,null);
+    	 Card personGuess = new Card(Card.Suspect.REV_GREEN,null,null, "");
+         Card weaponGuess = new Card(null,null,Card.Weapon.CANDLE_STICK, "");
+         Card roomGuess = new Card(null,Card.Room.BALLROOM ,null, "");
     	
         System.out.println("Player::makeAccusation");
                 //Get the suspect suggestion from user
@@ -366,9 +366,9 @@ public class Player {
     //The user can either pass or guess. The user is asked who what and where 
     // and a message containing their guess is returned.
     public Message makeGuess(){
-        Card personGuess = new Card(Card.Suspect.REV_GREEN,null,null);
-        Card weaponGuess = new Card(null,null,Card.Weapon.CANDLE_STICK);
-        Card roomGuess = new Card(null,Card.Room.BALLROOM ,null);
+        Card personGuess = new Card(Card.Suspect.REV_GREEN,null,null, "");
+        Card weaponGuess = new Card(null,null,Card.Weapon.CANDLE_STICK, "");
+        Card roomGuess = new Card(null,Card.Room.BALLROOM ,null, "");
 
         //Our software uses accuse variables for both guesses and accusations 
         System.out.println("Player::makeGuess");
@@ -576,12 +576,12 @@ public class Player {
     //Called directly from Client. Compares the cards within the message to players hand.
     public Message disprove(MessageAccusation message){
         System.out.println("Player::disprove");
-        Card personDisprove = new Card(null, null, null);
-        Card weaponDisprove = new Card(null, null, null);
-        Card roomDisprove = new Card(null, null, null);
-        Card suspect = new Card(null, null, null);
-        Card weapon = new Card(null, null, null);
-        Card room = new Card(null, null, null);
+        Card personDisprove = new Card(null, null, null, "");
+        Card weaponDisprove = new Card(null, null, null, "");
+        Card roomDisprove = new Card(null, null, null, "");
+        Card suspect = new Card(null, null, null, "");
+        Card weapon = new Card(null, null, null, "");
+        Card room = new Card(null, null, null, "");
         Card currentCard = new Card();
         ArrayList<Card> disprovingCards = new ArrayList<Card>();
         //System.out.println("weapon guess is " + message.getWeapon());

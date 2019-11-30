@@ -1,7 +1,11 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Hashtable;
 import java.util.Random;
+import javafx.application.*;
+import javafx.stage.*;
+import javafx.scene.*;
 
 public class Deck {
 
@@ -16,22 +20,51 @@ public class Deck {
 	Card roomCard;
 	Card weaponCard;
 	Card suspectCard;
+	ArrayList<String> roomImages = new ArrayList<String>(); 
+	ArrayList<String> suspectImages = new ArrayList<String>();
+	ArrayList<String> weaponImages = new ArrayList<String>();
 	
 	public Deck() {
+		roomImages.add("\"C:\\Users\\Pete\\Pictures\\IMG_1636.jpg\"");
+		roomImages.add("\"C:\\Users\\Pete\\Pictures\\IMG_1636.jpg\"");
+		roomImages.add("\"C:\\Users\\Pete\\Pictures\\IMG_1636.jpg\"");
+		roomImages.add("\"C:\\Users\\Pete\\Pictures\\IMG_1636.jpg\"");
+		roomImages.add("\"C:\\Users\\Pete\\Pictures\\IMG_1636.jpg\"");
+		roomImages.add("\"C:\\Users\\Pete\\Pictures\\IMG_1636.jpg\"");
+		roomImages.add("\"C:\\Users\\Pete\\Pictures\\IMG_1636.jpg\"");
+		roomImages.add("\"C:\\Users\\Pete\\Pictures\\IMG_1636.jpg\"");
+		roomImages.add("\"C:\\Users\\Pete\\Pictures\\IMG_1636.jpg\"");
+		
+		suspectImages.add("\"C:\\Users\\Pete\\Pictures\\IMG_1636.jpg\"");
+		suspectImages.add("\"C:\\Users\\Pete\\Pictures\\IMG_1636.jpg\"");
+		suspectImages.add("\"C:\\Users\\Pete\\Pictures\\IMG_1636.jpg\"");
+		suspectImages.add("\"C:\\Users\\Pete\\Pictures\\IMG_1636.jpg\"");
+		suspectImages.add("\"C:\\Users\\Pete\\Pictures\\IMG_1636.jpg\"");
+		suspectImages.add("\"C:\\Users\\Pete\\Pictures\\IMG_1636.jpg\"");
+		
+		weaponImages.add("\"C:\\Users\\Pete\\Pictures\\IMG_1636.jpg\"");
+		weaponImages.add("\"C:\\Users\\Pete\\Pictures\\IMG_1636.jpg\"");
+		weaponImages.add("\"C:\\Users\\Pete\\Pictures\\IMG_1636.jpg\"");
+		weaponImages.add("\"C:\\Users\\Pete\\Pictures\\IMG_1636.jpg\"");
+		weaponImages.add("\"C:\\Users\\Pete\\Pictures\\IMG_1636.jpg\"");
+		weaponImages.add("\"C:\\Users\\Pete\\Pictures\\IMG_1636.jpg\"");
 		
 		for(Card.Room room : Card.Room.values()) { 
-			Card room1 = new Card(null, room, null);
+			Card room1 = new Card(null, room, null, roomImages.get(0));
 		     roomCards.add(room1);
+		     roomImages.remove(0);
 		}
 		
 		for(Card.Weapon weapon : Card.Weapon.values()) { 
-			Card weapon1 = new Card(null, null, weapon);
+			Card weapon1 = new Card(null, null, weapon, weaponImages.get(0));
 		     weaponCards.add(weapon1);
+		     weaponImages.remove(0);
 		}
 		
 		for(Card.Suspect suspect : Card.Suspect.values()) { 
-			Card suspect1 = new Card(suspect, null, null);
+			Card suspect1 = new Card(suspect, null, null, suspectImages.get(0));
 		     suspectCards.add(suspect1);
+		     suspectImages.remove(0);
 		}
 		
 		deckCards.addAll(roomCards);

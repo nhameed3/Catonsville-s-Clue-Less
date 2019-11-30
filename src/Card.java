@@ -1,4 +1,7 @@
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.Hashtable;
 
 public class Card implements Serializable{
 
@@ -16,18 +19,19 @@ public class Card implements Serializable{
 	public static enum Weapon{
 		CANDLE_STICK, DAGGER, LEAD_PIPE, REVOLVER, ROPE, WRENCH;
 	}
-
+	
 	private Suspect suspect;
 	private Room room;
 	private Weapon weapon;
 	private Type type;
+	private String image;
 	
-	public Card(Suspect suspect, Room room, Weapon weapon) {
+	public Card(Suspect suspect, Room room, Weapon weapon, String imageLink) {
 		
 		this.suspect = suspect;
 		this.room = room;
 		this.weapon = weapon;
-		
+		this.image = imageLink;
 		if(room == null && suspect == null) {
 			this.type = Type.WEAPON;
 		}else if(room == null && weapon == null) {
@@ -83,5 +87,13 @@ public class Card implements Serializable{
 	
 	public void setWeapon(Weapon weaponName) {
 		this.weapon = weaponName;
+	}
+	
+	public String getImage() {
+		return "yes";
+	}
+	
+	public void setImage() {
+		this.image = "yes";
 	}
 }

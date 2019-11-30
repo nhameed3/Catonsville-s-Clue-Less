@@ -221,6 +221,7 @@ public class Client extends Application{
 				inMessage = (MessageDeal) inMessage;
 				thisPlayer.setHand((MessageDeal) inMessage);
 				thisPlayer.getHand();
+				((MessageDeal) inMessage).displayCards();
 				break;
 			}
 			// type 10 means this is board status update

@@ -257,9 +257,7 @@ public class Server{
 					statusUpdate.setText(clientList.get(currentPlayer).getName() + " tried to make an invalid guess.");
 					sendToAll(clientList, statusUpdate, currentPlayer);
 				}
-			}
-			else {
-				// inform user guess was valid
+			}else {
 				clientList.get(currentPlayer).sendMessage(guessCheck);
 				// send out status message to everyone else
 				{
