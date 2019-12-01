@@ -27,8 +27,8 @@ public class Deck {
 	public Deck() {
 		roomImages.add("https://live.staticflickr.com/7095/27061980386_702ab2b6c8_b.jpg");
 		roomImages.add("https://i.pinimg.com/originals/9a/ae/c7/9aaec777814eade1cb6bbe336b592631.jpg");
-		roomImages.add("https://i.ebayimg.com/images/g/4NcAAOSwOgdYzZ32/s-l300.jpg");
-		roomImages.add("https://i.ebayimg.com/images/g/5YYAAOSwuLZYzZ2w/s-l300.jpg");
+		roomImages.add("https://live.staticflickr.com/7341/26505768034_ced61b483d_b.jpg");
+		roomImages.add("https://i.pinimg.com/originals/2f/67/28/2f67281594b5f7962a17d34a7324b821.jpg");
 		roomImages.add("https://live.staticflickr.com/7256/26507487333_581c491ca5_b.jpg");
 		roomImages.add("https://live.staticflickr.com/7476/26505749944_d8ce547caa_b.jpg");
 		roomImages.add("https://i.pinimg.com/236x/aa/97/b9/aa97b91255516c059461daba0cc630fd--book-wizard-clue-party.jpg");
@@ -45,7 +45,7 @@ public class Deck {
 		weaponImages.add("https://i.pinimg.com/originals/63/3a/03/633a03eea148367b86c55be2b674df19.jpg");
 		weaponImages.add("https://i.pinimg.com/564x/0e/40/52/0e405250561a27279945232fc36af8bb.jpg");
 		weaponImages.add("https://i.pinimg.com/736x/97/d1/8e/97d18e3beaa7c68f86a234ed872dcd2f.jpg");
-		weaponImages.add("https://i.ebayimg.com/images/g/KQ8AAOSwTM5YzZEm/s-l300.jpg");
+		weaponImages.add("https://live.staticflickr.com/7305/26836935550_acf05b0ca5_b.jpg");
 		weaponImages.add("https://i.pinimg.com/564x/75/d7/47/75d747aca78e2661b5c1d19d5527c046.jpg");
 		weaponImages.add("https://i.pinimg.com/564x/56/d2/7e/56d27e9948503e6b749d25b14bff77ae.jpg");
 		
