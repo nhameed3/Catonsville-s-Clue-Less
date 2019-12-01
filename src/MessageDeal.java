@@ -67,7 +67,7 @@ public class MessageDeal extends Message{
 				        imageView.setPreserveRatio(true); 
 				        Group root = new Group(imageView);  
 				        Scene scene = new Scene(root, 500, 500);
-				        stage.setTitle("ImageView");
+				        stage.setTitle(card.toString());
 				        stage.setWidth(500);
 				        stage.setHeight(500);
 				        stage.setScene(scene); 
