@@ -90,10 +90,10 @@ public class Card implements Serializable{
 	}
 	
 	public String getImage() {
-		return "yes";
+		return this.image;
 	}
 	
-	public void setImage() {
-		this.image = "yes";
+	public void setImage(String image) {
+		this.image = image;
 	}
 }
