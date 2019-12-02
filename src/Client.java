@@ -72,7 +72,7 @@ public class Client{
 		boolean gameOver = false;
 		
 		while( gameOver == false) {
-			gameOver = playGame(currentPlayer, in, out);
+			gameOver = playGame(currentPlayer, in, out, thisGUI);
 		}
 		
 		// close the socket
@@ -163,7 +163,7 @@ public class Client{
 	/* 
 	 * 
 	 */
-	private static boolean playGame(Player thisPlayer, ObjectInputStream in, ObjectOutputStream out) throws IOException, ClassNotFoundException{
+	private static boolean playGame(Player thisPlayer, ObjectInputStream in, ObjectOutputStream out, GUI givenGUI) throws IOException, ClassNotFoundException{
 		// store a boolean flag that we return
 		boolean gameOver = false;
 				
@@ -184,7 +184,7 @@ public class Client{
 			// type 11 means its a status message, for now print to screen
 			case 11:
 			{
-				System.out.println(inMessage.getText());
+				sendStatus(givenGUI, inMessage.getText());
 				
 				break;
 			}
@@ -384,5 +384,11 @@ public class Client{
 		Message inMessage = (Message) in.readObject();
 		//System.out.println("Received Message of type " + inMessage.getType());
 		return inMessage;
+	}
+	
+	// method to update the gui 
+	private static void sendStatus(GUI givenGUI, String newString) {
+		//send String to updateArea in gui
+		givenGUI.printStatus(newString);
 	}
 }

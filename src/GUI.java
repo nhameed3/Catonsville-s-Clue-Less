@@ -60,6 +60,9 @@ public class GUI extends Application
 
     Stage stage;
     BorderPane paneMain;
+    
+    //TextArea for showing status messages - MDS
+    TextArea updateArea = new TextArea();
 
     Board gameBoard = new Board();
 
@@ -175,6 +178,8 @@ public class GUI extends Application
 
         paneMain = new BorderPane();
         paneMain.setCenter(paneBoard);
+        // add updateArea to paneMain - MDS
+        paneMain.setBottom(updateArea);
 
         // Pane Menu start
 
@@ -515,4 +520,12 @@ public class GUI extends Application
 
     public void btnConfirmAccusation_Click()
     {}
+    
+    // public method for adding new text to updatea area - MDS
+    public void printStatus(String newStatus) {
+    	//grab what was already in there
+    	String oldText = updateArea.getText();
+    	//concatenate old with new
+    	updateArea.setText(oldText + "\n" + newStatus);
+    }
 }
