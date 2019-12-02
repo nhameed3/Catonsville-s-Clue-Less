@@ -134,6 +134,11 @@ class Board
 		this.playerPosition[playerNumber] = playerNewPosition;
 	}
 
+	public int[] getAllPlayerPosition()
+	{
+		return playerPosition;
+	}
+	
 	public String getDescription()
 	{
 		return description;
