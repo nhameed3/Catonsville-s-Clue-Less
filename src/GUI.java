@@ -7,12 +7,54 @@ import javafx.geometry.*;
 import javafx.scene.text.*;
 import javafx.scene.image.*;
 
+// need to import Latch - Matt
+import java.util.concurrent.CountDownLatch;
+
+
 public class GUI extends Application
 {
     public static void main(String[] args)
     {
         launch( args );
     }
+    
+    ////////////////////// Matt Added this chunk to enable getting reference to running GUI from Client
+    /* Using this method:
+     * https://stackoverflow.com/questions/25873769/launch-javafx-application-from-another-class
+     */
+    
+    //create a CountDownLatch
+    public static final CountDownLatch latch = new CountDownLatch(1);
+    
+    //declare a local GUI instance and set it to null
+    public static GUI thisGUI = null;
+    
+    // create a public wait method for grab reference to thisGUI
+    public static GUI waitForGUI() {
+    	try {
+    		latch.await();
+    	} catch (InterruptedException e) {
+    		e.printStackTrace();
+    	}
+    	return thisGUI;
+    }
+    
+    // public setter which counts down our latch
+    public static void setGUI( GUI newGUI) {
+    	thisGUI = newGUI;
+    	latch.countDown();
+    }
+    
+    // public constructor which invokes the public setter
+    public GUI() {
+    	setGUI(this);
+    }
+    
+    
+    
+    
+    
+    ////////////////////////////////////////////
 
     int m_playerNum = 0;
 
