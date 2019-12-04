@@ -234,6 +234,11 @@ public class Client{
 				System.out.println("You lose!");
 				break;
 			}
+			//case 12 means its a board status update and we send it along to board
+			case 12:
+			{
+				givenGUI.setAvatarPosition((MessageGUIUpdate) inMessage);
+			}
 		}
 		
 		return gameOver;

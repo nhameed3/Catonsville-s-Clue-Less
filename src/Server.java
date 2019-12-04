@@ -94,9 +94,13 @@ public class Server{
 			turnCount++;
 			// send out a board status
 			{
+				MessageGUIUpdate boardUpdate = gameBoard.getGUIUpdate();
+				sendToAll(clientList, boardUpdate, 7);
+				/* Old status update info
 				Message statusUpdate = new Message(11,-1);
 				statusUpdate.setText(gameBoard.getStatus());
 				sendToAll(clientList, statusUpdate, 7);
+				*/
 			}
 			
 			// have a 2 element boolean array for turnResults

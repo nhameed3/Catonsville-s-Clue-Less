@@ -259,4 +259,12 @@ public class GUI extends Application
             }
         }
     }
+    
+    //public method for adding new text to update area - MDs
+    public void printStatus(String newStatus) {
+    	//grab what was already in there
+    	String oldText = updateArea.getText();
+    	//concat old with new
+    	updateArea.setText(oldText + "\n" + newStatus);
+    }
 }
