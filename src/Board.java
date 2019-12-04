@@ -133,11 +133,6 @@ class Board
 	{
 		this.playerPosition[playerNumber] = playerNewPosition;
 	}
-
-	public int[] getAllPlayerPosition()
-	{
-		return playerPosition;
-	}
 	
 	public String getDescription()
 	{
@@ -319,5 +314,15 @@ class Board
 		}
 
 		return status;
-	}			
+	}
+	
+	public MessageGUIUpdate getGUIUpdate()
+	{
+		int messageType = 12;
+		int whichPlayer = -1;
+
+		MessageGUIUpdate returnMessage = new MessageGUIUpdate(messageType, whichPlayer, playerPosition);
+
+		return returnMessage;
+	}
 }
