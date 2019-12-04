@@ -238,21 +238,21 @@ public class GUI extends Application
                 if ((playerNewPosition < 9) & (playerOldPosition < 9))
                 {
                     int gridPosition = location[playerNewPosition].getChildren().size() + 1;
-                    ((GridPane) location[playerNewPosition]).add((avatarImageArray[m_playerNum]), gridPosition, 0);
-                    ((GridPane) location[playerOldPosition]).getChildren().remove(avatarImageArray[m_playerNum]);
+                    ((GridPane) location[playerNewPosition]).add((avatarImageArray[playerNum]), gridPosition, 0);
+                    ((GridPane) location[playerOldPosition]).getChildren().remove(avatarImageArray[playerNum]);
                 }
 
                 if ((playerNewPosition < 9) & (playerOldPosition >= 9))
                 {
                     int gridPosition = location[playerNewPosition].getChildren().size() + 1;
-                    ((GridPane) location[playerNewPosition]).add((avatarImageArray[m_playerNum]), gridPosition, 0);
-                    ((BorderPane) location[playerOldPosition]).getChildren().remove(avatarImageArray[m_playerNum]);
+                    ((GridPane) location[playerNewPosition]).add((avatarImageArray[playerNum]), gridPosition, 0);
+                    ((BorderPane) location[playerOldPosition]).getChildren().remove(avatarImageArray[playerNum]);
                 }
 
                 if ((playerNewPosition >= 9) & (playerOldPosition < 9))
                 {
-                    ((BorderPane) location[playerNewPosition]).setCenter(avatarImageArray[m_playerNum]);
-                    ((GridPane) location[playerOldPosition]).getChildren().remove(avatarImageArray[m_playerNum]);
+                    ((BorderPane) location[playerNewPosition]).setCenter(avatarImageArray[playerNum]);
+                    ((GridPane) location[playerOldPosition]).getChildren().remove(avatarImageArray[playerNum]);
                 }
 
                 playerOriginalPosition[playerNum] = playerNewPosition;
