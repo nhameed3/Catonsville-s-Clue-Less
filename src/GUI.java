@@ -184,12 +184,6 @@ public class GUI extends Application
         // add updateArea to paneMain - MDS
         paneMain.setBottom(updateArea);
 
-        // Pane Menu start
-
-        Button btnStartMenu = new Button();
-        btnStartMenu.setOnAction(e -> btnBackMenu_Click(primaryStage));
-        btnStartMenu.fire();
-
         Scene scene = new Scene(paneMain);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Clue-Less");
