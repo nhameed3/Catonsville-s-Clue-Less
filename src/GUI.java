@@ -76,11 +76,6 @@ public class GUI extends Application
     Pane[] location = new Pane[21];
     
     int[] playerOriginalPosition = new int[6];
-    
-    public void setPlayer(Player player)
-    {
-        this.player = player;
-    }
 
     public void start( Stage primaryStage )
     {
