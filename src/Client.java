@@ -1,11 +1,15 @@
 import java.io.*;
 import java.util.*;
+
+import javax.swing.JOptionPane;
+
 import java.net.*;
 import javafx.application.*;
 import javafx.stage.*;
 import javafx.scene.*;
 import javafx.scene.layout.*;
 import javafx.scene.control.TextArea;
+
 
 /* Client is the driver of the game on client computers. It takes two arguments (IP and port) and connects to the
 server.
@@ -89,21 +93,36 @@ public class Client{
 		MessageConnectionStatus outMessage = new MessageConnectionStatus();
 		
 		// ask the player their username
-		System.out.println("Please enter a username.");
-		outMessage.setText( inScn.nextLine());
+//		System.out.println("Please enter a username.");
+//		outMessage.setText( inScn.nextLine());
 		
+        String userInput;
+        userInput = JOptionPane.showInputDialog("Please enter a username.");
+        outMessage.setText(userInput);
+        
 		// are we player 1?
 		if( inMessage.getInt() == 1) {
+//			// if this is 1st client we ask how many players to wait for
+//			System.out.println("You are the 1st player to connect. How many players do you wish to play with?");
+//			// store users response as the genericInt in outgoingMessage
+//			outMessage.setInt(inScn.nextInt());
+			
 			// if this is 1st client we ask how many players to wait for
-			System.out.println("You are the 1st player to connect. How many players do you wish to play with?");
+			userInput = JOptionPane.showInputDialog("You are the 1st player to connect. How many players do you wish to play with?");
+            int choice = Integer.parseInt(userInput);
 			// store users response as the genericInt in outgoingMessage
-			outMessage.setInt(inScn.nextInt());
+			outMessage.setInt(choice);
+			
 		}
 		// grab the avatar array from inMessage
 		boolean [] tempAvatars = inMessage.getAvatars();
 		
 		// what player does user want to be
-		System.out.println("Which character do you want to be?");
+//		System.out.println("Which character do you want to be?");
+		
+		String userInput2;
+		userInput2 = JOptionPane.showInputDialog("Which character do you want to be?\n [0] MISS_SCARLET\n [1] REV_GREEN\n [2] COLONEL_MUSTARD\n [3] PROFESSOR_PLUM\n [4] MRS_WHITE\n [5] MRS_PEACOCK\n ");
+		
 		for( int i = 0; i < 6; i++) {
 			
 			// check if that character is available
@@ -146,7 +165,8 @@ public class Client{
 			
 		}
 		//grab the players choice
-		int playerChoice = inScn.nextInt();
+//		int playerChoice = inScn.nextInt();
+		int playerChoice = Integer.parseInt(userInput2);
 				
 		//set that element to true
 		tempAvatars[playerChoice] = true;
@@ -226,12 +246,14 @@ public class Client{
 			case 7:
 			{
 				System.out.println("You win!");
+				JOptionPane.showMessageDialog(null, "YOU WIN!");
 				break;
 			}
 			// case 8 means we lose
 			case 8:
 			{
 				System.out.println("You lose!");
+				JOptionPane.showMessageDialog(null, "YOU LOSE");
 				break;
 			}
 			//case 12 means its a board status update and we send it along to board
@@ -281,6 +303,7 @@ public class Client{
 								Message guessValidity = (Message) getMessage(in);
 								if( guessValidity.getType() == 21) {
 									System.out.println("Invalid guess, you're not in that room.");
+									JOptionPane.showMessageDialog(null, "Invalid guess, you're not in that room.");
 									//send back a pass message but we probably want to actually trigger another
 									Message passMessage = new Message(6, thisPlayer.getPlayerNum());
 									sendMessage(passMessage, out, thisPlayer.getPlayerNum());
@@ -354,6 +377,8 @@ public class Client{
 				else {
 				// if it wasn't a valid move we do nothing and this loop repeats
 				System.out.println("Invalid move requested, starting turn over again");
+				JOptionPane.showMessageDialog(null, "Invalid move requested, starting turn over again");
+				
 				}
 			}
 			// is it a accusation?

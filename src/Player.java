@@ -173,11 +173,14 @@ public class Player {
 //////////////////////////////////////////////////
 
     public Message getGuessResult(MessageCheckGuess message){
-    	if(message.disproven == true)
+    	if(message.disproven == true) {
     		System.out.println("Disproved by: "+ message.incorrectCard.toString());
-    	else if(message.disproven == false)
+    		JOptionPane.showMessageDialog(null, "Disproved by: "+ message.incorrectCard.toString());
+    	}
+    	else if(message.disproven == false) {
     		System.out.println("No one was able to disprove");
-    	
+    		JOptionPane.showMessageDialog(null, "No one was able to disprove");
+    	}
     	System.out.println("Would you like to make an accusation (y = 1/ n = 0)");
         Scanner input = new Scanner(System.in);
         int choice = input.nextInt();
@@ -190,10 +193,14 @@ public class Player {
     public void getAccuseResult(MessageCheckSolution message){
     	if(!message.incorrectCards.isEmpty()) {
     		System.out.println("Disproved by: "+ message.incorrectCards.get(0));
+    		JOptionPane.showMessageDialog(null, "Disproved by: "+ message.incorrectCards.get(0));
     		System.out.println("YOU LOSE");
+    		JOptionPane.showMessageDialog(null, "YOU LOSE");
     	}
-    	else
+    	else {
     		System.out.println("YOU WIN!");
+    		JOptionPane.showMessageDialog(null, "YOU WIN!");
+    	}
     }
     
     
@@ -221,7 +228,7 @@ public class Player {
             System.out.println("[6] MRS_WHITE");
             
             String input;
-            input = JOptionPane.showInputDialog("[1] REV_GREEN\n [2] COLONEL_MUSTARD\n [3] MRS_PEACOCK\n [4] PROFESSOR_PLUM\n [5] MISS_SCARLET\n [6] MRS_WHITE");
+            input = JOptionPane.showInputDialog("Who do you think did it?\n [1] REV_GREEN\n [2] COLONEL_MUSTARD\n [3] MRS_PEACOCK\n [4] PROFESSOR_PLUM\n [5] MISS_SCARLET\n [6] MRS_WHITE");
             int choice = Integer.parseInt(input);
             
 //            Scanner input = new Scanner(System.in);
@@ -253,6 +260,7 @@ public class Player {
                     break;
                 default:
                     System.out.println("INVALID ENTRY TRY AGAIN");
+                    JOptionPane.showMessageDialog(null, "INVALID ENTRY TRY AGAIN");
                     break;
             }
         }
@@ -272,7 +280,7 @@ public class Player {
             System.out.println("[9] STUDY");
             
             String input;
-            input = JOptionPane.showInputDialog("[1] BALLROOM\n [2] BILLIARD_ROOM\n [3] CONSERVATORY\n [4] DINING_ROOM\n [5] HALL\n [6] KITCHEN\n [7] LIBRARY\n [8] LOUNGE\n [9] STUDY");
+            input = JOptionPane.showInputDialog("Where do you think they did it?\n [1] BALLROOM\n [2] BILLIARD_ROOM\n [3] CONSERVATORY\n [4] DINING_ROOM\n [5] HALL\n [6] KITCHEN\n [7] LIBRARY\n [8] LOUNGE\n [9] STUDY");
             int choice = Integer.parseInt(input);
             
 //            Scanner input = new Scanner(System.in);
@@ -316,6 +324,7 @@ public class Player {
                     break;
                 default:
                     System.out.println("INVALID ENTRY TRY AGAIN");
+                    JOptionPane.showMessageDialog(null, "INVALID ENTRY TRY AGAIN");
                     break;
             }
         }
@@ -323,7 +332,7 @@ public class Player {
         //Get the weapon suggestion from user
         invalid = true; 
         while(invalid){
-            System.out.println("Who do you think did it?");
+            System.out.println("What was the weapon?");
             System.out.println("[1] CANDLE_STICK");
             System.out.println("[2] DAGGER");
             System.out.println("[3] LEAD_PIPE");
@@ -333,7 +342,7 @@ public class Player {
             
             
             String input;
-            input = JOptionPane.showInputDialog("[1] CANDLE_STICK\n [2] DAGGER\n [3] LEAD_PIPE\n [4] REVOLVER\n [5] ROPE\n [6] WRENCH");
+            input = JOptionPane.showInputDialog("What was the weapon?\n [1] CANDLE_STICK\n [2] DAGGER\n [3] LEAD_PIPE\n [4] REVOLVER\n [5] ROPE\n [6] WRENCH");
             int choice = Integer.parseInt(input);
             
             
@@ -366,6 +375,7 @@ public class Player {
                     break;
                 default:
                     System.out.println("INVALID ENTRY TRY AGAIN");
+                    JOptionPane.showMessageDialog(null, "INVALID ENTRY TRY AGAIN");
                     break;
             }
         }
@@ -393,9 +403,11 @@ public class Player {
         System.out.println("Enter [1] to pass instead of guessing any other key to guess");
         // System.out.println("[1] Guess");
         // System.out.println("[2] Pass");
-
-        Scanner input = new Scanner(System.in);
-        int choice = input.nextInt();
+        String input;
+        input = JOptionPane.showInputDialog("Enter [1] to pass instead of guessing any other key to guess");
+        int choice = Integer.parseInt(input);
+//        Scanner input = new Scanner(System.in);
+//        int choice = input.nextInt();
         if(choice == 1)
             return new Message(6, m_playerNum);      //pass message
         
@@ -411,7 +423,7 @@ public class Player {
             System.out.println("[6] MRS_WHITE");
             
             String userInput;
-            userInput = JOptionPane.showInputDialog("[1] REV_GREEN\n [2] COLONEL_MUSTARD\n [3] MRS_PEACOCK\n [4] PROFESSOR_PLUM\n [5] MISS_SCARLET\n [6] MRS_WHITE");
+            userInput = JOptionPane.showInputDialog("Who do you think did it?\n [1] REV_GREEN\n [2] COLONEL_MUSTARD\n [3] MRS_PEACOCK\n [4] PROFESSOR_PLUM\n [5] MISS_SCARLET\n [6] MRS_WHITE");
             choice = Integer.parseInt(userInput);
             
 //            input = new Scanner(System.in);
@@ -443,6 +455,7 @@ public class Player {
                     break;
                 default:
                     System.out.println("INVALID ENTRY TRY AGAIN");
+                    JOptionPane.showMessageDialog(null, "INVALID ENTRY TRY AGAIN");
                     break;
             }
         }
@@ -462,7 +475,7 @@ public class Player {
             System.out.println("[9] STUDY");
             
             String userInput;
-            userInput = JOptionPane.showInputDialog("[1] BALLROOM\n [2] BILLIARD_ROOM\n [3] CONSERVATORY\n [4] DINING_ROOM\n [5] HALL\n [6] KITCHEN\n [7] LIBRARY\n [8] LOUNGE\n [9] STUDY");
+            userInput = JOptionPane.showInputDialog("Where do you think they did it?\n [1] BALLROOM\n [2] BILLIARD_ROOM\n [3] CONSERVATORY\n [4] DINING_ROOM\n [5] HALL\n [6] KITCHEN\n [7] LIBRARY\n [8] LOUNGE\n [9] STUDY");
             choice = Integer.parseInt(userInput);
             
             
@@ -507,6 +520,7 @@ public class Player {
                     break;
                 default:
                     System.out.println("INVALID ENTRY TRY AGAIN");
+                    JOptionPane.showMessageDialog(null, "INVALID ENTRY TRY AGAIN");
                     break;
             }
         }
@@ -524,7 +538,7 @@ public class Player {
             System.out.println("[6] WRENCH");
             
             String userInput;
-            userInput = JOptionPane.showInputDialog("[1] CANDLE_STICK\n [2] DAGGER\n [3] LEAD_PIPE\n [4] REVOLVER\n [5] ROPE\n [6] WRENCH");
+            userInput = JOptionPane.showInputDialog("Who do you think did it?\n [1] CANDLE_STICK\n [2] DAGGER\n [3] LEAD_PIPE\n [4] REVOLVER\n [5] ROPE\n [6] WRENCH");
             choice = Integer.parseInt(userInput);
             
 //            input = new Scanner(System.in);
@@ -556,6 +570,7 @@ public class Player {
                     break;
                 default:
                     System.out.println("INVALID ENTRY TRY AGAIN");
+                    JOptionPane.showMessageDialog(null, "INVALID ENTRY TRY AGAIN");
                     break;
             }
         }
@@ -577,7 +592,7 @@ public class Player {
             System.out.println("[5] DIAGONAL");
             
             String input;
-            input = JOptionPane.showInputDialog("[1] UP\n [2] DOWN\n [3] LEFT\n [4] RIGHT\n [5] DIAGONAL\n");
+            input = JOptionPane.showInputDialog(" [1] UP\n [2] DOWN\n [3] LEFT\n [4] RIGHT\n [5] DIAGONAL\n");
             int choice = Integer.parseInt(input);
             
 //            Scanner input = new Scanner(System.in);
@@ -603,6 +618,7 @@ public class Player {
                     break;
                 default:
                     System.out.println("INVALID ENTRY TRY AGAIN");
+                    JOptionPane.showMessageDialog(null, "INVALID ENTRY TRY AGAIN");
                     break;
             }
             return message;
@@ -655,21 +671,28 @@ public class Player {
 	            str[j] = disprovingCards.get(j).toString(); 
 	        }
 	        System.out.println("you can use these cards to disprove the guess: " + Arrays.toString(str));
+	        JOptionPane.showMessageDialog(null, "you can use these cards to disprove the guess: " + Arrays.toString(str));
         }
         
         if(disprovingCards.isEmpty()) {
         	System.out.println("you cannot disprove this guess");
+        	JOptionPane.showMessageDialog(null, "You cannot disprove this guess");
         }
-        while(true){
-            if(personDisprove.getSuspect() != null)
-                System.out.println("[1] You can disprove with: "+personDisprove + " enter 1 to disprove with this card");
-            if(weaponDisprove.getWeapon() != null)
-                System.out.println("[2] You can disprove with: "+weaponDisprove + " enter 2 to disprove with this card");
-            if(roomDisprove.getRoom() != null)
-                System.out.println("[3] You can disprove with: "+roomDisprove + " enter 3 to disprove with this card");
+        
 
+        while(true){
+            if(personDisprove.getSuspect() != null){
+                System.out.println("[1] You can disprove with: "+personDisprove + " enter 1 to disprove with this card");
+            }
+            if(weaponDisprove.getWeapon() != null){
+            	System.out.println("[2] You can disprove with: "+weaponDisprove + " enter 2 to disprove with this card");
+        	}
+            if(roomDisprove.getRoom() != null){
+            	System.out.println("[3] You can disprove with: "+roomDisprove + " enter 3 to disprove with this card");
+            }
             if(roomDisprove.getRoom()==null &&weaponDisprove.getWeapon() ==null&& personDisprove.getSuspect() == null){
                 System.out.println("You cannot disprove this guess");
+                JOptionPane.showMessageDialog(null, "You cannot disprove this guess");
                 MessageCheckGuess cannotDisprove = new MessageCheckGuess(false, null, 19);      //pass message
                 cannotDisprove.setPlayer(m_playerNum);
                 return cannotDisprove;
@@ -691,9 +714,9 @@ public class Player {
                     break;
                 default:
                     System.out.println("INVALID ENTRY TRY AGAIN");
+                    JOptionPane.showMessageDialog(null, "INVALID ENTRY TRY AGAIN");
                     break;
             }
-            
             
             return canDisprove;
         }
@@ -716,7 +739,7 @@ public class Player {
             
             
             String input;
-            input = JOptionPane.showInputDialog("[1] Move\n [2] Make Accusation\n [3] View Hand\n [4] View/Edit Log\n [5] Pass\n");
+            input = JOptionPane.showInputDialog(" [1] Move\n [2] Make Accusation\n [3] View Hand\n [4] View/Edit Log\n [5] Pass\n");
             int choice = Integer.parseInt(input);
             
 //            Scanner input = new Scanner(System.in);
@@ -737,6 +760,7 @@ public class Player {
                 return new Message(6, m_playerNum);      //pass message
             default:
                 System.out.println("INVALID ENTRY TRY AGAIN");
+                JOptionPane.showMessageDialog(null, "INVALID ENTRY TRY AGAIN");
                 break;
             }
         }
