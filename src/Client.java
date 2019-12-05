@@ -259,7 +259,7 @@ public class Client{
 			//case 12 means its a board status update and we send it along to board
 			case 12:
 			{
-				givenGUI.setAvatarPosition((MessageGUIUpdate) inMessage);
+				
 				int counter = 0;
 				int position[] = new int[6];
 				String arr = inMessage.getText();
@@ -287,6 +287,9 @@ public class Client{
 					position[counter] = x;
 					counter++;
 				}
+				MessageGUIUpdate castedMessage = (MessageGUIUpdate) inMessage;
+				castedMessage.setPlayerNewPosition(position);
+				givenGUI.setAvatarPosition((MessageGUIUpdate) castedMessage);
 				break;
 			}
 		}
