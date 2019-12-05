@@ -217,36 +217,43 @@ public class GUI extends Application
 
     public void setAvatarPosition(MessageGUIUpdate update)
     {
-        for (int playerNum = 0; playerNum < 6; playerNum++)
+        Platform.runLater(new Runnable()
         {
-            int playerOldPosition = playerOriginalPosition[playerNum];
-            int playerNewPosition = update.getPlayerNewPosition()[playerNum];
-
-            if (playerOldPosition != playerNewPosition)
+            @Override
+            public void run()
             {
-                if ((playerNewPosition < 9) & (playerOldPosition < 9))
+                for (int playerNum = 0; playerNum < 6; playerNum++)
                 {
-                    int gridPosition = location[playerNewPosition].getChildren().size() + 1;
-                    ((GridPane) location[playerNewPosition]).add((avatarImageArray[playerNum]), gridPosition, 0);
-                    ((GridPane) location[playerOldPosition]).getChildren().remove(avatarImageArray[playerNum]);
-                }
+                    int playerOldPosition = playerOriginalPosition[playerNum];
+                    int playerNewPosition = update.getPlayerNewPosition()[playerNum];
 
-                if ((playerNewPosition < 9) & (playerOldPosition >= 9))
-                {
-                    int gridPosition = location[playerNewPosition].getChildren().size() + 1;
-                    ((GridPane) location[playerNewPosition]).add((avatarImageArray[playerNum]), gridPosition, 0);
-                    ((BorderPane) location[playerOldPosition]).getChildren().remove(avatarImageArray[playerNum]);
-                }
+                    if (playerOldPosition != playerNewPosition)
+                    {
+                        if ((playerNewPosition < 9) & (playerOldPosition < 9))
+                        {
+                            int gridPosition = location[playerNewPosition].getChildren().size() + 1;
+                            ((GridPane) location[playerNewPosition]).add((avatarImageArray[playerNum]), gridPosition, 0);
+                            ((GridPane) location[playerOldPosition]).getChildren().remove(avatarImageArray[playerNum]);
+                        }
 
-                if ((playerNewPosition >= 9) & (playerOldPosition < 9))
-                {
-                    ((BorderPane) location[playerNewPosition]).setCenter(avatarImageArray[playerNum]);
-                    ((GridPane) location[playerOldPosition]).getChildren().remove(avatarImageArray[playerNum]);
-                }
+                        if ((playerNewPosition < 9) & (playerOldPosition >= 9))
+                        {
+                            int gridPosition = location[playerNewPosition].getChildren().size() + 1;
+                            ((GridPane) location[playerNewPosition]).add((avatarImageArray[playerNum]), gridPosition, 0);
+                            ((BorderPane) location[playerOldPosition]).getChildren().remove(avatarImageArray[playerNum]);
+                        }
 
-                playerOriginalPosition[playerNum] = playerNewPosition;
+                        if ((playerNewPosition >= 9) & (playerOldPosition < 9))
+                        {
+                            ((BorderPane) location[playerNewPosition]).setCenter(avatarImageArray[playerNum]);
+                            ((GridPane) location[playerOldPosition]).getChildren().remove(avatarImageArray[playerNum]);
+                        }
+
+                        playerOriginalPosition[playerNum] = playerNewPosition;
+                    }
+                }
             }
-        }
+        });
     }
     
     //public method for adding new text to update area - MDs

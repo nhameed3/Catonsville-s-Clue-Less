@@ -322,6 +322,7 @@ class Board
 		int whichPlayer = -1;
 
 		MessageGUIUpdate returnMessage = new MessageGUIUpdate(messageType, whichPlayer, playerPosition);
+		returnMessage.setText(Arrays.toString(playerPosition));
 
 		return returnMessage;
 	}
