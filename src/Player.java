@@ -182,8 +182,10 @@ public class Player {
     		JOptionPane.showMessageDialog(null, "No one was able to disprove");
     	}
     	System.out.println("Would you like to make an accusation (y = 1/ n = 0)");
-        Scanner input = new Scanner(System.in);
-        int choice = input.nextInt();
+    	String userInput = JOptionPane.showInputDialog("Would you like to make an accusation (y = 1/ n = 0)");
+        int choice = Integer.parseInt(userInput);
+//        Scanner input = new Scanner(System.in);
+//        int choice = input.nextInt();
         if(choice == 1)
             return this.makeAccusation();
         else
@@ -529,7 +531,7 @@ public class Player {
         //Get the weapon suggestion from user
         invalid = 1; 
         while(invalid == 1){
-            System.out.println("Who do you think did it?");
+            System.out.println("What weapon did they use?");
             System.out.println("[1] CANDLE_STICK");
             System.out.println("[2] DAGGER");
             System.out.println("[3] LEAD_PIPE");
@@ -538,7 +540,7 @@ public class Player {
             System.out.println("[6] WRENCH");
             
             String userInput;
-            userInput = JOptionPane.showInputDialog("Who do you think did it?\n [1] CANDLE_STICK\n [2] DAGGER\n [3] LEAD_PIPE\n [4] REVOLVER\n [5] ROPE\n [6] WRENCH");
+            userInput = JOptionPane.showInputDialog("What weapon did they use??\n [1] CANDLE_STICK\n [2] DAGGER\n [3] LEAD_PIPE\n [4] REVOLVER\n [5] ROPE\n [6] WRENCH");
             choice = Integer.parseInt(userInput);
             
 //            input = new Scanner(System.in);
@@ -592,7 +594,7 @@ public class Player {
             System.out.println("[5] DIAGONAL");
             
             String input;
-            input = JOptionPane.showInputDialog(" [1] UP\n [2] DOWN\n [3] LEFT\n [4] RIGHT\n [5] DIAGONAL\n");
+            input = JOptionPane.showInputDialog("Make your move.\n [1] UP\n [2] DOWN\n [3] LEFT\n [4] RIGHT\n [5] DIAGONAL\n");
             int choice = Integer.parseInt(input);
             
 //            Scanner input = new Scanner(System.in);
