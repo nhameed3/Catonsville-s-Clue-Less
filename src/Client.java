@@ -238,6 +238,7 @@ public class Client{
 			case 12:
 			{
 				givenGUI.setAvatarPosition((MessageGUIUpdate) inMessage);
+				break;
 			}
 		}
 		
