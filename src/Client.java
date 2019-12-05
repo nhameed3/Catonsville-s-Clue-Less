@@ -260,6 +260,33 @@ public class Client{
 			case 12:
 			{
 				givenGUI.setAvatarPosition((MessageGUIUpdate) inMessage);
+				int counter = 0;
+				int position[] = new int[6];
+				String arr = inMessage.getText();
+				arr = arr.substring(1, arr.length()-1);
+				arr = arr.replace(",", "");
+				System.out.println(arr);
+				for(int i =0; i<arr.length()-1; i++) {
+					if(i >0 && arr.charAt(i-1)!=' ') {
+						continue;
+					}
+					String hold = "";
+					char c = arr.charAt(i);
+					char nextChar = arr.charAt(i+1);
+					if(c == ' ') {
+						continue;
+					}
+					if(nextChar != ' ') {
+						hold+= c;
+						hold+= nextChar;
+					}else {
+						hold +=c;
+					}
+					System.out.println(hold);
+					int x = Integer.parseInt(hold);
+					position[counter] = x;
+					counter++;
+				}
 				break;
 			}
 		}
