@@ -265,6 +265,10 @@ public class Server{
 				clientList.get(currentPlayer).sendMessage(guessCheck);
 				// send out status message to everyone else
 				{
+					//send out the new board status
+					MessageGUIUpdate boardStatusUpdate = gameBoard.getGUIUpdate();
+					sendToAll(clientList, boardStatusUpdate, 7);
+					
 					Message statusMessage = new Message(11, -1);
 					statusMessage.setText(clientList.get(currentPlayer).getName() + " has made a guess. They guessed \nCharacter: " + suspect + "\n"
 							+ "Weapon: " + weapon + "\nRoom: " + room);
@@ -333,6 +337,10 @@ public class Server{
 		
 		// send out a status message
 		{
+			
+			//send a board update
+			MessageGUIUpdate boardUpdate = gameBoard.getGUIUpdate();
+			sendToAll(clientList, boardUpdate, 7);
 			Message statusUpdate = new Message(11, -1);
 			statusUpdate.setText(clientList.get(currentPlayer).getName() + " has moved!");
 			sendToAll(clientList, statusUpdate, currentPlayer);
