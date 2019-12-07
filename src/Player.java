@@ -702,7 +702,6 @@ public class Player {
             int choice = Integer.parseInt(userInput);
             	
             
-            
             if(roomDisprove.getRoom()==null &&weaponDisprove.getWeapon() ==null&& personDisprove.getSuspect() == null){
                 System.out.println("You cannot disprove this guess");
                 JOptionPane.showMessageDialog(null, "You cannot disprove this guess");
