@@ -35,22 +35,6 @@ public class Client{
 		
 		Scanner inScn = new Scanner(System.in);
 		
-		// create, launch, and grab reference to GUI
-		/*Uses this method:
-		 * https://stackoverflow.com/questions/25873769/launch-javafx-application-from-another-class
-		 */
-		
-		new Thread() {
-			@Override
-			public void run() {
-				javafx.application.Application.launch(GUI.class);
-			}
-		}.start();
-		
-		GUI thisGUI = GUI.waitForGUI();
-		
-		
-		
 		// get input and output streams
 		//define input and output streams
 		ObjectOutputStream out = new ObjectOutputStream( gameSocket.getOutputStream());
@@ -70,6 +54,20 @@ public class Client{
 
 		//create Player with info from outgoingMessage
 		Player currentPlayer = new Player(outgoingMessage.getText(), outgoingMessage.getPlayer());
+		
+		// create, launch, and grab reference to GUI
+		/*Uses this method:
+		 * https://stackoverflow.com/questions/25873769/launch-javafx-application-from-another-class
+		 */
+		
+		new Thread() {
+			@Override
+			public void run() {
+				javafx.application.Application.launch(GUI.class);
+			}
+		}.start();
+		
+		GUI thisGUI = GUI.waitForGUI();
 		
 		// run a While loop until agmeOver = true;
 		
