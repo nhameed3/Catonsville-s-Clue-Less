@@ -59,8 +59,10 @@ public class GUI extends Application
     Stage stage;
     BorderPane paneMain;
     
-    //TextArea for showing status messages - MDS
+    //TextArea for showing status messages and Log - MDS
     TextArea updateArea = new TextArea();
+    TextArea playerLog = new TextArea("This is your log. You can enter notes here.");
+    
 
     Board gameBoard = new Board();
 
@@ -177,7 +179,9 @@ public class GUI extends Application
         paneMain = new BorderPane();
         paneMain.setCenter(paneBoard);
         // add updateArea to paneMain - MDS
+        updateArea.setEditable(false);
         paneMain.setBottom(updateArea);
+        paneMain.setRight(playerLog);
 
         Scene scene = new Scene(paneMain);
         primaryStage.setScene(scene);

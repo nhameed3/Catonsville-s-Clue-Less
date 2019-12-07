@@ -16,6 +16,8 @@ server.
 */
 
 public class Client{
+	
+	static GUI thisGUI;
 
 
 	public static void main(String[] args) throws IOException, ClassNotFoundException{
@@ -25,6 +27,7 @@ public class Client{
 			System.err.println("Missing arugments. java PlayerClient <hostname> <port>");
 			System.exit(1);
 		}
+
 		
 		// parse host
 		String host = args[0];
@@ -67,7 +70,7 @@ public class Client{
 			}
 		}.start();
 		
-		GUI thisGUI = GUI.waitForGUI();
+		thisGUI = GUI.waitForGUI();
 		
 		// run a While loop until agmeOver = true;
 		
@@ -118,50 +121,52 @@ public class Client{
 		// what player does user want to be
 //		System.out.println("Which character do you want to be?");
 		
-		String userInput2;
-		userInput2 = JOptionPane.showInputDialog("Which character do you want to be?\n [0] MISS_SCARLET\n [1] REV_GREEN\n [2] COLONEL_MUSTARD\n [3] PROFESSOR_PLUM\n [4] MRS_WHITE\n [5] MRS_PEACOCK\n ");
 		
+		// figure out which avatars are available. We start with the 1st line asking players choice
+		String availableAvatars = "Which character do you want to be?\n";
+		//then we loop through the array we got from inMessage and add to String with whichecer ones
+		// are available
 		for( int i = 0; i < 6; i++) {
-			
 			// check if that character is available
 					
 			if (tempAvatars[i] == false) {
 				switch( i ) {
 					case 0:
 					{
-						System.out.println("0: Miss Scarlett");
+						availableAvatars = availableAvatars + "0: Miss Scarlett\n";
 						break;
 					}
 					case 1:
 					{
-						System.out.println("1: Reverend Green");
+						availableAvatars = availableAvatars + "1: Reverend Green\n";
 						break;
 					}
 					case 2:
 					{
-						System.out.println("2: Colonel Mustard");
+						availableAvatars = availableAvatars + "2: Colonel Mustard\n";
 						break;
 					}
 					case 3:
 					{
-						System.out.println("3: Professor Plum");
+						availableAvatars = availableAvatars + "3: Professor Plum\n";
 						break;
 					}
 					case 4:
 					{
-						System.out.println("4: Mrs. White");
+						availableAvatars = availableAvatars + "4: Mrs. White\n";
 						break;
 					}
 					case 5:
 					{
-						System.out.println("5: Mrs. Peacock");
+						availableAvatars = availableAvatars + "5: Mrs. Peacock\n";
 						break;
 					}
 				}
-			}
-					
-			
+			}		
 		}
+		String userInput2;
+		userInput2 = JOptionPane.showInputDialog(availableAvatars);
+		
 		//grab the players choice
 //		int playerChoice = inScn.nextInt();
 		int playerChoice = Integer.parseInt(userInput2);
@@ -196,16 +201,11 @@ public class Client{
 			case 2:
 			{
 				// invoke the processTurn method that returns boolean for gameOver?
-				processTurn(thisPlayer, in, out);
+				processTurn(thisPlayer, in, out, givenGUI);
 				break;
 			}
 			// type 11 means its a status message, for now print to screen
-			case 11:
-			{
-				sendStatus(givenGUI, inMessage.getText());
-				
-				break;
-			}
+			
 			// type 9 means this is a deal message, pass to player
 			case 9:
 			{
@@ -254,42 +254,7 @@ public class Client{
 				JOptionPane.showMessageDialog(null, "YOU LOSE");
 				break;
 			}
-			//case 12 means its a board status update and we send it along to board
-			case 12:
-			{
-				
-				int counter = 0;
-				int position[] = new int[6];
-				String arr = inMessage.getText();
-				arr = arr.substring(1, arr.length()-1);
-				arr = arr.replace(",", "");
-				System.out.println(arr);
-				for(int i =0; i<arr.length()-1; i++) {
-					if(i >0 && arr.charAt(i-1)!=' ') {
-						continue;
-					}
-					String hold = "";
-					char c = arr.charAt(i);
-					char nextChar = arr.charAt(i+1);
-					if(c == ' ') {
-						continue;
-					}
-					if(nextChar != ' ') {
-						hold+= c;
-						hold+= nextChar;
-					}else {
-						hold +=c;
-					}
-					System.out.println(hold);
-					int x = Integer.parseInt(hold);
-					position[counter] = x;
-					counter++;
-				}
-				MessageGUIUpdate castedMessage = (MessageGUIUpdate) inMessage;
-				castedMessage.setPlayerNewPosition(position);
-				givenGUI.setAvatarPosition((MessageGUIUpdate) castedMessage);
-				break;
-			}
+			
 		}
 		
 		return gameOver;
@@ -297,7 +262,7 @@ public class Client{
 	}
 	
 	// write a method that processes a players turn
-	private static void processTurn(Player thisPlayer, ObjectInputStream in, ObjectOutputStream out) throws IOException, ClassNotFoundException{
+	private static void processTurn(Player thisPlayer, ObjectInputStream in, ObjectOutputStream out, GUI givenGUI) throws IOException, ClassNotFoundException{
 		// boolean for turnOver
 		boolean turnOver = false;
 		// boolean for gameOver, only sets to true is acc
@@ -440,8 +405,70 @@ public class Client{
 	}
 	
 	private static Message getMessage(ObjectInputStream in) throws IOException, ClassNotFoundException{
-		Message inMessage = (Message) in.readObject();
-		//System.out.println("Received Message of type " + inMessage.getType());
+		
+		//if its a board update or a status update we should print it straight to gui
+		//set boolean flag for whether we should return
+		boolean passToPlayer = false;
+		//declare and initialize inMessage but it will be overwritten by the below loop
+		Message inMessage = new Message();
+		
+		while(!passToPlayer) {
+			//grab message
+			inMessage = (Message) in.readObject();
+			//run a switch on the message type
+			switch(inMessage.getType()) {
+				//case 12 is board status update
+				case 12:
+				{
+					//Pete's method for parsing String to int array
+					int counter = 0;
+					int position[] = new int[6];
+					String arr = inMessage.getText();
+					arr = arr.substring(1, arr.length()-1);
+					arr = arr.replace(",", "");
+					System.out.println(arr);
+					for(int i =0; i<arr.length()-1; i++) {
+						if(i >0 && arr.charAt(i-1)!=' ') {
+							continue;
+						}
+						String hold = "";
+						char c = arr.charAt(i);
+						char nextChar = arr.charAt(i+1);
+						if(c == ' ') {
+							continue;
+						}
+						if(nextChar != ' ') {
+							hold+= c;
+							hold+= nextChar;
+						}else {
+							hold +=c;
+						}
+						System.out.println(hold);
+						int x = Integer.parseInt(hold);
+						position[counter] = x;
+						counter++;
+					}
+					MessageGUIUpdate castedMessage = (MessageGUIUpdate) inMessage;
+					castedMessage.setPlayerNewPosition(position);
+					thisGUI.setAvatarPosition((MessageGUIUpdate) castedMessage);
+					break;
+				}
+				//case 11 is status update we should send to the updateArea
+				case 11:
+				{
+					sendStatus(thisGUI, inMessage.getText());
+					
+					break;
+				}
+				// otherwise we just return it
+				default:
+				{
+					//the return should break the method but just in case...
+					passToPlayer = true;
+					
+				}
+			}
+		}
 		return inMessage;
 	}
 	
