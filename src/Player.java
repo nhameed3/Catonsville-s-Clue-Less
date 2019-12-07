@@ -683,15 +683,26 @@ public class Player {
         
 
         while(true){
+        	String one= " ", two=" ", three=" ";
             if(personDisprove.getSuspect() != null){
-                System.out.println("[1] You can disprove with: "+personDisprove + " enter 1 to disprove with this card");
+                System.out.println("[1] To disprove with: "+personDisprove + "\n");
+                one = "[1] To disprove with: "+personDisprove + "\n";
             }
             if(weaponDisprove.getWeapon() != null){
-            	System.out.println("[2] You can disprove with: "+weaponDisprove + " enter 2 to disprove with this card");
+            	System.out.println("[2] To disprove with: "+weaponDisprove + "\n");
+            	two = "[2] To disprove with: "+weaponDisprove + "\n";
         	}
             if(roomDisprove.getRoom() != null){
-            	System.out.println("[3] You can disprove with: "+roomDisprove + " enter 3 to disprove with this card");
+            	System.out.println("[3] To disprove with: "+roomDisprove + "\n");
+            	three = "[3] To disprove with: "+roomDisprove + "\n";
             }
+            
+            String userInput;
+            userInput = JOptionPane.showInputDialog(one+two+three);
+            int choice = Integer.parseInt(userInput);
+            	
+            
+            
             if(roomDisprove.getRoom()==null &&weaponDisprove.getWeapon() ==null&& personDisprove.getSuspect() == null){
                 System.out.println("You cannot disprove this guess");
                 JOptionPane.showMessageDialog(null, "You cannot disprove this guess");
@@ -700,8 +711,8 @@ public class Player {
                 return cannotDisprove;
             }
             
-            Scanner input = new Scanner(System.in);
-            int choice = input.nextInt();
+//            Scanner input = new Scanner(System.in);
+//            int choice = input.nextInt();
             MessageCheckGuess canDisprove = new MessageCheckGuess(true, null, 19);
             
             switch(choice){
