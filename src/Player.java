@@ -735,13 +735,13 @@ public class Player {
             System.out.println("[1] Move");
             System.out.println("[2] Make Accusation");
             System.out.println("[3] View Hand");
-            System.out.println("[4] View/Edit Log");
-            System.out.println("[5] Pass");
+            //System.out.println("[4] View/Edit Log");
+            System.out.println("[4] Pass");
             //System.out.println("[5] Disprove");       
             
             
             String input;
-            input = JOptionPane.showInputDialog(" [1] Move\n [2] Make Accusation\n [3] View Hand\n [4] View/Edit Log\n [5] Pass\n");
+            input = JOptionPane.showInputDialog(" [1] Move\n [2] Make Accusation\n [3] View Hand\n [4] Pass\n");
             int choice = Integer.parseInt(input);
             
 //            Scanner input = new Scanner(System.in);
@@ -755,10 +755,10 @@ public class Player {
             case 3:
                 this.getHand();
                 break;
+//            case 4:
+//                this.getLog();
+//                break;
             case 4:
-                this.getLog();
-                break;
-            case 5:
                 return new Message(6, m_playerNum);      //pass message
             default:
                 System.out.println("INVALID ENTRY TRY AGAIN");
