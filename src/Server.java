@@ -259,7 +259,7 @@ public class Server{
 				{
 					Message statusUpdate = new Message(11, -1);
 					statusUpdate.setText(clientList.get(currentPlayer).getName() + " tried to make an invalid guess.");
-					sendToAll(clientList, statusUpdate, currentPlayer);
+					sendToAll(clientList, statusUpdate, 7);
 				}
 			}else {
 				clientList.get(currentPlayer).sendMessage(guessCheck);
@@ -272,7 +272,7 @@ public class Server{
 					Message statusMessage = new Message(11, -1);
 					statusMessage.setText(clientList.get(currentPlayer).getName() + " has made a guess. They guessed \nCharacter: " + suspect + "\n"
 							+ "Weapon: " + weapon + "\nRoom: " + room);
-					sendToAll(clientList, statusMessage, currentPlayer);
+					sendToAll(clientList, statusMessage, 7);
 				}
 				/*We loop through the client list but it's a weird loop. We start at 
 				 * currentPlayer+1 (the next player), we want to go through the loop as many times
@@ -304,7 +304,7 @@ public class Server{
 							{
 								Message statusMessage = new Message(11, -1);
 								statusMessage.setText(clientList.get(i).getName() + " disproved the guess!");
-								sendToAll(clientList, statusMessage, currentPlayer);
+								sendToAll(clientList, statusMessage, 7);
 							}
 						}
 					}
@@ -324,7 +324,7 @@ public class Server{
 					{
 						Message statusMessage = new Message(11, -1);
 						statusMessage.setText(clientList.get(currentPlayer).getName() + "'s guess was not disproven by anyone.");
-						sendToAll(clientList, statusMessage, currentPlayer);
+						sendToAll(clientList, statusMessage, 7);
 					}
 				}
 			}		
@@ -343,7 +343,7 @@ public class Server{
 			sendToAll(clientList, boardUpdate, 7);
 			Message statusUpdate = new Message(11, -1);
 			statusUpdate.setText(clientList.get(currentPlayer).getName() + " has moved!");
-			sendToAll(clientList, statusUpdate, currentPlayer);
+			sendToAll(clientList, statusUpdate, 7);
 		}
 		// send the Message back to client
 		clientList.get(currentPlayer).sendMessage(moveResult);
@@ -411,7 +411,7 @@ public class Server{
 						{
 							Message statusUpdate = new Message(11,-1);
 							statusUpdate.setText(currentClient.getName() + " solved the crime and wins!");
-							sendToAll(clientList, statusUpdate, currentPlayer);
+							sendToAll(clientList, statusUpdate, 7);
 						}
 						
 						//set turnResult[0] to true to indicate turn is over
@@ -432,7 +432,7 @@ public class Server{
 						{
 							Message statusUpdate = new Message(11,-1);
 							statusUpdate.setText(currentClient.getName() + "was wrong and they are out of the game!");
-							sendToAll(clientList, statusUpdate, currentPlayer);
+							sendToAll(clientList, statusUpdate, 7);
 						}
 						//set turnResult[1] to true to indicate player is eliminated
 						localResults[1] = true;

@@ -23,16 +23,27 @@ public class Client{
 	public static void main(String[] args) throws IOException, ClassNotFoundException{
 		
 		// check to make sure we got the args
+		/*
 		if (args.length != 2) {
 			System.err.println("Missing arugments. java PlayerClient <hostname> <port>");
 			System.exit(1);
 		}
+		*/
+		
+		//get host
+		String host = JOptionPane.showInputDialog("Enter the host IP address");
 
 		
+		
 		// parse host
-		String host = args[0];
+		//String host = args[0];
 		// parse port
-		int port = Integer.parseInt(args[1]);
+		int port;
+		{
+			String tempPort = JOptionPane.showInputDialog("Enter the host port");
+			port = Integer.parseInt(tempPort);
+		}
+
 		
 		Socket gameSocket = new Socket(host, port);
 		
@@ -369,7 +380,7 @@ public class Client{
 				}
 				else {
 				// if it wasn't a valid move we do nothing and this loop repeats
-				System.out.println("Invalid move requested, starting turn over again");
+				//System.out.println("Invalid move requested, starting turn over again");
 				JOptionPane.showMessageDialog(null, "Invalid move requested, starting turn over again");
 				
 				}
