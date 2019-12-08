@@ -182,10 +182,22 @@ public class Player {
     		JOptionPane.showMessageDialog(null, "No one was able to disprove");
     	}
     	System.out.println("Would you like to make an accusation (y = 1/ n = 0)");
+    	//make this buttons
+    	/*
     	String userInput = JOptionPane.showInputDialog("Would you like to make an accusation (y = 1/ n = 0)");
         int choice = Integer.parseInt(userInput);
 //        Scanner input = new Scanner(System.in);
 //        int choice = input.nextInt();
+ 
+    	 */
+    	int choice;
+    	{
+        	String dialogue = "Would you like to make an accusation?";
+        	String[] buttons = {"Yes", "No"};
+        	choice = JOptionPane.showOptionDialog(null, dialogue, userName, 0, 3, null, buttons, 1);
+        	//increment choice because buttons is 0 based
+        	choice++;
+        }
         if(choice == 1)
             return this.makeAccusation();
         else
@@ -229,9 +241,23 @@ public class Player {
             System.out.println("[5] MISS_SCARLET");
             System.out.println("[6] MRS_WHITE");
             
+            int choice;
+            // make this a button menu
+            {
+            	String dialogue = "Who do you think did it?";
+            	String[] buttons = {"Rev. Green", "Col. Mustard", "Mrs. Peacock", "Prof. Plum", "Miss Scarlet", "Mrs. White"};
+            	choice = JOptionPane.showOptionDialog(null, dialogue, userName, 0, 3, null, buttons, buttons[0]);
+            }
+            
+            //input = JOptionPane.showInputDialog("Who do you think did it?\n [1] REV_GREEN\n [2] COLONEL_MUSTARD\n [3] MRS_PEACOCK\n [4] PROFESSOR_PLUM\n [5] MISS_SCARLET\n [6] MRS_WHITE");
+            //array based from buttons so add 1
+            choice = choice + 1;
+            
+            /*
             String input;
             input = JOptionPane.showInputDialog("Who do you think did it?\n [1] REV_GREEN\n [2] COLONEL_MUSTARD\n [3] MRS_PEACOCK\n [4] PROFESSOR_PLUM\n [5] MISS_SCARLET\n [6] MRS_WHITE");
             int choice = Integer.parseInt(input);
+            */
             
 //            Scanner input = new Scanner(System.in);
 //            int choice = input.nextInt();
@@ -281,10 +307,21 @@ public class Player {
             System.out.println("[8] LOUNGE");
             System.out.println("[9] STUDY");
             
+            //conver this to buttons
+            int choice;
+            {
+            	String dialogue = "Where do you think they did it?";
+            	String[] buttons = {"Ballroom", "Billiard Room", "Conservatory", "Dining Room", "Hall", "Kitchen", "Library", "Lounge", "Study"};
+            	choice = JOptionPane.showOptionDialog(null, dialogue, userName, 0, 3, null, buttons, 0);
+            	//increment choice because buttons is 0 based
+            	choice++;
+            }
+            
+            /*
             String input;
             input = JOptionPane.showInputDialog("Where do you think they did it?\n [1] BALLROOM\n [2] BILLIARD_ROOM\n [3] CONSERVATORY\n [4] DINING_ROOM\n [5] HALL\n [6] KITCHEN\n [7] LIBRARY\n [8] LOUNGE\n [9] STUDY");
             int choice = Integer.parseInt(input);
-            
+            */
 //            Scanner input = new Scanner(System.in);
 //            int choice = input.nextInt();
             switch(choice){
@@ -342,10 +379,21 @@ public class Player {
             System.out.println("[5] ROPE");
             System.out.println("[6] WRENCH");
             
+          //conver this to buttons
+            int choice;
+            {
+            	String dialogue = "What was the weapon?";
+            	String[] buttons = {"Candle Stick", "Dagger", "Lead Pipe", "Revolver", "Rope", "Wrench"};
+            	choice = JOptionPane.showOptionDialog(null, dialogue, userName, 0, 3, null, buttons, 0);
+            	//increment choice because buttons is 0 based
+            	choice++;
+            }
             
+            /*
             String input;
             input = JOptionPane.showInputDialog("What was the weapon?\n [1] CANDLE_STICK\n [2] DAGGER\n [3] LEAD_PIPE\n [4] REVOLVER\n [5] ROPE\n [6] WRENCH");
             int choice = Integer.parseInt(input);
+            */
             
             
 //            Scanner input = new Scanner(System.in);
@@ -405,12 +453,28 @@ public class Player {
         System.out.println("Enter [1] to pass instead of guessing any other key to guess");
         // System.out.println("[1] Guess");
         // System.out.println("[2] Pass");
+        
+        //convert this to buttons
+        
+      //conver this to buttons
+        int choice;
+        {
+        	String dialogue = "Do you want to guess?";
+        	String[] buttons = {"Yes", "No"};
+        	choice = JOptionPane.showOptionDialog(null, dialogue, userName, 0, 3, null, buttons, 0);
+        	//increment choice because buttons is 0 based
+        	choice++;
+        }
+        
+        /*
         String input;
         input = JOptionPane.showInputDialog("Enter [1] to pass instead of guessing any other key to guess");
         int choice = Integer.parseInt(input);
 //        Scanner input = new Scanner(System.in);
 //        int choice = input.nextInt();
-        if(choice == 1)
+ 
+         */
+        if(choice == 2)
             return new Message(6, m_playerNum);      //pass message
         
         //Get the suspect suggestion from user
@@ -424,9 +488,18 @@ public class Player {
             System.out.println("[5] MISS_SCARLET");
             System.out.println("[6] MRS_WHITE");
             
+            //convert this to buttons
+            {
+            	String dialogue = "Who do you think did it?";
+            	String[] buttons = {"Rev. Green", "Col. Mustard", "Mrs. Peacock", "Prof. Plum", "Miss Scarlet", "Mrs. White"};
+            	choice = JOptionPane.showOptionDialog(null, dialogue, userName, 0, 3, null, buttons, buttons[0]);
+            	choice++;
+            }
+            /*
             String userInput;
             userInput = JOptionPane.showInputDialog("Who do you think did it?\n [1] REV_GREEN\n [2] COLONEL_MUSTARD\n [3] MRS_PEACOCK\n [4] PROFESSOR_PLUM\n [5] MISS_SCARLET\n [6] MRS_WHITE");
             choice = Integer.parseInt(userInput);
+            */
             
 //            input = new Scanner(System.in);
 //            choice = input.nextInt();
@@ -475,10 +548,20 @@ public class Player {
             System.out.println("[7] LIBRARY");
             System.out.println("[8] LOUNGE");
             System.out.println("[9] STUDY");
+            //convert to buttons
             
+            {
+            	String dialogue = "Where do you think they did it?";
+            	String[] buttons = {"Ballroom", "Billiard Room", "Conservatory", "Dining Room", "Hall", "Kitchen", "Library", "Lounge", "Study"};
+            	choice = JOptionPane.showOptionDialog(null, dialogue, userName, 0, 3, null, buttons, 0);
+            	//increment choice because buttons is 0 based
+            	choice++;
+            }
+            /*
             String userInput;
             userInput = JOptionPane.showInputDialog("Where do you think they did it?\n [1] BALLROOM\n [2] BILLIARD_ROOM\n [3] CONSERVATORY\n [4] DINING_ROOM\n [5] HALL\n [6] KITCHEN\n [7] LIBRARY\n [8] LOUNGE\n [9] STUDY");
             choice = Integer.parseInt(userInput);
+            */
             
             
 //            input = new Scanner(System.in);
@@ -538,10 +621,20 @@ public class Player {
             System.out.println("[4] REVOLVER");
             System.out.println("[5] ROPE");
             System.out.println("[6] WRENCH");
+            // convert to buttons
             
+            {
+            	String dialogue = "What was the weapon?";
+            	String[] buttons = {"Candle Stick", "Dagger", "Lead Pipe", "Revolver", "Rope", "Wrench"};
+            	choice = JOptionPane.showOptionDialog(null, dialogue, userName, 0, 3, null, buttons, 0);
+            	//increment choice because buttons is 0 based
+            	choice++;
+            }
+            /*
             String userInput;
             userInput = JOptionPane.showInputDialog("What weapon did they use??\n [1] CANDLE_STICK\n [2] DAGGER\n [3] LEAD_PIPE\n [4] REVOLVER\n [5] ROPE\n [6] WRENCH");
             choice = Integer.parseInt(userInput);
+            */
             
 //            input = new Scanner(System.in);
 //            choice = input.nextInt();
@@ -593,12 +686,23 @@ public class Player {
             System.out.println("[4] RIGHT");
             System.out.println("[5] DIAGONAL");
             
+            //convert this to button
+            int choice;
+            {
+            	String dialogue = "Where do you want to move?";
+            	String[] buttons = {"Up", "Down", "Left", "Right", "Diagonal"};
+            	choice = JOptionPane.showOptionDialog(null, dialogue, userName, 0, 3, null, buttons, 0);
+            	//increment choice because buttons is 0 based
+            	choice++;
+            }
+            /*
             String input;
             input = JOptionPane.showInputDialog("Make your move.\n [1] UP\n [2] DOWN\n [3] LEFT\n [4] RIGHT\n [5] DIAGONAL\n");
             int choice = Integer.parseInt(input);
             
 //            Scanner input = new Scanner(System.in);
 //            int choice = input.nextInt();
+ * 			*/
             
             Message message = new Message(3, m_playerNum);
             
@@ -751,14 +855,24 @@ public class Player {
             System.out.println("[4] Pass");
             //System.out.println("[5] Disprove");       
             
+            //convert to buttons
+            int choice;
+            {
+            	String dialogue = "What do you want to do?";
+            	String[] buttons = {"Move", "Make Accusation", "View Hand", "Pass"};
+            	choice = JOptionPane.showOptionDialog(null, dialogue, userName, 0, 3, null, buttons, 0);
+            	//increment choice because buttons is 0 based
+            	choice++;
+            }
             
+            /*
             String input;
             input = JOptionPane.showInputDialog(" [1] Move\n [2] Make Accusation\n [3] View Hand\n [4] Pass\n");
             int choice = Integer.parseInt(input);
             
 //            Scanner input = new Scanner(System.in);
 //            int choice = input.nextInt();
-
+			*/
             switch(choice){
             case 1:
                 return this.move();

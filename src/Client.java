@@ -251,6 +251,8 @@ public class Client{
 			case 14:
 			{
 				gameOver = true;
+				//game is over so we exit
+				System.exit(0);
 				break;
 			}
 			// case 7 means we win
