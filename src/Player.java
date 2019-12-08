@@ -174,8 +174,8 @@ public class Player {
 
     public Message getGuessResult(MessageCheckGuess message){
     	if(message.disproven == true) {
-    		System.out.println("Disproved by: "+ message.incorrectCard.toString());
-    		JOptionPane.showMessageDialog(null, "Disproved by: "+ message.incorrectCard.toString());
+    		System.out.println("Disproved by: "+ message.incorrectCard.toString() + " from  " + message.getText());
+    		JOptionPane.showMessageDialog(null, "Disproved by: "+ message.incorrectCard.toString() + " from " + message.getText());
     	}
     	else if(message.disproven == false) {
     		System.out.println("No one was able to disprove");
@@ -714,6 +714,7 @@ public class Player {
 //            int choice = input.nextInt();
             MessageCheckGuess canDisprove = new MessageCheckGuess(true, null, 19);
             
+            
             switch(choice){
                 case 1:
                 	canDisprove = new MessageCheckGuess(true, personDisprove, 19);
@@ -729,7 +730,8 @@ public class Player {
                     JOptionPane.showMessageDialog(null, "INVALID ENTRY TRY AGAIN");
                     break;
             }
-            
+            //Matt - add userName to the Message
+            canDisprove.setText(userName);
             return canDisprove;
         }
         

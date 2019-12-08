@@ -18,6 +18,7 @@ server.
 public class Client{
 	
 	static GUI thisGUI;
+	static String userName;
 
 
 	public static void main(String[] args) throws IOException, ClassNotFoundException{
@@ -110,6 +111,7 @@ public class Client{
 		
         String userInput;
         userInput = JOptionPane.showInputDialog("Please enter a username.");
+        userName = userInput;
         outMessage.setText(userInput);
         
 		// are we player 1?
