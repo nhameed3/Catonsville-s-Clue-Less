@@ -266,7 +266,7 @@ public class Client{
 			case 8:
 			{
 				System.out.println("You lose!");
-				JOptionPane.showMessageDialog(null, "YOU LOSE");
+				JOptionPane.showMessageDialog(null, "YOU LOSE\n" + inMessage.getText());
 				break;
 			}
 			

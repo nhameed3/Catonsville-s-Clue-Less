@@ -161,6 +161,9 @@ public class Server{
 			Message gameOverMessage = new Message(14, -1);
 			sendToAll(clientList, gameOverMessage, 7);
 		}
+		
+		//close the game
+		System.exit(0);
 	}
 	
 	/*Below write all the methods for handling things that will need to be done repeatedly or should be seperate modules.
@@ -414,6 +417,13 @@ public class Server{
 							sendToAll(clientList, statusUpdate, 7);
 						}
 						
+						//send lose message to everyone but winner
+						{
+							Message loseMessage = new Message(8, -1);
+							loseMessage.setText(currentClient.getName() + " solved the crime so you lose!");
+							sendToAll(clientList, loseMessage, currentPlayer);
+						}
+						
 						//set turnResult[0] to true to indicate turn is over
 						localResults[0] = true;
 					}
@@ -425,6 +435,7 @@ public class Server{
 
 						{
 							Message loseMessage = new Message(15, -1);
+							loseMessage.setText("Your guess was wrong so you are eliminated!");
 							currentClient.sendMessage(loseMessage);
 							
 						}
