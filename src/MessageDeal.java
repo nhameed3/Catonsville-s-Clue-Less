@@ -15,6 +15,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;  
 
+
 /* MessageDeal is for dealing cards from Deck, through server, through client, to player
  * 
  */
@@ -43,42 +44,34 @@ public class MessageDeal extends Message{
 		    @Override
 		    public void run() {
 		    	String link = "";
+		    	Group group = new Group();
+		    	HBox box = new HBox();
+		    	box.setFillHeight(true);
 				for(Card card: playerCards) {
 					link = card.getImage();
-					//System.out.println(link);
-					try {
-						URL file = new File(link).toURI().toURL(); 
-						Stage stage = new Stage();
-						//Image image = new Image(file.toURI().toURL().toString());
-						Image image = new Image(link);
-						if(image.isError()) {
-							System.out.println("there was an error in " + link);
-						}
-				        ImageView imageView = new ImageView(image);
-				        //Setting the position of the image 
-				        imageView.setX(50); 
-				        imageView.setY(25); 
-				        
-				        //setting the fit height and width of the image view 
-				        imageView.setFitHeight(455); 
-				        imageView.setFitWidth(500); 
-				        
-				        //Setting the preserve ratio of the image view 
-				        imageView.setPreserveRatio(true); 
-				        Group root = new Group(imageView);  
-				        Scene scene = new Scene(root, 500, 500);
-				        stage.setTitle(card.toString());
-				        stage.setWidth(500);
-				        stage.setHeight(500);
-				        stage.setScene(scene); 
-				        stage.sizeToScene(); 
-				        stage.show(); 
-					} catch (MalformedURLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} 
-			        
+					//group.setAutoSizeChildren(true);
+					Image image = new Image(link);
+					if(image.isError()) {
+						System.out.println("there was an error in " + link);
+					}
+					ImageView imageView = new ImageView(image);
+					imageView.setX(100); 
+					imageView.setY(250);
+					imageView.setFitHeight(250); 
+					imageView.setFitWidth(150); 
+					group.getChildren().add(imageView);
+					box.getChildren().add(imageView);
+					//imageView.setPreserveRatio(true); 
+					//group.setAutoSizeChildren(true); 
 				}
+				Scene scene = new Scene(box, 1400, 250); 
+				Stage stage = new Stage();
+				stage.setWidth(1400);
+		        stage.setHeight(250);
+		        stage.setScene(scene); 
+		        stage.sizeToScene(); 
+	            stage.setScene(scene); 
+	            stage.show();
 		    }
 		});
 	}
